@@ -10,6 +10,7 @@ public class Roller_Move : MonoBehaviour
     public Rig RarmRig;
     public Rig LarmRig;
     public float speed = 5;
+    public float rotSpeed = 5;
     Animator anim;
     CharacterController cc;
     public enum state
@@ -41,6 +42,11 @@ public class Roller_Move : MonoBehaviour
         Vector3 dir = h * Vector3.right + v * Vector3.forward;
         dir.Normalize();
         cc.Move(dir * speed * Time.deltaTime);
+        if (!(h == 0 && v == 0))
+        {
+            // 회전하는 부분. Point 1.
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotSpeed);
+        }
         if (State == state.Idle)
         {
             UpdateIdle();
@@ -48,6 +54,11 @@ public class Roller_Move : MonoBehaviour
         if (State == state.Move)
         {
             UpdateMove();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            anim.SetTrigger("Attack");
         }
         if (State == state.Attack)
         {
@@ -67,6 +78,7 @@ public class Roller_Move : MonoBehaviour
             State = state.Move;
             anim.SetTrigger("Move");
        }
+
     }
     // 움직임이 멈추면 다시 Idle 상태로 돌아온다
     private void UpdateMove()
@@ -76,11 +88,11 @@ public class Roller_Move : MonoBehaviour
             State = state.Idle;
             anim.SetTrigger("Idle");
         }
+
     }
 
     private void UpdateAttack()
     {
-        
     }
 
     private void UpdateDie()

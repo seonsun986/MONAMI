@@ -391,7 +391,8 @@ MonoBehaviour:
   headRig: {fileID: 360160399}
   RarmRig: {fileID: 1201097332}
   LarmRig: {fileID: 1642014483}
-  speed: 5
+  speed: 13
+  rotSpeed: 5
 --- !u!114 &1201097332 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3196818189326709922, guid: e8edf9acac84ae7478dc70a7f7473018, type: 3}
