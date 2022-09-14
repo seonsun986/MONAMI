@@ -13,7 +13,7 @@ public class RollerController: MonoBehaviour{
     //°æµµ...??
     public float hardness = 1;
 
-    public Transform pos;
+    public Collider[] pos;
 
     
 
