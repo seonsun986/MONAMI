@@ -35,7 +35,6 @@ public class Roller_Move : MonoBehaviour
     float v;
     void Update()
     {
-
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
         Vector3 dir = h * Vector3.right + v * Vector3.forward;
