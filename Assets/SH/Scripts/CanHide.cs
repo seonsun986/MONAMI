@@ -27,7 +27,7 @@ public class CanHide : MonoBehaviour
     void Start()
     {
         
-        sphere.SetActive(false);
+        //sphere.SetActive(false);
     }
 
     RaycastHit hitInfo;
@@ -44,18 +44,24 @@ public class CanHide : MonoBehaviour
         if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
         {
 
-            Renderer rend = hitInfo.transform.GetComponent<MeshRenderer>();
             // ID·Î Á¢±Ù --> ½¦ÀÌ´õ ±×·¡ÇÁ ID -> int°ª Ãâ·Â
-            Texture2D text = rend.material.mainTexture as Texture2D;
-            Vector2 pixelUV = hitInfo.textureCoord;
-            pixelUV.x *= text.width;
-            pixelUV.y *= text.height;
-            print(text.GetPixel((int)pixelUV.x, (int)pixelUV.y));
+            Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
+            if(paintable != null)
+            {
+                RenderTexture render = paintable.getMask();
+                Texture2D text = RenderTextureTo2DTexture(render);
+                Vector2 pixelUV = hitInfo.textureCoord;
+                pixelUV.x *= text.width;
+                pixelUV.y *= text.height;
+                Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
+                print("»Ì¾Æ¿Â »ö±ò #" + ColorUtility.ToHtmlStringRGB(color));
+                print("RGB »ö±ò : " + color.r + ", " + color.g + ", " + color.b);
+
+                string getColor = ColorUtility.ToHtmlStringRGB(color);
+
+
+            }
             
-            //    MyColor();
-            //    Color color = t2D.GetPixel(100 , 100);
-            //    print("»Ì¾Æ¿Â »ö±ò #" + ColorUtility.ToHtmlStringRGB(color));
-            //    string getColor = ColorUtility.ToHtmlStringRGB(color);
             //    // ³» »ö±òÀÏ ¶§
             //    if (getColor.Substring(0,1)== "6" || getColor.Substring(0, 1) == "7")
             //    {
@@ -91,22 +97,16 @@ public class CanHide : MonoBehaviour
         }
     }
 
-    void MyColor()
+    private Texture2D RenderTextureTo2DTexture(RenderTexture rt)
     {
-        //t2D = TextureToTexture2d(rawImage.texture);
-        //ÅØ½ºÃÄ¿¡¼­ »Ì´Â´Ù
-        //var pixelData = t2D.GetPixels();
-        //print("Total pixels " + pixelData.Length);
-        //var colorIndex = new List<Color>();
-        //var total = pixelData.Length;
-        //for (var i = 0; i < total; i++)
-        //{
-        //    var color = pixelData[i];
-        //    if (colorIndex.IndexOf(color) == -1)
-        //    {
-        //        colorIndex.Add(color);
-        //    }
-        //}
+        var texture = new Texture2D(rt.width, rt.height, rt.graphicsFormat, 0);
+        RenderTexture.active = rt;
+        texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
+        texture.Apply();
+
+        RenderTexture.active = null;
+
+        return texture;
     }
 
     private Texture2D TextureToTexture2d(Texture texture)
