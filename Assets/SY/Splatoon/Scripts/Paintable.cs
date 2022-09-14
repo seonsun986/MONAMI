@@ -13,7 +13,6 @@ public class Paintable : MonoBehaviour {
     Renderer rend;
 
     int maskTextureID = Shader.PropertyToID("_MaskTexture");
-
     public RenderTexture getMask() => maskRenderTexture;
     public RenderTexture getUVIslands() => uvIslandsRenderTexture;
     public RenderTexture getExtend() => extendIslandsRenderTexture;
