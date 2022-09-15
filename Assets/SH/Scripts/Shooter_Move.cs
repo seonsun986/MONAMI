@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Charger_Move : MonoBehaviour
+public class Shooter_Move : MonoBehaviour
 {
     public float walkSpeed = 10;
     public float runSpeed = 15;
@@ -44,7 +43,7 @@ public class Charger_Move : MonoBehaviour
             isRun = Input.GetKey(KeyCode.LeftShift);
             speed = isRun == true ? runSpeed : walkSpeed;
             animSpeed = isRun == true ? 1 : 0.5f;
-            
+
         }
         else
         {
@@ -63,83 +62,21 @@ public class Charger_Move : MonoBehaviour
         }
 
         // 점프
-        if(Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
-            Jump();
+            anim.SetTrigger("Jump");
         }
 
-        // 에임상태에서 움직이기
+        // 단발 공격
+        if(Input.GetMouseButtonDown(1))
+        {
+            anim.SetTrigger("Fire");
+        }
+        // 연사 공격
         if(Input.GetMouseButton(1))
         {
-            if(anim.GetCurrentAnimatorStateInfo(0).IsName("Aim"))
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    anim.SetTrigger("Fire");
-                }
-            }
-            else
-            {
-                Aim();
-                anim.SetLayerWeight(1, 1);
-                if (Input.GetMouseButtonDown(0))
-                {
-                    anim.SetTrigger("Fire");
-                }
-            }
-           
-           
+            anim.CrossFade("Fire", 1, 0, 0.3f);
         }
-        if(Input.GetMouseButtonUp(1))
-        {
-            anim.SetTrigger("Move");
-            anim.SetLayerWeight(1, 0);
-        }
-    }
-
-    private void UpdateIdle()
-    {       
-        if (h != 0 || v != 0)
-        {
-            State = state.Move;
-            anim.SetTrigger("Move");
-        }
-    }
-
-    // 움직임이 멈추면 다시 Idle 상태로 돌아온다
-    private void UpdateMove()
-    {
-
-        // 멈추면 다시 원래 상태로
-        if (h == 0 && v == 0)
-        {
-            State = state.Idle;
-            anim.SetTrigger("Idle");
-        }
-    }
-
-    private void UpdateAttack()
-    {
-       
-    }
-
-    private void UpdateDie()
-    {
-    
-    }
-
-    void Jump()
-    {
-        anim.SetTrigger("Jump");
-    }
-
-    void Aim()
-    {
-        anim.SetTrigger("Aim");
-    }
-
-    void Attack()
-    {
-
+        
     }
 }
