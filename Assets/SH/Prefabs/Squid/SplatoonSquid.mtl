@@ -1,0 +1,30 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v3.1.206520482)
+
+newmtl Body
+kd 0.991102 0.278278 0.017277
+ka 1 1 1
+ks 1 1 1
+ke 0 0 0
+d 1
+Ns 3013.7
+illum 2
+
+newmtl Eyes
+kd 1 1 1
+ka 1 1 1
+ks 0.5 0.5 0.5
+ke 0 0 0
+d 1
+Ns 1000
+illum 2
+
+newmtl UnderEyes
+kd 0 0 0
+ka 1 1 1
+ks 0.043478 0.043478 0.043478
+ke 0 0 0
+d 1
+Ns 1000
+illum 2
+

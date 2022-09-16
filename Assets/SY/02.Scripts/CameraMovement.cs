@@ -45,8 +45,8 @@ public class CameraMovement : MonoBehaviour
         finalDistace = realCamera.localPosition.magnitude;
 
         //게임씬에서 마우스 안 거슬리게
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -72,6 +72,7 @@ public class CameraMovement : MonoBehaviour
         finalDir = transform.TransformPoint(dirNomalized * maxDistance);
 
         RaycastHit hit;
+        Debug.DrawRay(transform.position, finalDir,Color.red);
         if (Physics.Linecast(transform.position, finalDir, out hit))
         {
             //만약에 라인을 그렸을 때 뭐가 있으면 (맞은 곳의 거리->최소거리)
