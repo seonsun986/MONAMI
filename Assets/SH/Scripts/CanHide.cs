@@ -21,13 +21,19 @@ public class CanHide : MonoBehaviour
     public GameObject sphere;       // 오징어로 변했을 때 공격당하기 위함
     public GameObject body;
     public GameObject weapon;
+    public GameObject inkTank;
+    public float[] rgb = new float[3];
+
+    // 오징어 나타내기 위한 것들
+    CharacterController cc;
+    public GameObject squid;
     // Ray를 바닥으로 쏜다
     // 해당 Ray에 대한 Pixel을 구한다.
     
     void Start()
     {
-        
-        //sphere.SetActive(false);
+        cc = GetComponent<CharacterController>();
+
     }
 
     RaycastHit hitInfo;
@@ -56,46 +62,46 @@ public class CanHide : MonoBehaviour
                 Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
                 print("뽑아온 색깔 #" + ColorUtility.ToHtmlStringRGB(color));
                 print("RGB 색깔 : " + color.r + ", " + color.g + ", " + color.b);
-
+                
                 string getColor = ColorUtility.ToHtmlStringRGB(color);
+                rgb[0] = color.r;
+                rgb[1] = color.g;
+                rgb[2] = color.b;
 
 
             }
-            
-            //    // 내 색깔일 때
-            //    if (getColor.Substring(0,1)== "6" || getColor.Substring(0, 1) == "7")
-            //    {
-            //        canHide = true;
-            //    }
-            //    // 상대편 색깔일때
-            //    else if(getColor.Substring(0, 1) == "F")
-            //    {
-            //        print("못 숨는다!");
-            //        canHide = false;
-            //    }
-            //    else
-            //    {
-            //        canHide = false;
-            //    }
-            //    print(canHide);
-            //}
-            //if(Input.GetKeyUp(hideKey))
-            //{
-            //    canHide = false;
-            //}
 
-            //if(canHide == true)
-            //{
-            //    // 숨을 수 있을 때
-            //    CanHideP();
-            //}
-            //else
-            //{
-            //    // 숨을 수 없을 때
-            //    CanNotHide();
-            //}
+            // 내 색깔일 때
+            if ( rgb[0] < 1.1f && rgb[0] > 0.9f && rgb[1]== 0 && rgb[2] >0.4f && rgb[2] <0.6f)
+            {
+                canHide = true;
+            }
+            // 상대편 색깔일때
+            else
+            {
+                canHide = false;
+            }
+        }
+        if (Input.GetKeyUp(hideKey))
+        {
+            canHide = false;
+        }
+
+        if (canHide == true)
+        {
+            // 숨을 수 있을 때
+            CanHideP();
+
+            
+        }
+        else
+        {
+            // 숨을 수 없을 때
+            CanNotHide();
+
         }
     }
+    
 
     private Texture2D RenderTextureTo2DTexture(RenderTexture rt)
     {
@@ -132,12 +138,40 @@ public class CanHide : MonoBehaviour
         // 플레이어 안보이게 함
         body.gameObject.SetActive(false);
         weapon.gameObject.SetActive(false);
+        inkTank.SetActive(false);
 
         // 만약 플레이어가 롤러라면
         if (gameObject.name.Contains("Roller"))
         {
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
             rMove.speed = 13;
+        }
+        else if(gameObject.name.Contains("Shooter"))
+        {
+            PlayerMovement pm = GetComponent<PlayerMovement>();
+            pm.run = true;           
+        }
+
+        // 숨을 때 바닥에 닫는다면
+        // 오징어가 보이지 않게한다
+        // 바닥에 닿았는지 확인하기 위한 RAY
+        Ray groundRay = new Ray(transform.position, transform.up * -1);
+        RaycastHit hitGround;
+        if (Physics.Raycast(groundRay, out hitGround))
+        {
+            float distance = Vector3.Distance(transform.position, hitGround.point);
+            // 바닥에 닿아있다면 
+            if (distance < 0.5f)
+            {
+                squid.SetActive(false);
+            }
+            else
+            {
+                squid.SetActive(true);
+                //squid.transform.forward = transform.forward;
+
+            }
+            print("길이 : " + distance);
         }
 
     }
@@ -148,6 +182,7 @@ public class CanHide : MonoBehaviour
         sphere.gameObject.SetActive(false);
         body.gameObject.SetActive(true);
         weapon.gameObject.SetActive(true);
+        inkTank.SetActive(true);
 
         // 만약 플레이어가 롤러라면
         if(gameObject.name.Contains("Roller"))
@@ -155,5 +190,6 @@ public class CanHide : MonoBehaviour
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
             rMove.speed = 8;
         }
+        squid.SetActive(false);
     }
 }

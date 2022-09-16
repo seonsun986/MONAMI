@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5;
     public float runspeed = 8f;
     public float finalSpeed;
+    public float rotSpeed = 5;
+
     float animSpeed;
     //내 발 아래 내 색깔의 잉크가 있을 때
     public bool run;
@@ -53,13 +55,15 @@ public class PlayerMovement : MonoBehaviour
             run = true;
         }
         else { run = false; }
-        
+
+
     }
 
     //업데이트가 다끝나고 실행되는 LateUpdate
     void LateUpdate()
     {
         PlayerMove();
+
 
         //만약 둘러보기가 비활성화 되어있으면
         if (toggleCameraRotation != true)
@@ -84,7 +88,8 @@ public class PlayerMovement : MonoBehaviour
         //내가 움직이는 방향은 앞방향 = vertical(세로), 양옆방향 = Horizontal(가로)
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
-        Vector3 moveDirection = forward * v + right * h;
+        Vector3 dir = transform.forward * v + transform.right * h;
+        dir.Normalize();
 
         if(v!=0 || h !=0)
         {
@@ -101,8 +106,10 @@ public class PlayerMovement : MonoBehaviour
         if (cc.collisionFlags == CollisionFlags.Below)
         {
             //수직속도를 0으로 하고싶다.
+            if(isJumping)
+            anim.Play("Movement",1);
             yVelocity = 0;
-            isJumping = false;
+            isJumping = false;            
         }
         //점프를 안하고 있을 때 그리고!
         //사용자가 점프버튼을 누르면 점프하고 싶다.
@@ -111,18 +118,35 @@ public class PlayerMovement : MonoBehaviour
             //수직 속도를 변경하고 싶다.
             anim.SetTrigger("Jump");
             yVelocity = jumpPower;
-            isJumping = true;
+            isJumping = true;            
         }
 
-        moveDirection.y = yVelocity;
+        // 단발 공격
+        if (Input.GetMouseButtonDown(0))
+        {
+            anim.SetTrigger("Fire");
+        }
+        // 연사 공격
+        if (Input.GetMouseButton(0))
+        {
+            anim.SetLayerWeight(1, 1);
+            anim.CrossFade("FireForShooter", 1, 0, 0.3f);
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            anim.SetTrigger("Move");
 
-        anim.SetFloat("MoveSpeedAnim", animSpeed);
-        cc.Move(moveDirection * finalSpeed * Time.deltaTime);
+        }
+
+        dir.y = yVelocity;
+
+        cc.Move(dir * finalSpeed * Time.deltaTime);
+
 
         //애니메이션 블랜더에서 값을 조정 빨라진다면 블랜더 값 1, 걷는다면 0.5f
         //moveDirection.magnitude : 움직일 방향인데 크기만 곱해줌.
-        float percent = ((run) ? 1 : 0.5f) * moveDirection.magnitude;
+        float percent = ((run) ? 1 : 0.5f) * dir.magnitude;
         //블랜더 이름 적고, ,0.1f는 즉각적인 반응, 부드러운 애니메이션 이어지는 효과를 위해서는 값을 높여야함.
-        anim.SetFloat("Blend", percent, 0.1f, Time.deltaTime);
+        anim.SetFloat("MoveSpeedAnim", animSpeed);
     }
 }
