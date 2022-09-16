@@ -20,6 +20,8 @@ public class PlayerShooter : MonoBehaviour
     //ÆÄÆ¼Å¬
     [SerializeField] ParticleSystem inkParticle;
 
+
+    int count;
     void Start()
     {
     }
@@ -39,6 +41,7 @@ public class PlayerShooter : MonoBehaviour
     }
     private void InkShot()
     {
+        count++;
         Vector3 pos = Camera.main.transform.position;
         pos  =  pos+Camera.main.transform.forward * distance;
 
@@ -47,5 +50,6 @@ public class PlayerShooter : MonoBehaviour
         GameObject ink = Instantiate(InkFactory);
         ink.transform.position = firePos.position;
         ink.transform.forward = dir;
+        print(count);
     }
 }

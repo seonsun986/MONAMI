@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
         moveDirection.y = yVelocity;
 
-        cc.Move(moveDirection.normalized * finalSpeed * Time.deltaTime);
+        cc.Move(moveDirection * finalSpeed * Time.deltaTime);
 
         //애니메이션 블랜더에서 값을 조정 빨라진다면 블랜더 값 1, 걷는다면 0.5f
         //moveDirection.magnitude : 움직일 방향인데 크기만 곱해줌.
