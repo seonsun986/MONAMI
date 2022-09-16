@@ -29,7 +29,7 @@ public class Shooter_Move : MonoBehaviour
     public bool isRun;      //달리기 확인용 변수
     float h;
     float v;
-    void Update()
+    void LateUpdate()
     {
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
@@ -68,15 +68,15 @@ public class Shooter_Move : MonoBehaviour
         }
 
         // 단발 공격
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("Fire");
         }
         // 연사 공격
-        if(Input.GetMouseButton(1))
+        if (Input.GetMouseButton(0))
         {
             anim.CrossFade("Fire", 1, 0, 0.3f);
         }
-        
+
     }
 }
