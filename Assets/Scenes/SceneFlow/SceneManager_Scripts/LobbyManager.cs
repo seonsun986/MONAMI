@@ -22,8 +22,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //방 정보 셋팅
         RoomOptions roomOptions = new RoomOptions();
 
-        //최대인원 (0명이면 최대인원)
-        roomOptions.MaxPlayers = 10;
+        //최대인원 (0명이면 최대인원, 현재 1:1이 목표이므로 2로 하자)
+        roomOptions.MaxPlayers = 2;
         //룸 목록에 보이냐? 보이지 않느냐?  / isVisible을 True하면 보임 기본상태는 트루
         roomOptions.IsVisible = true;
 

@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 
-public class PlayerMovement : MonoBehaviourPun
+public class PlayerMovement : MonoBehaviourPun, IPunObservable
 {
     Animator anim;
-    Camera cam;
+    public Camera cam;
     CharacterController cc;
 
     //내 지형일 때 런 스피드.
@@ -33,15 +34,20 @@ public class PlayerMovement : MonoBehaviourPun
     //점프중인지 여부 확인
     bool isJumping = false;
 
+    // 닉네임
+    public TextMeshProUGUI nickName;
     void Start()
     {
+        if (photonView.IsMine == false) return;
+
         anim = this.GetComponent<Animator>();
-        cam = Camera.main;
         cc = this.GetComponent<CharacterController>();
+        nickName.text = photonView.Owner.NickName;
     }
 
     void Update()
     {
+        if (photonView.IsMine == false) return;
         //마우스 가운데 버튼을 누르면
         if (Input.GetMouseButton(2))
         {//둘러보기 활성화
@@ -62,10 +68,12 @@ public class PlayerMovement : MonoBehaviourPun
     //업데이트가 다끝나고 실행되는 LateUpdate
     void LateUpdate()
     {
+        if (photonView.IsMine == false) return;
+
         PlayerMove();
 
         //만약 둘러보기가 비활성화 되어있으면
-        if (toggleCameraRotation != true)
+        if (toggleCameraRotation != true && cam.gameObject.activeSelf == true)
         {
             //scale : 2개의 벡터값을 곱해줌.
             Vector3 playerRotate = Vector3.Scale(cam.transform.forward, new Vector3(1, 0, 1));
@@ -147,5 +155,22 @@ public class PlayerMovement : MonoBehaviourPun
         float percent = ((run) ? 1 : 0.5f) * dir.magnitude;
         //블랜더 이름 적고, ,0.1f는 즉각적인 반응, 부드러운 애니메이션 이어지는 효과를 위해서는 값을 높여야함.
         anim.SetFloat("MoveSpeedAnim", animSpeed);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // 데이터 보내기
+        if(stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+
+        // 데이터 보내기
+        if(stream.IsReading)
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+        }
     }
 }

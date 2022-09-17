@@ -33,9 +33,14 @@ public class CameraMovement : MonoBehaviourPun
     //부드러움의 정도
     public float smoothness = 10f;
 
+    public GameObject cam;
     
     void Start()
     {
+        if(photonView.IsMine == true)
+        {
+            cam.SetActive(true);
+        }
         //처음 시작할 때 각도를 초기화
         rotX = transform.localRotation.eulerAngles.x;
         rotY = transform.localRotation.eulerAngles.y;

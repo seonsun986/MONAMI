@@ -22,6 +22,7 @@ public class PlayerShooter : MonoBehaviour
 
 
     int count;
+    public int maxCount;
     void Start()
     {
     }
@@ -31,6 +32,10 @@ public class PlayerShooter : MonoBehaviour
         //Time.time 함수가 nexFire 값보다 클 때만 실행
         if (Input.GetMouseButton(0) && Time.time > nextFire)
         {
+            if(count>maxCount)
+            {
+                // 잉크부족 UI 띄우기
+            }
             inkParticle.Play();
             //잉크파티클 재생
             nextFire = Time.time + fireRate;
