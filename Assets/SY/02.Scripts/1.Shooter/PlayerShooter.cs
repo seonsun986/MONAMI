@@ -26,17 +26,44 @@ public class PlayerShooter : MonoBehaviour
 
     public bool canShoot;
     public GameObject lowInkUI;
-    int count;
+    public int count;
     public int maxCount;
     void Start()
     {
-        
+        lowInkUI.SetActive(false);
         canShoot = true;
     }
+
+    // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 100이 최대 
+    public RectTransform uiInk; // 최대 스케일 : 2.37, 꺼지지 않아있을 때만 스케일 조정한다
+    public Transform inkTank;   // 최대 스케일 : 1
+
     void Update()
     {
+        // 잉크충전 UI가 켜져있다면
+        if(uiInk.gameObject.activeSelf == true)
+        {
+            if(uiInk.localScale.y > 0)
+            {
+                float uiYscale = (maxCount - count) * 0.0237f;
+                uiInk.localScale = new Vector3(uiInk.localScale.x, uiYscale, uiInk.localScale.z);
+            }
+            
+        }
+
+        float inkTankYScale = 0.01f * (maxCount - count);
+        inkTank.localScale = new Vector3(inkTank.localScale.x, inkTankYScale, inkTank.localScale.z);
+
+        // 잉크 탱크 
+        // 쏠 수 없게 하기
         if (count > maxCount)
         {
+            if (lowInkUI.activeSelf == false)
+            {
+                lowInkUI.SetActive(true);
+            }
+            // 넘지 않게하기
+            count = maxCount;
             canShoot = false;
         }
 
@@ -57,7 +84,7 @@ public class PlayerShooter : MonoBehaviour
         }
         else
         {
-            return;
+            
         }
         
     }
@@ -102,5 +129,32 @@ public class PlayerShooter : MonoBehaviour
         result.y = Vy;
 
         return result;
+    }
+
+    // 숨을 때 총알 count 0으로 되살리기 위한 것
+    // 쏠 수 없을 때(canShoot == false)
+    // 0.1초에 2개씩 총알 충전되도록 한다
+    // maxcount보다 count가 많아지면 maxCount로 다시 하게 한다
+    // 필요속성 : canShoot, 0.1초마다  충전개수, maxCount, 충전시간, 현재시간
+
+    
+
+    [Header("총알 충전을 위한 변수")]
+    float currentTime;              // 현재 시간
+    public float chargerTime = 0.1f;   // 충전 시간
+    public int chargeBullet = 2; // 0.1초 마다 충전 개수
+    public void ChargeInk()
+    {
+        currentTime += Time.deltaTime;
+        if (currentTime > chargerTime)
+        {
+            if (count <= 0)
+            {
+                return;
+            }
+            // 카운트를 추가 시킨다
+            count -= chargeBullet;            
+            currentTime = 0;
+        }
     }
 }

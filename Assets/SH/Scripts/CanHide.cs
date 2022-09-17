@@ -22,6 +22,7 @@ public class CanHide : MonoBehaviour
     public GameObject body;
     public GameObject weapon;
     public GameObject inkTank;
+    public GameObject UI_chageInk;
     public float[] rgb = new float[3];
 
     // 오징어 나타내기 위한 것들
@@ -29,11 +30,17 @@ public class CanHide : MonoBehaviour
     public GameObject squid;
     // Ray를 바닥으로 쏜다
     // 해당 Ray에 대한 Pixel을 구한다.
-    
+
+    // 숨을 때 총알 count 0으로 되살리기 위한 것
+    // 숨을때 일단 충전 UI는 무조건 나와야한다
+    // 쏠 수 없을 때(canShoot == false)
+    // 1초에 30개씩 총알 충전되도록 한다
+    // maxcount보다 count가 많아지면 maxCount로 다시 하게 한다
+    // 필요속성 : canShoot, 충전개수, maxCount로
     void Start()
     {
         cc = GetComponent<CharacterController>();
-
+        UI_chageInk.SetActive(false);
     }
 
     RaycastHit hitInfo;
@@ -85,6 +92,7 @@ public class CanHide : MonoBehaviour
         if (Input.GetKeyUp(hideKey))
         {
             canHide = false;
+            UI_chageInk.SetActive(false);
         }
 
         if (canHide == true)
@@ -118,6 +126,8 @@ public class CanHide : MonoBehaviour
     void CanHideP()
     {
         // 오징어로 변해도 공격당할 수 있게 함
+        // 잉크 충전 UI킨다
+        UI_chageInk.SetActive(true);
         sphere.gameObject.SetActive(true);
         // 플레이어 안보이게 함
         body.gameObject.SetActive(false);
@@ -133,7 +143,11 @@ public class CanHide : MonoBehaviour
         else if(gameObject.name.Contains("Shooter"))
         {
             PlayerMovement pm = GetComponent<PlayerMovement>();
-            pm.run = true;           
+            pm.run = true;
+            PlayerShooter ps = GetComponent<PlayerShooter>();
+            // 총알 충전을 위한 함수
+            ps.ChargeInk();
+            print("잉크 충전된다!");
         }
 
         // 숨을 때 바닥에 닫는다면
@@ -145,6 +159,8 @@ public class CanHide : MonoBehaviour
         {
             float distance = Vector3.Distance(transform.position, hitGround.point);
             // 바닥에 닿아있다면 
+            // 아무것도 안보이게 한다
+            // 충전을 위한 UI는 보이게한다.
             if (distance < 0.5f)
             {
                 squid.SetActive(false);
