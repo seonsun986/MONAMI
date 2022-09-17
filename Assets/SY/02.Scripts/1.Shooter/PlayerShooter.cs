@@ -22,29 +22,44 @@ public class PlayerShooter : MonoBehaviour
 
     public Camera cam;
 
+    // 잉크부족 띄우기 위한 것들
 
+    public bool canShoot;
+    public GameObject lowInkUI;
     int count;
     public int maxCount;
     void Start()
     {
+        
+        canShoot = true;
     }
     void Update()
     {
-        //마우스 왼쪽버튼을 누르면
-        //Time.time 함수가 nexFire 값보다 클 때만 실행
-        if (Input.GetMouseButton(0) && Time.time > nextFire)
+        if (count > maxCount)
         {
-            if(count>maxCount)
-            {
-                // 잉크부족 UI 띄우기
-            }
-            inkParticle.Play();
-            //잉크파티클 재생
-            nextFire = Time.time + fireRate;
-            InkShot();
+            canShoot = false;
         }
-        else if (Input.GetMouseButtonUp(0))
-            inkParticle.Stop();
+
+        if(canShoot == true)
+        {
+            //마우스 왼쪽버튼을 누르면
+            //Time.time 함수가 nexFire 값보다 클 때만 실행
+            if (Input.GetMouseButton(0) && Time.time > nextFire)
+            {
+
+                inkParticle.Play();
+                //잉크파티클 재생
+                nextFire = Time.time + fireRate;
+                InkShot();
+            }
+            else if (Input.GetMouseButtonUp(0))
+                inkParticle.Stop();
+        }
+        else
+        {
+            return;
+        }
+        
     }
     private void InkShot()
     {
@@ -67,7 +82,6 @@ public class PlayerShooter : MonoBehaviour
 
         //ink.transform.position = firePos.position;
         //ink.transform.forward = firePos.forward;
-        print(count);
     }
 
     public static Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time)
