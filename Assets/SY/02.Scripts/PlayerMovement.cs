@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerMovement : MonoBehaviour
+
+public class PlayerMovement : MonoBehaviourPun
 {
     Animator anim;
     Camera cam;
@@ -56,15 +57,12 @@ public class PlayerMovement : MonoBehaviour
             run = true;
         }
         else { run = false; }
-
-
     }
 
     //업데이트가 다끝나고 실행되는 LateUpdate
     void LateUpdate()
     {
         PlayerMove();
-
 
         //만약 둘러보기가 비활성화 되어있으면
         if (toggleCameraRotation != true)

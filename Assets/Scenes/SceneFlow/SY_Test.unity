@@ -178,6 +178,7 @@ MonoBehaviour:
   maxDistance: 5
   finalDistace: 0
   smoothness: 10
+  myCamera: {fileID: 0}
 --- !u!1 &72698414
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +404,7 @@ MonoBehaviour:
   speed: 5
   runspeed: 10
   finalSpeed: 0
+  rotSpeed: 5
   run: 0
   toggleCameraRotation: 0
   smoothness: 10
@@ -951,6 +953,7 @@ MonoBehaviour:
   maxDistance: 5
   finalDistace: 0
   smoothness: 10
+  myCamera: {fileID: 0}
 --- !u!1 &1040018845
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,6 +1671,7 @@ MonoBehaviour:
   speed: 5
   runspeed: 10
   finalSpeed: 0
+  rotSpeed: 5
   run: 0
   toggleCameraRotation: 0
   smoothness: 10

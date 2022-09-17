@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //플레이어를 생성한다.
-        PhotonNetwork.Instantiate("Player_Shooter", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("TEST_Shooter_Player", Vector3.zero, Quaternion.identity);
     }
 
     void Update()

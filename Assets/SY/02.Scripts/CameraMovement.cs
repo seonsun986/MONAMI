@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CameraMovement : MonoBehaviour
+public class CameraMovement : MonoBehaviourPun
 {
     //따라가야 할 오브젝트의 정보
     public Transform objectTofollow;
@@ -32,7 +33,7 @@ public class CameraMovement : MonoBehaviour
     //부드러움의 정도
     public float smoothness = 10f;
 
-
+    
     void Start()
     {
         //처음 시작할 때 각도를 초기화
@@ -45,12 +46,13 @@ public class CameraMovement : MonoBehaviour
         finalDistace = realCamera.localPosition.magnitude;
 
         //게임씬에서 마우스 안 거슬리게
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+       /* Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;*/
     }
 
     void Update()
     {
+        
         //매프레임마다 인풋을 받기 위함
         //X축을 기준으로 카메라가 움직일 때는 마우스를 상하로 움직이니 
         rotX += -(Input.GetAxis("Mouse Y")) * sensitivity * Time.deltaTime;
@@ -65,6 +67,7 @@ public class CameraMovement : MonoBehaviour
 
     void LateUpdate()
     {
+       
         //따라가게
         transform.position = Vector3.MoveTowards(transform.position, objectTofollow.position, followSpeed * Time.deltaTime);
 
