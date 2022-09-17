@@ -56,8 +56,7 @@ public class CameraMovement : MonoBehaviourPun
     }
 
     void Update()
-    {
-        
+    { 
         //매프레임마다 인풋을 받기 위함
         //X축을 기준으로 카메라가 움직일 때는 마우스를 상하로 움직이니 
         rotX += -(Input.GetAxis("Mouse Y")) * sensitivity * Time.deltaTime;
@@ -74,7 +73,7 @@ public class CameraMovement : MonoBehaviourPun
     {
        
         //따라가게
-        transform.position = Vector3.MoveTowards(transform.position, objectTofollow.position, followSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, objectTofollow.position + new Vector3(0,0,-5), followSpeed * Time.deltaTime);
 
         //로컬스페이스에서 월드스페이스로 바꿔줌 (방향 x 최대거리);
         finalDir = transform.TransformPoint(dirNomalized * maxDistance);

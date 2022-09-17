@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerShooter : MonoBehaviour
 {
     //생성위치
-    public Transform firePos;
+    public GameObject firePos;
     //잉크공장
     public GameObject InkFactory;
     //사거리
@@ -19,6 +19,8 @@ public class PlayerShooter : MonoBehaviour
     private float nextFire = 0.0f;
     //파티클
     [SerializeField] ParticleSystem inkParticle;
+
+    public Camera cam;
 
 
     int count;
@@ -47,14 +49,44 @@ public class PlayerShooter : MonoBehaviour
     private void InkShot()
     {
         count++;
-        Vector3 pos = Camera.main.transform.position;
-        pos  =  pos+Camera.main.transform.forward * distance;
+        // 카메라 정중앙으로 레이를 쏜다.
+        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+        RaycastHit hitInfo;
+        if(Physics.Raycast(ray, out hitInfo))
+        {
+            Vector3 vo = CalculateVelocity(hitInfo.point, firePos.transform.position, 0.5f);
+            GameObject ink = Instantiate(InkFactory);
+            ink.transform.position = firePos.transform.position;
+            ink.transform.forward = firePos.transform.forward;
+            ink.GetComponent<Rigidbody>().velocity = vo;
+        }
+        //Vector3 pos = Camera.main.transform.position;
+        //pos  =  pos+Camera.main.transform.forward * distance;
 
-        Vector3 dir = (pos - firePos.position).normalized; 
+        //Vector3 dir = (pos - firePos.position).normalized; 
 
-        GameObject ink = Instantiate(InkFactory);
-        ink.transform.position = firePos.position;
-        ink.transform.forward = dir;
+        //ink.transform.position = firePos.position;
+        //ink.transform.forward = firePos.forward;
         print(count);
+    }
+
+    public static Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time)
+    {
+        // x, y 길이를 먼저 정한다
+        Vector3 distance = target - origin;
+        Vector3 distanceXZ = distance;
+        distanceXZ.y = 0;
+        // 길이를 대신하는 float변수
+        float Sy = distance.y;
+        float Sxz = distanceXZ.magnitude;
+
+        float Vxz = Sxz / time;
+        float Vy = Sy / time + 0.5f * Mathf.Abs(Physics.gravity.y) * time;
+
+        Vector3 result = distanceXZ.normalized;
+        result *= Vxz;
+        result.y = Vy;
+
+        return result;
     }
 }

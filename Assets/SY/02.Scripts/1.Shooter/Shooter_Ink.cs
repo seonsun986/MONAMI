@@ -19,8 +19,6 @@ public class Shooter_Ink : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * speed;
     }
 
     void Update()

@@ -7,7 +7,7 @@ using TMPro;
 
 public class PlayerMovement : MonoBehaviourPun, IPunObservable
 {
-    Animator anim;
+    public Animator anim;
     public Camera cam;
     CharacterController cc;
 
@@ -38,11 +38,10 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     public TextMeshProUGUI nickName;
     void Start()
     {
-        if (photonView.IsMine == false) return;
-
-        anim = this.GetComponent<Animator>();
-        cc = this.GetComponent<CharacterController>();
         nickName.text = photonView.Owner.NickName;
+        if (photonView.IsMine == false) return;
+        cc = this.GetComponent<CharacterController>();
+        
     }
 
     void Update()
@@ -146,7 +145,6 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         }
 
         dir.y = yVelocity;
-
         cc.Move(dir * finalSpeed * Time.deltaTime);
 
 
@@ -159,18 +157,6 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // 데이터 보내기
-        if(stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-
-        // 데이터 보내기
-        if(stream.IsReading)
-        {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
-        }
+        
     }
 }

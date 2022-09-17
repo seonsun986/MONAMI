@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.IO;
 
 public class PaintManager : Singleton<PaintManager>{
 
     public Shader texturePaint;
     public Shader extendIslands;
+    // 바닥 
+    public GameObject plane;
 
     int prepareUVID = Shader.PropertyToID("_PrepareUV");
     int positionID = Shader.PropertyToID("_PainterPosition");
@@ -79,6 +82,63 @@ public class PaintManager : Singleton<PaintManager>{
 
         Graphics.ExecuteCommandBuffer(command);
         command.Clear();
+    }
+
+    public void SaveRenderTextureToPNG(RenderTexture texture, string directroyPath, string fileName)
+    {
+        // 경로가 안들어오면 종료
+        if (string.IsNullOrEmpty(directroyPath)) return;
+
+        // 디렉토리가 없으면 생성
+        if (Directory.Exists(directroyPath) == false)
+        {
+            Debug.Log("디렉토리가 없습니다." + "\n" + "생성완료");
+            Directory.CreateDirectory(directroyPath);
+        }
+
+        // Texture -> Texture2D로 변환
+        int width = texture.width;
+        int height = texture.height;
+
+        RenderTexture currentRenderTexture = RenderTexture.active;
+        RenderTexture copiedRenderTexture = new RenderTexture(width, height, 0);
+
+        // copiedRenderTexture 로 texture를 복사
+        Graphics.Blit(texture, copiedRenderTexture);
+
+        RenderTexture.active = copiedRenderTexture;
+
+        // TextureFormat에서 RGB24 는 알파가 존재하지 않는다.
+        Texture2D texture2D = new Texture2D(width, height, TextureFormat.RGB24, false);
+
+        texture2D.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        texture2D.Apply();
+
+        RenderTexture.active = currentRenderTexture;
+
+        // Texture PNG bytes로 인코딩
+        byte[] texturePNGBytes = texture2D.EncodeToPNG();
+
+        // 경로 설정
+        string filePath = directroyPath + fileName + ".png";
+
+        // 파일 저장
+        File.WriteAllBytes(filePath, texturePNGBytes);
+
+        Debug.Log("파일 저장 완료");
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("버튼을 눌렀습니다.");
+            Paintable paint = plane.GetComponent<Paintable>();
+
+            RenderTexture resultTexture = paint.getMask();
+
+            SaveRenderTextureToPNG(resultTexture, "Assets/Python/images/", "result");
+        }
     }
 
 }
