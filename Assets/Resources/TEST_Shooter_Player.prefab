@@ -11289,7 +11289,7 @@ MonoBehaviour:
   canShoot: 0
   lowInkUI: {fileID: 5302739277997021504}
   count: 0
-  maxCount: 100
+  maxCount: 1000
   uiInk: {fileID: 5302739277419987972}
   inkTank: {fileID: 702023987920430505}
   chargerTime: 0.1

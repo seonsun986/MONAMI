@@ -59,7 +59,7 @@ public class CanHide : MonoBehaviour
 
             // ID·Î Á¢±Ù --> ½¦ÀÌ´õ ±×·¡ÇÁ ID -> int°ª Ãâ·Â
             Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
-            if(paintable != null)
+            if (paintable != null)
             {
                 RenderTexture render = paintable.getMask();
                 Texture2D text = RenderTextureTo2DTexture(render);
@@ -69,7 +69,7 @@ public class CanHide : MonoBehaviour
                 Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
                 print("»Ì¾Æ¿Â »ö±ò #" + ColorUtility.ToHtmlStringRGB(color));
                 print("RGB »ö±ò : " + color.r + ", " + color.g + ", " + color.b);
-                
+
                 string getColor = ColorUtility.ToHtmlStringRGB(color);
                 rgb[0] = color.r;
                 rgb[1] = color.g;
@@ -79,7 +79,7 @@ public class CanHide : MonoBehaviour
             }
 
             // ³» »ö±òÀÏ ¶§
-            if ( rgb[0] < 1.1f && rgb[0] > 0.9f && rgb[1]== 0 && rgb[2] >0.4f && rgb[2] <0.6f)
+            if (rgb[0] < 1.1f && rgb[0] > 0.9f && rgb[1] == 0 && rgb[2] > 0.4f && rgb[2] < 0.6f)
             {
                 canHide = true;
             }
