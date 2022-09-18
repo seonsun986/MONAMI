@@ -46,6 +46,9 @@ MonoBehaviour:
   - RPCShowBullet
   - RPCPaint
   - RPCinitTextures
+  - RPCCanHide
+  - RPCCannotHide
+  - RPCMyColor
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

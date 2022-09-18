@@ -43,73 +43,77 @@ public class PlayerShooter : MonoBehaviourPun
 
     void Update()
     {
-        // 잉크충전 UI가 켜져있다면
-        if(uiInk.gameObject.activeSelf == true)
+        // 내것이라면
+        if (photonView.IsMine)
         {
-            if(uiInk.localScale.y >= 0)
+            // 잉크충전 UI가 켜져있다면
+            if (uiInk.gameObject.activeSelf == true)
             {
-                float uiYscale = (maxCount - count) * 0.0237f;
-                uiInk.localScale = new Vector3(uiInk.localScale.x, uiYscale, uiInk.localScale.z);
+                if (uiInk.localScale.y >= 0)
+                {
+                    float uiYscale = (maxCount - count) * 0.0237f;
+                    uiInk.localScale = new Vector3(uiInk.localScale.x, uiYscale, uiInk.localScale.z);
+                }
+            }
+            // 총 쏠 수없는 상태가 되면
+            // UI가 켜지긴 해도 충전은 되지 않는다
+
+            float inkTankYScale = 0.01f * (maxCount - count);
+            inkTank.localScale = new Vector3(inkTank.localScale.x, inkTankYScale, inkTank.localScale.z);
+
+            // 잉크 탱크 
+            // 쏠 수 없게 하기
+            if (count >= maxCount)
+            {
+                // 잉크부족! UI 띄우기
+                if (lowInkUI.activeSelf == false)
+                {
+                    lowInkUI.SetActive(true);
+                }
+                // 넘지 않게하기
+                count = maxCount;
+                canShoot = false;
+            }
+
+            else
+            {
+                // 잉크부족! UI 없애기
+                if (lowInkUI.activeSelf == true)
+                {
+                    lowInkUI.SetActive(false);
+                }
+                canShoot = true;
+            }
+
+            if (canShoot == true)
+            {
+                //마우스 왼쪽버튼을 누르면
+                //Time.time 함수가 nexFire 값보다 클 때만 실행
+                if (Input.GetMouseButton(0) && Time.time > nextFire)
+                {
+                    inkParticle.Play();
+                    //잉크파티클 재생
+                    nextFire = Time.time + fireRate;
+                    photonView.RPC("RPCShowBullet", RpcTarget.All);
+                    //InkShot();
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    inkParticle.Stop();
+
+                }
+            }
+            // 쏠 수 없을 때
+            else
+            {
+                if (inkParticle.isPlaying)
+                {
+                    inkParticle.Stop();
+                }
+
             }
         }
-        // 총 쏠 수없는 상태가 되면
-        // UI가 켜지긴 해도 충전은 되지 않는다
-
-        float inkTankYScale = 0.01f * (maxCount - count);
-        inkTank.localScale = new Vector3(inkTank.localScale.x, inkTankYScale, inkTank.localScale.z);
-
-        // 잉크 탱크 
-        // 쏠 수 없게 하기
-        if (count >= maxCount)
-        {
-            // 잉크부족! UI 띄우기
-            if (lowInkUI.activeSelf == false)
-            {
-                lowInkUI.SetActive(true);
-            }
-            // 넘지 않게하기
-            count = maxCount;
-            canShoot = false;
-        }
-
-        else
-        {
-            // 잉크부족! UI 없애기
-            if (lowInkUI.activeSelf == true)
-            {
-                lowInkUI.SetActive(false);
-            }
-            canShoot = true;
-        }
-
-        if(canShoot == true)
-        {
-            //마우스 왼쪽버튼을 누르면
-            //Time.time 함수가 nexFire 값보다 클 때만 실행
-            if (Input.GetMouseButton(0) && Time.time > nextFire)
-            {
-
-                inkParticle.Play();
-                //잉크파티클 재생
-                nextFire = Time.time + fireRate;
-                photonView.RPC("RPCShowBullet", RpcTarget.All);
-                //InkShot();
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                inkParticle.Stop();
-
-            }
-        }
-        // 쏠 수 없을 때
-        else
-        {
-            if(inkParticle.isPlaying)
-            {
-                inkParticle.Stop();
-            }
-            
-        }
+        
         
     }
     private void InkShot()
@@ -121,9 +125,10 @@ public class PlayerShooter : MonoBehaviourPun
         if(Physics.Raycast(ray, out hitInfo))
         {
             Vector3 vo = CalculateVelocity(hitInfo.point, firePos.transform.position, 0.2f);
-            GameObject ink = Instantiate(InkFactory);
-            ink.transform.position = firePos.transform.position;
-            ink.transform.forward = firePos.transform.forward;
+             GameObject ink =  PhotonNetwork.Instantiate("Shooter_Ink", firePos.transform.position, firePos.transform.rotation);
+            //GameObject ink = Instantiate(InkFactory); 
+            //ink.transform.position = firePos.transform.position;
+            //ink.transform.forward = firePos.transform.forward;
             ink.GetComponent<Rigidbody>().velocity = vo;
         }
         //Vector3 pos = Camera.main.transform.position;
