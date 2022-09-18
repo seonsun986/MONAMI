@@ -24,6 +24,10 @@ public class CanHide : MonoBehaviourPun
     public GameObject inkTank;
     public GameObject UI_chageInk;
     public GameObject UI_ChagerInkPaint;
+    Color playerColor;
+    float myColor_R;
+    float myColor_G;
+    float myColor_B;
     public float[] rgb = new float[3];
 
     // 오징어 나타내기 위한 것들
@@ -49,6 +53,10 @@ public class CanHide : MonoBehaviourPun
         cc = GetComponent<CharacterController>();
         UI_chageInk.SetActive(false);
         UI_ChagerInkPaint.SetActive(false);
+        playerColor = UI_ChagerInkPaint.GetComponent<Image>().color;
+        myColor_R = playerColor.r;
+        myColor_G = playerColor.g;
+        myColor_B = playerColor.b;
     }
 
     RaycastHit hitInfo;
@@ -89,7 +97,9 @@ public class CanHide : MonoBehaviourPun
                 }
 
                 // 색깔판정을 했을 시 내 색깔일 때
-                if (rgb[0] < 1.1f && rgb[0] > 0.9f && rgb[1] == 0 && rgb[2] > 0.4f && rgb[2] < 0.6f)
+                if (rgb[0] < myColor_R + 0.1f && rgb[0] > myColor_R - 0.1f && 
+                    rgb[1] < myColor_G + 0.1f && rgb[1] > myColor_G - 0.1f && 
+                    rgb[2] > myColor_B - 0.1f && rgb[2] < myColor_B + 0.1f)
                 {
                     canHide = true;
                     
@@ -114,7 +124,7 @@ public class CanHide : MonoBehaviourPun
             {
                 if(!particle_Ink_Hiding.isPlaying)
                 { 
-                particle_Ink_Hiding.Play();
+                    particle_Ink_Hiding.Play();
                 }
                 if (Input.GetKeyDown(hideKey))
                 {
@@ -122,6 +132,7 @@ public class CanHide : MonoBehaviourPun
                 }
                 // 숨을 수 있을 때
                 CanHideP();
+                photonView.RPC("RPCCanHide", RpcTarget.All);
 
             }
             else
@@ -129,6 +140,7 @@ public class CanHide : MonoBehaviourPun
                 particle_Ink_Hiding.Stop();
                 // 숨을 수 없을 때
                 CanNotHide();
+                //photonView.RPC("RPCCannotHide", RpcTarget.All);
 
             }
         }
@@ -189,11 +201,11 @@ public class CanHide : MonoBehaviourPun
         UI_chageInk.SetActive(true);
         UI_ChagerInkPaint.SetActive(true);
 
-        sphere.gameObject.SetActive(true);
-        // 플레이어 안보이게 함
-        body.gameObject.SetActive(false);
-        weapon.gameObject.SetActive(false);
-        inkTank.SetActive(false);
+        //sphere.gameObject.SetActive(true);
+        //// 플레이어 안보이게 함
+        //body.gameObject.SetActive(false);
+        //weapon.gameObject.SetActive(false);
+        //inkTank.SetActive(false);
 
         // 만약 플레이어가 롤러라면
         if (gameObject.name.Contains("Roller"))
@@ -214,26 +226,26 @@ public class CanHide : MonoBehaviourPun
         // 숨을 때 바닥에 닫는다면
         // 오징어가 보이지 않게한다
         // 바닥에 닿았는지 확인하기 위한 RAY
-        Ray groundRay = new Ray(transform.position, transform.up * -1);
-        RaycastHit hitGround;
-        if (Physics.Raycast(groundRay, out hitGround))
-        {
-            float distance = Vector3.Distance(transform.position, hitGround.point);
-            // 바닥에 닿아있다면 
-            // 아무것도 안보이게 한다
-            // 충전을 위한 UI는 보이게한다.
-            if (distance < 0.5f)
-            {
-                squid.SetActive(false);
-            }
-            else
-            {
-                squid.SetActive(true);
-                //squid.transform.forward = transform.forward;
+        //Ray groundRay = new Ray(transform.position, transform.up * -1);
+        //RaycastHit hitGround;
+        //if (Physics.Raycast(groundRay, out hitGround))
+        //{
+        //    float distance = Vector3.Distance(transform.position, hitGround.point);
+        //    // 바닥에 닿아있다면 
+        //    // 아무것도 안보이게 한다
+        //    // 충전을 위한 UI는 보이게한다.
+        //    if (distance < 0.5f)
+        //    {
+        //        squid.SetActive(false);
+        //    }
+        //    else
+        //    {
+        //        squid.SetActive(true);
+        //        //squid.transform.forward = transform.forward;
 
-            }
-            print("길이 : " + distance);
-        }
+        //    }
+        //    print("길이 : " + distance);
+        //}
 
     }
 
@@ -241,9 +253,6 @@ public class CanHide : MonoBehaviourPun
     public void RPCCanHide()
     {
         // 오징어로 변해도 공격당할 수 있게 함
-        // 잉크 충전 UI킨다
-        UI_chageInk.SetActive(true);
-        UI_ChagerInkPaint.SetActive(true);
 
         sphere.gameObject.SetActive(true);
         // 플레이어 안보이게 함
@@ -251,21 +260,21 @@ public class CanHide : MonoBehaviourPun
         weapon.gameObject.SetActive(false);
         inkTank.SetActive(false);
 
-        // 만약 플레이어가 롤러라면
-        if (gameObject.name.Contains("Roller"))
-        {
-            Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
-            rMove.speed = 13;
-        }
-        else if (gameObject.name.Contains("Shooter"))
-        {
-            PlayerMovement pm = GetComponent<PlayerMovement>();
-            pm.run = true;
-            PlayerShooter ps = GetComponent<PlayerShooter>();
-            // 총알 충전을 위한 함수
-            ps.ChargeInk();
-            print("잉크 충전된다!");
-        }
+        //// 만약 플레이어가 롤러라면
+        //if (gameObject.name.Contains("Roller"))
+        //{
+        //    Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
+        //    rMove.speed = 13;
+        //}
+        //else if (gameObject.name.Contains("Shooter"))
+        //{
+        //    PlayerMovement pm = GetComponent<PlayerMovement>();
+        //    pm.run = true;
+        //    PlayerShooter ps = GetComponent<PlayerShooter>();
+        //    // 총알 충전을 위한 함수
+        //    ps.ChargeInk();
+        //    print("잉크 충전된다!");
+        //}
 
         // 숨을 때 바닥에 닫는다면
         // 오징어가 보이지 않게한다

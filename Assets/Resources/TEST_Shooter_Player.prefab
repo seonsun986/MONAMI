@@ -11295,7 +11295,7 @@ MonoBehaviour:
   uiInk: {fileID: 5302739277419987972}
   inkTank: {fileID: 702023987920430505}
   chargerTime: 0.1
-  chargeBullet: 2
+  chargeBullet: 10
 --- !u!114 &8991515371425146330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11350,7 +11350,7 @@ MonoBehaviour:
   toggleCameraRotation: 0
   smoothness: 10
   gravity: -9.81
-  jumpPower: 5
+  jumpPower: 2.5
   nickName: {fileID: 586634613421624147}
 --- !u!114 &4363750356179695674
 MonoBehaviour:

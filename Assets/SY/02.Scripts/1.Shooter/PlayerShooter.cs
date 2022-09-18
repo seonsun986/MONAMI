@@ -32,6 +32,8 @@ public class PlayerShooter : MonoBehaviourPun
     CanHide canHide;
     void Start()
     {
+        // GameManager에게 나의 photonView를 주자
+        GameManager.Instance.CountPlayer(photonView);
         canHide = GetComponent<CanHide>();
         lowInkUI.SetActive(false);
         canShoot = true;
