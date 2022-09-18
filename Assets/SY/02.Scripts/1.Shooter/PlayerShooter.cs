@@ -105,7 +105,7 @@ public class PlayerShooter : MonoBehaviourPun
         RaycastHit hitInfo;
         if(Physics.Raycast(ray, out hitInfo))
         {
-            Vector3 vo = CalculateVelocity(hitInfo.point, firePos.transform.position, 0.5f);
+            Vector3 vo = CalculateVelocity(hitInfo.point, firePos.transform.position, 0.2f);
             GameObject ink = Instantiate(InkFactory);
             ink.transform.position = firePos.transform.position;
             ink.transform.forward = firePos.transform.forward;
@@ -176,7 +176,7 @@ public class PlayerShooter : MonoBehaviourPun
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo))
         {
-            Vector3 vo = CalculateVelocity(hitInfo.point, firePos.transform.position, 0.5f);
+            Vector3 vo = CalculateVelocity(hitInfo.point, firePos.transform.position, 0.2f);
             GameObject ink = Instantiate(InkFactory);
             ink.transform.position = firePos.transform.position;
             ink.transform.forward = firePos.transform.forward;

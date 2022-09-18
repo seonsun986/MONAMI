@@ -41,12 +41,12 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         nickName.text = photonView.Owner.NickName;
         if (photonView.IsMine == false) return;
         cc = this.GetComponent<CharacterController>();
-        
+
     }
 
     void Update()
     {
-        
+
         //임시로 시프트를 누르면 빠르게 된다고 되어있지만 나중에 색깔을 인식했을 때로 변경 //2개의 조건 달기 나의 색일 때, 오징어로 변했을 때
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -60,6 +60,15 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine == false) return;
 
+        //만약 둘러보기가 비활성화 되어있으면
+        if (toggleCameraRotation != true)
+        {
+            //scale : 2개의 벡터값을 곱해줌.
+            Vector3 playerRotate = Vector3.Scale(cam.transform.forward, new Vector3(1, 0, 1));
+            //slerp : lerp와는 다르게 구형태로 인터폴레이션해줌(보간해준다)
+            //플레이어의 회전은 slerp로 Y는 고정이고 좌 우로 스무스하게
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
+        }
         PlayerMove();
     }
     void PlayerMove()
@@ -68,16 +77,16 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         finalSpeed = (run) ? runspeed : speed;
 
         //TransformDirection : 방향을 뜻함
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        //Vector3 forward = transform.TransformDirection(Vector3.forward);
         //right : 지상에서 X좌표를 뜻함
-        Vector3 right = transform.transform.TransformDirection(Vector3.right);
+        //Vector3 right = transform.transform.TransformDirection(Vector3.right);
         //내가 움직이는 방향은 앞방향 = vertical(세로), 양옆방향 = Horizontal(가로)
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
         Vector3 dir = transform.forward * v + transform.right * h;
         dir.Normalize();
 
-        if(v!=0 || h !=0)
+        if (v != 0 || h != 0)
         {
             animSpeed = 1;
         }
@@ -92,10 +101,10 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         if (cc.collisionFlags == CollisionFlags.Below)
         {
             //수직속도를 0으로 하고싶다.
-            if(isJumping)
-            photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement",1);
+            if (isJumping)
+                photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement", 1);
             yVelocity = 0;
-            isJumping = false;            
+            isJumping = false;
         }
         //점프를 안하고 있을 때 그리고!
         //사용자가 점프버튼을 누르면 점프하고 싶다.
@@ -104,13 +113,13 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
             //수직 속도를 변경하고 싶다.
             photonView.RPC("RPCSetTrigger", RpcTarget.All, "Jump");
             yVelocity = jumpPower;
-            isJumping = true;            
+            isJumping = true;
         }
 
         // 단발 공격
         if (Input.GetMouseButtonDown(0))
         {
-            photonView.RPC("RPCSetTrigger", RpcTarget.All,"Fire");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Fire");
         }
         // 연사 공격
         if (Input.GetMouseButton(0))
@@ -119,7 +128,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
             //anim.CrossFade("FireForShooter", 1, 0, 0.3f);
             photonView.RPC("RPCCrossFade", RpcTarget.All, "FireForShooter");
         }
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             photonView.RPC("RPCSetTrigger", RpcTarget.All, "Move");
 
@@ -138,7 +147,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        
+
     }
 
     [PunRPC]

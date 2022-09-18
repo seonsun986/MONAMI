@@ -2,8 +2,13 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using System.IO;
 using Photon.Pun;
+using System.Collections.Generic;
 
-public class PaintManager : Singleton<PaintManager>{
+public class PaintManager : Singleton<PaintManager>
+{
+
+    public Dictionary<int, Paintable> paint = new Dictionary<int, Paintable>();
+
 
     public Shader texturePaint;
     public Shader extendIslands;
@@ -26,36 +31,17 @@ public class PaintManager : Singleton<PaintManager>{
 
     CommandBuffer command;
 
-    public override void Awake(){
+    public override void Awake()
+    {
         base.Awake();
-        
+
         paintMaterial = new Material(texturePaint);
         extendMaterial = new Material(extendIslands);
         command = new CommandBuffer();
         command.name = "CommmandBuffer - " + gameObject.name;
     }
 
-    public void initTextures(Paintable paintable){
-        //RenderTexture mask = paintable.getMask();
-        //RenderTexture uvIslands = paintable.getUVIslands();
-        //RenderTexture extend = paintable.getExtend();
-        //RenderTexture support = paintable.getSupport();
-        //Renderer rend = paintable.getRenderer();
-
-        //command.SetRenderTarget(mask);
-        //command.SetRenderTarget(extend);
-        //command.SetRenderTarget(support);
-
-        //paintMaterial.SetFloat(prepareUVID, 1);
-        //command.SetRenderTarget(uvIslands);
-        //command.DrawRenderer(rend, paintMaterial, 0);
-
-        //Graphics.ExecuteCommandBuffer(command);
-        //command.Clear();
-    }
-
-    [PunRPC]
-    public void RPCinitTextures(Paintable paintable)
+    public void initTextures(Paintable paintable)
     {
         RenderTexture mask = paintable.getMask();
         RenderTexture uvIslands = paintable.getUVIslands();
@@ -74,6 +60,27 @@ public class PaintManager : Singleton<PaintManager>{
         Graphics.ExecuteCommandBuffer(command);
         command.Clear();
     }
+
+    //[PunRPC]
+    //public void RPCinitTxtures(Paintable paintable)
+    //{
+    //    RenderTexture mask = paintable.getMask();
+    //    RenderTexture uvIslands = paintable.getUVIslands();
+    //    RenderTexture extend = paintable.getExtend();
+    //    RenderTexture support = paintable.getSupport();
+    //    Renderer rend = paintable.getRenderer();
+
+    //    command.SetRenderTarget(mask);
+    //    command.SetRenderTarget(extend);
+    //    command.SetRenderTarget(support);
+
+    //    paintMaterial.SetFloat(prepareUVID, 1);
+    //    command.SetRenderTarget(uvIslands);
+    //    command.DrawRenderer(rend, paintMaterial, 0);
+
+    //    Graphics.ExecuteCommandBuffer(command);
+    //    command.Clear();
+    //}
 
 
     //public void paint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null){
@@ -106,9 +113,11 @@ public class PaintManager : Singleton<PaintManager>{
     //    command.Clear();
     //}
 
-   [PunRPC]
-   public void RPCPaint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null)
-   {
+    [PunRPC]
+    public void RPCPaint(int id, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, float r = 0, float g = 0, float b = 0)
+    {
+        Paintable paintable = paint[id];
+        Color color = new Color(r, g, b, 1);
         RenderTexture mask = paintable.getMask();
         RenderTexture uvIslands = paintable.getUVIslands();
         RenderTexture extend = paintable.getExtend();
@@ -121,7 +130,7 @@ public class PaintManager : Singleton<PaintManager>{
         paintMaterial.SetFloat(strengthID, strength);
         paintMaterial.SetFloat(radiusID, radius);
         paintMaterial.SetTexture(textureID, support);
-        paintMaterial.SetColor(colorID, color ?? Color.red);
+        paintMaterial.SetColor(colorID, color);
         extendMaterial.SetFloat(uvOffsetID, paintable.extendsIslandOffset);
         extendMaterial.SetTexture(uvIslandsID, uvIslands);
 
@@ -136,8 +145,12 @@ public class PaintManager : Singleton<PaintManager>{
 
         Graphics.ExecuteCommandBuffer(command);
         command.Clear();
-   }
-
+    }
+    public void AddPaint(Paintable p)
+    {
+        p.id = paint.Count;
+        paint.Add(p.id, p);
+    }
     public void SaveRenderTextureToPNG(RenderTexture texture, string directroyPath, string fileName)
     {
         // 경로가 안들어오면 종료

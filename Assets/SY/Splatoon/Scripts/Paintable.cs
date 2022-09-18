@@ -13,6 +13,8 @@ public class Paintable : MonoBehaviourPun {
     
     Renderer rend;
 
+    public int id;
+
     int maskTextureID = Shader.PropertyToID("_MaskTexture");
     public RenderTexture getMask() => maskRenderTexture;
     public RenderTexture getUVIslands() => uvIslandsRenderTexture;
@@ -21,6 +23,9 @@ public class Paintable : MonoBehaviourPun {
     public Renderer getRenderer() => rend;
 
     void Start() {
+
+        PaintManager.instance.AddPaint(this);
+
         maskRenderTexture = new RenderTexture(TEXTURE_SIZE, TEXTURE_SIZE, 0);
         maskRenderTexture.filterMode = FilterMode.Bilinear;
 
@@ -36,8 +41,8 @@ public class Paintable : MonoBehaviourPun {
         rend = GetComponent<Renderer>();
         rend.material.SetTexture(maskTextureID, extendIslandsRenderTexture);
 
-        //PaintManager.instance.initTextures(this);
-        PaintManager.instance.photonView.RPC("RPCinitTextures", RpcTarget.All, this);
+        PaintManager.instance.initTextures(this);
+        //PaintManager.instance.photonView.RPC("RPCinitTextures", RpcTarget.All, this);
     }
 
     void OnDisable(){
