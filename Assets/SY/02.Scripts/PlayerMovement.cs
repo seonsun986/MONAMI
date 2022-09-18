@@ -46,16 +46,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
     void Update()
     {
-        if (photonView.IsMine == false) return;
-        //마우스 가운데 버튼을 누르면
-        if (Input.GetMouseButton(2))
-        {//둘러보기 활성화
-            toggleCameraRotation = true;
-        }
-        else
-        {//둘러보기 비활성화
-            toggleCameraRotation = false;
-        }
+        
         //임시로 시프트를 누르면 빠르게 된다고 되어있지만 나중에 색깔을 인식했을 때로 변경 //2개의 조건 달기 나의 색일 때, 오징어로 변했을 때
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -70,17 +61,6 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         if (photonView.IsMine == false) return;
 
         PlayerMove();
-
-        //만약 둘러보기가 비활성화 되어있으면
-        if (toggleCameraRotation != true && cam.gameObject.activeSelf == true)
-        {
-            //scale : 2개의 벡터값을 곱해줌.
-            Vector3 playerRotate = Vector3.Scale(cam.transform.forward, new Vector3(1, 0, 1));
-            //slerp : lerp와는 다르게 구형태로 인터폴레이션해줌(보간해준다)
-            //플레이어의 회전은 slerp로 Y는 고정이고 좌 우로 스무스하게
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
-
-        }
     }
     void PlayerMove()
     {
