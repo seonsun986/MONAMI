@@ -8,8 +8,7 @@ public class CanHide : MonoBehaviour
     [Header("숨는 키")]
     [SerializeField]
     private KeyCode hideKey = KeyCode.LeftShift;
-    [SerializeField]
-    private bool canHide;
+    public bool canHide;
 
     public Color[] colors;
     public string[] texts;
@@ -23,6 +22,7 @@ public class CanHide : MonoBehaviour
     public GameObject weapon;
     public GameObject inkTank;
     public GameObject UI_chageInk;
+    public GameObject UI_ChagerInkPaint;
     public float[] rgb = new float[3];
 
     // 오징어 나타내기 위한 것들
@@ -41,6 +41,9 @@ public class CanHide : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         UI_chageInk.SetActive(false);
+        UI_ChagerInkPaint.SetActive(false);
+
+
     }
 
     RaycastHit hitInfo;
@@ -54,6 +57,8 @@ public class CanHide : MonoBehaviour
            
         }
 
+
+        // hideKey를 누르면 색깔 판정을 한다.
         if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
         {
 
@@ -62,7 +67,9 @@ public class CanHide : MonoBehaviour
             if (paintable != null)
             {
                 RenderTexture render = paintable.getMask();
+                if (render == null) print("render is null");
                 Texture2D text = RenderTextureTo2DTexture(render);
+                if (text == null) print("text is null");
                 Vector2 pixelUV = hitInfo.textureCoord;
                 pixelUV.x *= text.width;
                 pixelUV.y *= text.height;
@@ -78,12 +85,12 @@ public class CanHide : MonoBehaviour
 
             }
 
-            // 내 색깔일 때
+            // 색깔판정을 했을 시 내 색깔일 때
             if (rgb[0] < 1.1f && rgb[0] > 0.9f && rgb[1] == 0 && rgb[2] > 0.4f && rgb[2] < 0.6f)
             {
                 canHide = true;
             }
-            // 상대편 색깔일때
+            // 색깔판정을 했을 시 상대편 색깔일때
             else
             {
                 canHide = false;
@@ -93,6 +100,9 @@ public class CanHide : MonoBehaviour
         {
             canHide = false;
             UI_chageInk.SetActive(false);
+            UI_ChagerInkPaint.SetActive(false);
+
+
         }
 
         if (canHide == true)
@@ -107,14 +117,18 @@ public class CanHide : MonoBehaviour
 
         }
     }
-    
 
+    Texture2D texture;
     private Texture2D RenderTextureTo2DTexture(RenderTexture rt)
     {
-        var texture = new Texture2D(rt.width, rt.height, rt.graphicsFormat, 0);
+        //var texture = new Texture2D(rt.width, rt.height, rt.graphicsFormat, 0);
+        if (texture == null)
+        {
+            texture = new Texture2D(rt.width, rt.height, TextureFormat.RGB24, false);
+        }
         RenderTexture.active = rt;
         texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-        texture.Apply();
+        //texture.Apply();
 
         RenderTexture.active = null;
 
@@ -122,12 +136,14 @@ public class CanHide : MonoBehaviour
     }
 
 
-
+    // 숨는 버튼을 누르고 내 색깔일 때 실행되는 함수 
     void CanHideP()
     {
         // 오징어로 변해도 공격당할 수 있게 함
         // 잉크 충전 UI킨다
         UI_chageInk.SetActive(true);
+        UI_ChagerInkPaint.SetActive(true);
+
         sphere.gameObject.SetActive(true);
         // 플레이어 안보이게 함
         body.gameObject.SetActive(false);

@@ -29,8 +29,10 @@ public class PlayerShooter : MonoBehaviourPun
     public GameObject lowInkUI;
     public int count;
     public int maxCount;
+    CanHide canHide;
     void Start()
     {
+        canHide = GetComponent<CanHide>();
         lowInkUI.SetActive(false);
         canShoot = true;
     }
@@ -44,21 +46,23 @@ public class PlayerShooter : MonoBehaviourPun
         // 잉크충전 UI가 켜져있다면
         if(uiInk.gameObject.activeSelf == true)
         {
-            if(uiInk.localScale.y > 0)
+            if(uiInk.localScale.y >= 0)
             {
                 float uiYscale = (maxCount - count) * 0.0237f;
                 uiInk.localScale = new Vector3(uiInk.localScale.x, uiYscale, uiInk.localScale.z);
             }
-            
         }
+        // 총 쏠 수없는 상태가 되면
+        // UI가 켜지긴 해도 충전은 되지 않는다
 
         float inkTankYScale = 0.01f * (maxCount - count);
         inkTank.localScale = new Vector3(inkTank.localScale.x, inkTankYScale, inkTank.localScale.z);
 
         // 잉크 탱크 
         // 쏠 수 없게 하기
-        if (count > maxCount)
+        if (count >= maxCount)
         {
+            // 잉크부족! UI 띄우기
             if (lowInkUI.activeSelf == false)
             {
                 lowInkUI.SetActive(true);
@@ -66,6 +70,16 @@ public class PlayerShooter : MonoBehaviourPun
             // 넘지 않게하기
             count = maxCount;
             canShoot = false;
+        }
+
+        else
+        {
+            // 잉크부족! UI 없애기
+            if (lowInkUI.activeSelf == true)
+            {
+                lowInkUI.SetActive(false);
+            }
+            canShoot = true;
         }
 
         if(canShoot == true)
@@ -87,7 +101,8 @@ public class PlayerShooter : MonoBehaviourPun
 
             }
         }
-        else    // 쏠 수 없을 때
+        // 쏠 수 없을 때
+        else
         {
             if(inkParticle.isPlaying)
             {
