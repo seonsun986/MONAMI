@@ -3682,11 +3682,14 @@ MonoBehaviour:
   weapon: {fileID: 124865590709628946}
   inkTank: {fileID: 6047843522356421947}
   UI_chageInk: {fileID: 0}
+  UI_ChagerInkPaint: {fileID: 0}
   rgb:
   - 0
   - 0
   - 0
   squid: {fileID: 7510069075135219840}
+  particle_Ink_Splash: {fileID: 0}
+  particle_Ink_Hiding: {fileID: 0}
 --- !u!1 &2780991649312227861
 GameObject:
   m_ObjectHideFlags: 0
