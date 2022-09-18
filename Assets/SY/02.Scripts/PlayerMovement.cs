@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     //내 지형일 때 런 스피드.
     [Header("PlayerSpeed")]
     public float speed = 5;
-    public float runspeed = 8f;
+    public float runspeed = 12f;
     public float finalSpeed;
     public float rotSpeed = 5;
 

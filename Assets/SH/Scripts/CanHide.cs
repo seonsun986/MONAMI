@@ -38,6 +38,8 @@ public class CanHide : MonoBehaviourPun
     [SerializeField] ParticleSystem particle_Ink_Splash;
     //숨어있을 때 재생되는 파티클
     [SerializeField] ParticleSystem particle_Ink_Hiding;
+    //오징어폼으로 변했을 때
+    [SerializeField] GameObject VFX_squid_Speed;
 
     // Ray를 바닥으로 쏜다
     // 해당 Ray에 대한 Pixel을 구한다.
@@ -53,6 +55,7 @@ public class CanHide : MonoBehaviourPun
         cc = GetComponent<CharacterController>();
         UI_chageInk.SetActive(false);
         UI_ChagerInkPaint.SetActive(false);
+        VFX_squid_Speed.SetActive(false);
         playerColor = UI_ChagerInkPaint.GetComponent<Image>().color;
         myColor_R = playerColor.r;
         myColor_G = playerColor.g;
@@ -118,6 +121,7 @@ public class CanHide : MonoBehaviourPun
                 canHide = false;
                 UI_chageInk.SetActive(false);
                 UI_ChagerInkPaint.SetActive(false);
+                VFX_squid_Speed.SetActive(false);
             }
 
             if (canHide == true)
@@ -193,6 +197,7 @@ public class CanHide : MonoBehaviourPun
         // 잉크 충전 UI킨다
         UI_chageInk.SetActive(true);
         UI_ChagerInkPaint.SetActive(true);
+        VFX_squid_Speed.SetActive(true);
 
         //sphere.gameObject.SetActive(true);
         //// 플레이어 안보이게 함
