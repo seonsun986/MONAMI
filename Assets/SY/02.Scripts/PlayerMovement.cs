@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         {
             //수직속도를 0으로 하고싶다.
             if(isJumping)
-            anim.Play("Movement",1);
+            photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement",1);
             yVelocity = 0;
             isJumping = false;            
         }
@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         if (isJumping == false && Input.GetButtonDown("Jump"))
         {
             //수직 속도를 변경하고 싶다.
-            anim.SetTrigger("Jump");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Jump");
             yVelocity = jumpPower;
             isJumping = true;            
         }
@@ -110,17 +110,18 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         // 단발 공격
         if (Input.GetMouseButtonDown(0))
         {
-            anim.SetTrigger("Fire");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All,"Fire");
         }
         // 연사 공격
         if (Input.GetMouseButton(0))
         {
-            anim.SetLayerWeight(1, 1);
-            anim.CrossFade("FireForShooter", 1, 0, 0.3f);
+            //anim.SetLayerWeight(1, 1);
+            //anim.CrossFade("FireForShooter", 1, 0, 0.3f);
+            photonView.RPC("RPCCrossFade", RpcTarget.All, "FireForShooter");
         }
         if(Input.GetMouseButtonUp(0))
         {
-            anim.SetTrigger("Move");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Move");
 
         }
 
@@ -132,11 +133,36 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         //moveDirection.magnitude : 움직일 방향인데 크기만 곱해줌.
         float percent = ((run) ? 1 : 0.5f) * dir.magnitude;
         //블랜더 이름 적고, ,0.1f는 즉각적인 반응, 부드러운 애니메이션 이어지는 효과를 위해서는 값을 높여야함.
-        anim.SetFloat("MoveSpeedAnim", animSpeed);
+        photonView.RPC("RPCSetFloat", RpcTarget.All, animSpeed);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         
+    }
+
+    [PunRPC]
+    public void RPCSetTrigger(string trigger)
+    {
+        anim.SetTrigger(trigger);
+    }
+
+    [PunRPC]
+    public void RPCSetFloat(float setFloat)
+    {
+        anim.SetFloat("MoveSpeedAnim", setFloat);
+    }
+
+    [PunRPC]
+    public void RPCAnimPlay(string animPlay, int layer)
+    {
+        anim.Play(animPlay, layer);
+    }
+
+    [PunRPC]
+    public void RPCCrossFade(string state)
+    {
+        anim.SetLayerWeight(1, 1);
+        anim.CrossFade(state, 1, 0, 0.1f);
     }
 }

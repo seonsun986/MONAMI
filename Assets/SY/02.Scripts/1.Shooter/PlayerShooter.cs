@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 
 //필요속성 : 잉크공장, 발사위치
 
-public class PlayerShooter : MonoBehaviour
+public class PlayerShooter : MonoBehaviourPun
 {
     //생성위치
     public GameObject firePos;
@@ -77,13 +78,21 @@ public class PlayerShooter : MonoBehaviour
                 inkParticle.Play();
                 //잉크파티클 재생
                 nextFire = Time.time + fireRate;
-                InkShot();
+                photonView.RPC("RPCShowBullet", RpcTarget.All);
+                //InkShot();
             }
             else if (Input.GetMouseButtonUp(0))
+            {
                 inkParticle.Stop();
+
+            }
         }
-        else
+        else    // 쏠 수 없을 때
         {
+            if(inkParticle.isPlaying)
+            {
+                inkParticle.Stop();
+            }
             
         }
         
@@ -155,6 +164,23 @@ public class PlayerShooter : MonoBehaviour
             // 카운트를 추가 시킨다
             count -= chargeBullet;            
             currentTime = 0;
+        }
+    }
+    
+    [PunRPC]
+    public void RPCShowBullet()
+    {
+        count++;
+        // 카메라 정중앙으로 레이를 쏜다.
+        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo))
+        {
+            Vector3 vo = CalculateVelocity(hitInfo.point, firePos.transform.position, 0.5f);
+            GameObject ink = Instantiate(InkFactory);
+            ink.transform.position = firePos.transform.position;
+            ink.transform.forward = firePos.transform.forward;
+            ink.GetComponent<Rigidbody>().velocity = vo;
         }
     }
 }

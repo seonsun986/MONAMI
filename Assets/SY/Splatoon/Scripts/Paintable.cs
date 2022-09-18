@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class Paintable : MonoBehaviour {
+public class Paintable : MonoBehaviourPun {
     const int TEXTURE_SIZE = 1024;
 
     public float extendsIslandOffset = 1;
@@ -35,7 +36,8 @@ public class Paintable : MonoBehaviour {
         rend = GetComponent<Renderer>();
         rend.material.SetTexture(maskTextureID, extendIslandsRenderTexture);
 
-        PaintManager.instance.initTextures(this);
+        //PaintManager.instance.initTextures(this);
+        PaintManager.instance.photonView.RPC("RPCinitTextures", RpcTarget.All, this);
     }
 
     void OnDisable(){

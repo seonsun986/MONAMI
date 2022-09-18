@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class Singleton<T> : MonoBehaviour where T: MonoBehaviour{
+public class Singleton<T> : MonoBehaviourPun where T: MonoBehaviour{
     
     public static bool verbose = false;
     public static bool keepAlive = true;

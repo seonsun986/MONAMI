@@ -24,7 +24,9 @@ public class RollerController: MonoBehaviour{
             //contacts[0].point = 첫벗째 충돌 지점의 위치
             //즉 PaintManager에 있는 페인트를 부딪힌 위치에 생성시켜준다는 뜻!!
             Vector3 pos = other.contacts[0].point;
-            PaintManager.instance.paint(p, pos, radius, hardness, strength, paintColor);
+            PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p, pos, radius, hardness, strength, paintColor);
+
+            //PaintManager.instance.paint(p, pos, radius, hardness, strength, paintColor);
         }
     }
 }
