@@ -11405,6 +11405,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_SquidSpeed
       objectReference: {fileID: 0}
+    - target: {fileID: 5461228026012894516, guid: 36ccc8e47c453614287559eaffd28d77, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5461228026012894517, guid: 36ccc8e47c453614287559eaffd28d77, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -11431,7 +11435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5461228026012894517, guid: 36ccc8e47c453614287559eaffd28d77, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5461228026012894517, guid: 36ccc8e47c453614287559eaffd28d77, type: 3}
       propertyPath: m_LocalRotation.w
