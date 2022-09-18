@@ -122,14 +122,7 @@ public class CanHide : MonoBehaviourPun
 
             if (canHide == true)
             {
-                if(!particle_Ink_Hiding.isPlaying)
-                { 
-                    particle_Ink_Hiding.Play();
-                }
-                if (Input.GetKeyDown(hideKey))
-                {
-                    particle_Ink_Splash.Play();
-                }
+                
                 // 숨을 수 있을 때
                 CanHideP();
                 photonView.RPC("RPCCanHide", RpcTarget.All);
@@ -137,10 +130,10 @@ public class CanHide : MonoBehaviourPun
             }
             else
             {
-                particle_Ink_Hiding.Stop();
+                
                 // 숨을 수 없을 때
-                CanNotHide();
-                //photonView.RPC("RPCCannotHide", RpcTarget.All);
+                //CanNotHide();
+                photonView.RPC("RPCCannotHide", RpcTarget.All);
 
             }
         }
@@ -252,9 +245,19 @@ public class CanHide : MonoBehaviourPun
     [PunRPC]
     public void RPCCanHide()
     {
-        // 오징어로 변해도 공격당할 수 있게 함
+        // 들어가고 나오고 움직이고 파티클 동기화
+        if (!particle_Ink_Hiding.isPlaying)
+        {
+            particle_Ink_Hiding.Play();
+        }
+        if (Input.GetKeyDown(hideKey))
+        {
+            particle_Ink_Splash.Play();
+        }
 
+        // 오징어로 변해도 공격당할 수 있게 함
         sphere.gameObject.SetActive(true);
+
         // 플레이어 안보이게 함
         body.gameObject.SetActive(false);
         weapon.gameObject.SetActive(false);
@@ -322,6 +325,10 @@ public class CanHide : MonoBehaviourPun
     [PunRPC]
     public void RPCCannotHide()
     {
+        // 파티클 멈추기 동기화
+
+        particle_Ink_Hiding.Stop();
+
         sphere.gameObject.SetActive(false);
         body.gameObject.SetActive(true);
         weapon.gameObject.SetActive(true);
