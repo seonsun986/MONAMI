@@ -4015,6 +4015,7 @@ GameObject:
   - component: {fileID: 2780991649312227866}
   - component: {fileID: 7412768206424956916}
   - component: {fileID: 9123184648862801341}
+  - component: {fileID: 2780991649312227862}
   m_Layer: 0
   m_Name: TEST_Shooter_Player 1
   m_TagString: Untagged
@@ -4022,6 +4023,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2780991649312227862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2780991649312227861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6254c122f619e945a0869b55587a089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotSpeed: 200
+  camPos: {fileID: 6047843524307997138}
 --- !u!4 &2780991649312227864
 Transform:
   m_ObjectHideFlags: 0

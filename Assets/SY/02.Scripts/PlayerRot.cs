@@ -30,7 +30,8 @@ public class PlayerRot : MonoBehaviourPun
         rotY += my * rotSpeed * Time.deltaTime;
 
         //3. 플레어의 회전 y값을 셋팅한다.
-        transform.localEulerAngles = new Vector3();
+        transform.localEulerAngles = new Vector3(0,rotX,0);
         //4. CamPos의 회전 x값을 셋팅한다.
+        camPos.localEulerAngles = new Vector3(-rotY, 0, 0);
     }
 }

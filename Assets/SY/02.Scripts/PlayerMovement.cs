@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
         //수직 속도 구하기
         yVelocity += gravity * Time.deltaTime;
-        //만약 바닥에 닿아있다면
+        //만약 바닥에 닿아있다면`
         if (cc.collisionFlags == CollisionFlags.Below)
         {
             //수직속도를 0으로 하고싶다.
