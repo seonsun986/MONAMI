@@ -29,6 +29,12 @@ public class CanHide : MonoBehaviourPun
     // 오징어 나타내기 위한 것들
     CharacterController cc;
     public GameObject squid;
+
+    //숨을 때 재생되는 파티클
+    [SerializeField] ParticleSystem particle_Ink_Splash;
+    //숨어있을 때 재생되는 파티클
+    [SerializeField] ParticleSystem particle_Ink_Hiding;
+
     // Ray를 바닥으로 쏜다
     // 해당 Ray에 대한 Pixel을 구한다.
 
@@ -43,8 +49,6 @@ public class CanHide : MonoBehaviourPun
         cc = GetComponent<CharacterController>();
         UI_chageInk.SetActive(false);
         UI_ChagerInkPaint.SetActive(false);
-
-
     }
 
     RaycastHit hitInfo;
@@ -56,7 +60,7 @@ public class CanHide : MonoBehaviourPun
         {
             Ray ray = new Ray(transform.position, transform.up * -1);
             RaycastHit hitInfo;
-
+           
             // hideKey를 누르면 색깔 판정을 한다.
             if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
             {
@@ -88,6 +92,7 @@ public class CanHide : MonoBehaviourPun
                 if (rgb[0] < 1.1f && rgb[0] > 0.9f && rgb[1] == 0 && rgb[2] > 0.4f && rgb[2] < 0.6f)
                 {
                     canHide = true;
+                    
                 }
                 // 색깔판정을 했을 시 상대편 색깔일때
                 else
@@ -97,6 +102,9 @@ public class CanHide : MonoBehaviourPun
             }
             if (Input.GetKeyUp(hideKey))
             {
+                if(canHide ==true)
+                { particle_Ink_Splash.Play();}
+
                 canHide = false;
                 UI_chageInk.SetActive(false);
                 UI_ChagerInkPaint.SetActive(false);
@@ -104,18 +112,27 @@ public class CanHide : MonoBehaviourPun
 
             if (canHide == true)
             {
+                if(!particle_Ink_Hiding.isPlaying)
+                { 
+                particle_Ink_Hiding.Play();
+                }
+                if (Input.GetKeyDown(hideKey))
+                {
+                    particle_Ink_Splash.Play();
+                }
                 // 숨을 수 있을 때
-                //CanHideP();
-                photonView.RPC("RPCCanHide", RpcTarget.All);
+                CanHideP();
+
             }
             else
             {
+                particle_Ink_Hiding.Stop();
                 // 숨을 수 없을 때
-                //CanNotHide();
-                photonView.RPC("RPCCannotHide", RpcTarget.All);
+                CanNotHide();
+
             }
         }
-        
+
     }
 
 
@@ -184,7 +201,7 @@ public class CanHide : MonoBehaviourPun
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
             rMove.speed = 13;
         }
-        else if(gameObject.name.Contains("Shooter"))
+        else if (gameObject.name.Contains("Shooter"))
         {
             PlayerMovement pm = GetComponent<PlayerMovement>();
             pm.run = true;
@@ -285,7 +302,7 @@ public class CanHide : MonoBehaviourPun
         inkTank.SetActive(true);
 
         // 만약 플레이어가 롤러라면
-        if(gameObject.name.Contains("Roller"))
+        if (gameObject.name.Contains("Roller"))
         {
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
             rMove.speed = 8;
