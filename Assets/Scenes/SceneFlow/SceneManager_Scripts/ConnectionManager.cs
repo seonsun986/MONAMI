@@ -31,7 +31,8 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         //닉네임 설정
         PhotonNetwork.NickName = "Player "+ Random.Range(1,100);
         //기본 로비 진입 / 채널개념
-        PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinLobby(new Photon.Realtime.TypedLobby("로비1", Photon.Realtime.LobbyType.Default));
+        //PhotonNetwork.JoinLobby();
         //특정 로비 진입 -- 채널 나누고 싶을 때
         //PhotonNetwork.JoinLobby(new Photon.Realtime.TypedLobby("로비",Photon.Realtime.LobbyType.Default))
     }
