@@ -16,8 +16,6 @@ public class Shooter_Ink : MonoBehaviourPun
     //°æµµ
     public float hardness = 1;
 
-    public float speed = 1;
-    Rigidbody rb;
 
     void Start()
     {

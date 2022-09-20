@@ -213,7 +213,7 @@ public class CanHide : MonoBehaviourPun
         }
         else if (gameObject.name.Contains("Shooter"))
         {
-            PlayerMovement pm = GetComponent<PlayerMovement>();
+            ShooterMovement pm = GetComponent<ShooterMovement>();
             pm.run = true;
             PlayerShooter ps = GetComponent<PlayerShooter>();
             // 총알 충전을 위한 함수

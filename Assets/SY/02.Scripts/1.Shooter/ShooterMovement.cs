@@ -5,7 +5,7 @@ using Photon.Pun;
 using TMPro;
 
 
-public class PlayerMovement : MonoBehaviourPun, IPunObservable
+public class ShooterMovement : MonoBehaviourPun, IPunObservable
 {
     public Animator anim;
     public Camera cam;

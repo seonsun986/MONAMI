@@ -82,36 +82,36 @@ public class PaintManager : Singleton<PaintManager>
     //    command.Clear();
     //}
 
+    public void paints(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null)
+    {
+        RenderTexture mask = paintable.getMask();
+        RenderTexture uvIslands = paintable.getUVIslands();
+        RenderTexture extend = paintable.getExtend();
+        RenderTexture support = paintable.getSupport();
+        Renderer rend = paintable.getRenderer();
 
-    //public void paint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null){
-    //    RenderTexture mask = paintable.getMask();
-    //    RenderTexture uvIslands = paintable.getUVIslands();
-    //    RenderTexture extend = paintable.getExtend();
-    //    RenderTexture support = paintable.getSupport();
-    //    Renderer rend = paintable.getRenderer();
+        paintMaterial.SetFloat(prepareUVID, 0);
+        paintMaterial.SetVector(positionID, pos);
+        paintMaterial.SetFloat(hardnessID, hardness);
+        paintMaterial.SetFloat(strengthID, strength);
+        paintMaterial.SetFloat(radiusID, radius);
+        paintMaterial.SetTexture(textureID, support);
+        paintMaterial.SetColor(colorID, color ?? Color.red);
+        extendMaterial.SetFloat(uvOffsetID, paintable.extendsIslandOffset);
+        extendMaterial.SetTexture(uvIslandsID, uvIslands);
 
-    //    paintMaterial.SetFloat(prepareUVID, 0);
-    //    paintMaterial.SetVector(positionID, pos);
-    //    paintMaterial.SetFloat(hardnessID, hardness);
-    //    paintMaterial.SetFloat(strengthID, strength);
-    //    paintMaterial.SetFloat(radiusID, radius);
-    //    paintMaterial.SetTexture(textureID, support);
-    //    paintMaterial.SetColor(colorID, color ?? Color.red);
-    //    extendMaterial.SetFloat(uvOffsetID, paintable.extendsIslandOffset);
-    //    extendMaterial.SetTexture(uvIslandsID, uvIslands);
+        command.SetRenderTarget(mask);
+        command.DrawRenderer(rend, paintMaterial, 0);
 
-    //    command.SetRenderTarget(mask);
-    //    command.DrawRenderer(rend, paintMaterial, 0);
+        command.SetRenderTarget(support);
+        command.Blit(mask, support);
 
-    //    command.SetRenderTarget(support);
-    //    command.Blit(mask, support);
+        command.SetRenderTarget(extend);
+        command.Blit(mask, extend, extendMaterial);
 
-    //    command.SetRenderTarget(extend);
-    //    command.Blit(mask, extend, extendMaterial);
-
-    //    Graphics.ExecuteCommandBuffer(command);
-    //    command.Clear();
-    //}
+        Graphics.ExecuteCommandBuffer(command);
+        command.Clear();
+    }
 
     [PunRPC]
     public void RPCPaint(int id, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, float r = 0, float g = 0, float b = 0)
