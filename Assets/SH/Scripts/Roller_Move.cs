@@ -11,7 +11,7 @@ public class Roller_Move : MonoBehaviour
     public Rig LarmRig;
     public float speed = 5;
     public float rotSpeed = 5;
-    Animator anim;
+    public Animator anim;
     CharacterController cc;
     public enum state
     {
@@ -26,7 +26,6 @@ public class Roller_Move : MonoBehaviour
         RarmRig.weight = 1;
         LarmRig.weight = 1;
         State = state.Idle;
-        anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
     }
 
