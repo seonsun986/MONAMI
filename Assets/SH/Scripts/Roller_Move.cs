@@ -6,12 +6,9 @@ using UnityEngine.Animations.Rigging;
 
 public class Roller_Move : MonoBehaviour
 {
-    public Rig headRig;
-    public Rig RarmRig;
-    public Rig LarmRig;
     public float speed = 5;
     public float rotSpeed = 5;
-    Animator anim;
+    public Animator anim;
     CharacterController cc;
     public enum state
     {
@@ -22,11 +19,7 @@ public class Roller_Move : MonoBehaviour
     state State;
     void Start()
     {
-        headRig.weight = 1;
-        RarmRig.weight = 1;
-        LarmRig.weight = 1;
         State = state.Idle;
-        anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
     }
 
@@ -48,6 +41,10 @@ public class Roller_Move : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotSpeed);
         }
 
+        if(h!=0 || v!=0)
+        {
+            anim.SetTrigger("Move");
+        }
 
         if (State == state.Idle)
         {
@@ -86,19 +83,6 @@ public class Roller_Move : MonoBehaviour
             UpdateDie();
         }
 
-        // 리깅을 위한 가중치 
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("JumpAttack") || anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
-        {
-            headRig.weight = 0;
-            RarmRig.weight = 0;
-            LarmRig.weight = 0;
-        }
-        else
-        {
-            headRig.weight = 1;
-            RarmRig.weight = 1;
-            LarmRig.weight = 1;
-        }
     }
 
     private void UpdateIdle()
