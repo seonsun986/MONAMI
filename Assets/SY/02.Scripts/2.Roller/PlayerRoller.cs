@@ -60,7 +60,7 @@ public class PlayerRoller : MonoBehaviour
         {
             GameObject ink = Instantiate(inkFactory);
             ink.transform.position = inkFirePos[i].transform.position;
-            ink.transform.localRotation = inkFirePos[i].transform.localRotation;
+            ink.transform.forward = inkFirePos[i].transform.forward;
         }
     }
 }
