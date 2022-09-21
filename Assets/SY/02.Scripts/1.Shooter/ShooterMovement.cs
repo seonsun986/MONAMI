@@ -101,8 +101,7 @@ public class ShooterMovement : MonoBehaviourPun, IPunObservable
         if (cc.collisionFlags == CollisionFlags.Below)
         {
             //수직속도를 0으로 하고싶다.
-            if (isJumping)
-                photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement", 1);
+            if (isJumping) photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement", 1);
             yVelocity = 0;
             isJumping = false;
         }
