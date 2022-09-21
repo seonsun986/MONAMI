@@ -19,7 +19,7 @@ public class Roller_Ink_Attack : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Vector3 vector = transform.forward * 10 + transform.up * 15;
+        Vector3 vector = transform.forward * 20 + transform.up * 15;
         rb.AddForce(vector.normalized * inkSpeed);
     }
 

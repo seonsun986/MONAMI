@@ -17,7 +17,7 @@ public class CanHide : MonoBehaviourPun
     public Texture2D imageMap;
 
     public float rayDistance = 20;
-    public RawImage rawImage;
+    //public RawImage rawImage;
     public GameObject sphere;       // 오징어로 변했을 때 공격당하기 위함
     public GameObject body;
     public GameObject weapon;
