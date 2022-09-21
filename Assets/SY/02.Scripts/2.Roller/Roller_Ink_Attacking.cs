@@ -16,6 +16,7 @@ public class Roller_Ink_Attacking: MonoBehaviour{
 
     private void OnCollisionStay(Collision other)
     {
+        print("ºÎµúÈû");
         Paintable p = other.collider.GetComponent<Paintable>();
         if (p != null)
         {
