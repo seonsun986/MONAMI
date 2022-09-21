@@ -7,110 +7,199 @@ using UnityEngine.Animations.Rigging;
 public class Roller_Move : MonoBehaviour
 {
     public float speed = 5;
+    public float runSpeed = 10;     // 내 잉크에 있을 때 스피드 값
+    public bool run;
+    bool isJumping;
+    public float finalSpeed;
+
     public float rotSpeed = 5;
-    public Animator anim;
+    public float gravity = -9.81f;
+    public float jumpPower = 10;
+    float yVelocity;
+    
     CharacterController cc;
-    public enum state
-    {
-        Idle,
-        Move,
-        Die
-    }
-    state State;
+    
+    public Animator anim;
+    float animSpeed;
+
     void Start()
     {
-        State = state.Idle;
         cc = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
-    float h;
-    float v;
     void Update()
     {
-        h = Input.GetAxis("Horizontal");
-        v = Input.GetAxis("Vertical");
-        Vector3 dir = h * Vector3.right + v * Vector3.forward;
-        dir.Normalize();
-        cc.Move(dir * speed * Time.deltaTime);
+        PlayerMove();
+        //PlayerMove2();
 
-        // 다시 회전 돌아가는걸 막기 위한 부분
+
+
+        // 멈춰있을 땐 Idle
+        // 움직일 때는 Just Run
+        // 마우스를 누르는 순간 일반 공격하고
+        // 계속 누르고 움직인다면 롤러를 믿다
+        // 점프하고 마우스를 누르면 점프하는 도중에 세로로 잉크를 뿌리는 애니메이션 재생
+
+    }
+
+    void PlayerMove()
+    {
+        // 중력 더한다
+        yVelocity += gravity * Time.deltaTime;
+        //최종 내 스피드는 런이 활성화 되어있으면 빠르게 그게 아니면 보통의 속도로 이동
+        finalSpeed = (run) ? runSpeed : speed;
+
+        //TransformDirection : 방향을 뜻함
+        //Vector3 forward = transform.TransformDirection(Vector3.forward);
+        //right : 지상에서 X좌표를 뜻함
+        //Vector3 right = transform.transform.TransformDirection(Vector3.right);
+        //내가 움직이는 방향은 앞방향 = vertical(세로), 양옆방향 = Horizontal(가로)
+        float v = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxisRaw("Horizontal");
+        Vector3 dir = transform.forward * v + transform.right * h;
+        dir.Normalize();
+
+        if (cc.collisionFlags == CollisionFlags.Below)
+        {
+            yVelocity = 0;
+            isJumping = false;
+        }
+
+        //다시 회전 돌아가는걸 막기 위한 부분
         if (!(h == 0 && v == 0))
         {
             // 회전하는 부분. Point 1.
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotSpeed);
         }
 
-        if(h!=0 || v!=0)
+        // 움직일 때
+        if (v != 0 || h != 0)
         {
-            anim.SetTrigger("Move");
-        }
-
-        if (State == state.Idle)
-        {
-            UpdateIdle();
-        }
-        if (State == state.Move)
-        {
-            UpdateMove();
-        }
-
-        // 공격 상태
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            // 점프 공격 상태
-            if(anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            // 마우스를 누르고 있으면 롤러 내리고 걷기로
+            if(Input.GetMouseButton(0))
             {
-                JumpAttack();
+                animSpeed = 1;
+            }    
+            else
+            {
+                animSpeed = 0.5f;
             }
-            //일반 공격 상태
+            
+        }
+        else // 정지
+        {
+            animSpeed = 0;
+        }
+
+        //점프를 안하고 있을 때 그리고!
+        //사용자가 점프버튼을 누르면 점프하고 싶다.
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") && Input.GetButtonDown("Jump") && isJumping == false)
+        {
+            anim.SetTrigger("Jump");
+            isJumping = true;
+            yVelocity = jumpPower;
+        }
+
+
+        // 단발 공격
+        if (Input.GetMouseButtonDown(0))
+        {
+            if(isJumping == true)
+            {
+                anim.SetTrigger("JumpAttack");
+            }
             else
             {
                 anim.SetTrigger("Attack");
             }
             
         }
+        if (Input.GetMouseButtonUp(0))
+        {
+            // 롤러 내리고 걷고 있다면
+            if(animSpeed == 1)
+            {
+                animSpeed = 0.5f;
+            }
+            else
+            {
+                anim.SetTrigger("Move");
+            }
+            
 
-        // 점프상태
-        if (Input.GetButtonDown("Jump"))
+        }
+        
+        dir.y = yVelocity;
+        anim.SetFloat("MovementSpeed", animSpeed);
+        cc.Move(dir * finalSpeed * Time.deltaTime);
+
+    }
+
+    void PlayerMove2()
+    {
+        finalSpeed = (run) ? runSpeed : speed;
+
+
+        float v = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxisRaw("Horizontal");
+        Vector3 dir = transform.forward * v + transform.right * h;
+        dir.Normalize();
+
+        //다시 회전 돌아가는걸 막기 위한 부분
+        if (!(h == 0 && v == 0))
+        {
+            // 회전하는 부분. Point 1.
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotSpeed);
+        }
+
+        if(h==0 && v==0)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                anim.Play("Attack");
+            }
+            else
+            {
+                anim.Play("Idle");
+            }
+            
+        }
+        else
+        {
+            if(Input.GetMouseButton(0))
+            {
+                anim.SetTrigger("InkWalk");
+            }
+            else
+            {
+                anim.SetTrigger("Walk");
+                if (Input.GetMouseButton(0))
+                {
+                    anim.SetTrigger("InkWalk");
+                }
+            }
+        }
+
+        if(Input.GetButtonDown("Jump"))
         {
             anim.SetTrigger("Jump");
         }
 
-
-        if (State == state.Die)
+        if(Input.GetMouseButtonDown(0))
         {
-            UpdateDie();
+            if(anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            {
+                anim.SetTrigger("JumpAttack");
+            }
+            else
+            {
+                anim.SetTrigger("Attack");
+            }
         }
 
+        cc.Move(dir * finalSpeed * Time.deltaTime);
     }
 
-    private void UpdateIdle()
-    {
-        if (h != 0 || v!=0)
-       {
-            State = state.Move;
-            anim.SetTrigger("Move");
-       }
+    
 
-    }
-    // 움직임이 멈추면 다시 Idle 상태로 돌아온다
-    private void UpdateMove()
-    {
-        if (h==0 && v==0)
-        {
-            State = state.Idle;
-            anim.SetTrigger("Idle");
-        }
-
-    }
-    private void UpdateDie()
-    {
-        
-    }
-
-    void JumpAttack()
-    {
-        anim.SetTrigger("JumpAttack");
-    }
 }
