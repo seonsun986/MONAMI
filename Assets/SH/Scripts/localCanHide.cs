@@ -22,8 +22,8 @@ public class localCanHide : MonoBehaviourPun
     public GameObject body;
     public GameObject weapon;
     public GameObject inkTank;
-    public GameObject UI_chageInk;
-    public GameObject UI_ChagerInkPaint;
+    public GameObject UI_chageInk;          // 잉크 충전 UI
+    public GameObject UI_ChagerInkPaint;    // 잉크 뒷배경 UI(색만있다)
     Color playerColor;
     float myColor_R;
     float myColor_G;
@@ -159,6 +159,15 @@ public class localCanHide : MonoBehaviourPun
     // 숨는 버튼을 누르고 내 색깔일 때 실행되는 함수 
     void CanHideP()
     {
+        if (!particle_Ink_Hiding.isPlaying)
+        {
+            particle_Ink_Hiding.Play();
+        }
+        if (Input.GetKeyDown(hideKey))
+        {
+            particle_Ink_Splash.Play();
+        }
+
         // 오징어로 변해도 공격당할 수 있게 함
         // 잉크 충전 UI킨다
         UI_chageInk.SetActive(true);
@@ -176,6 +185,10 @@ public class localCanHide : MonoBehaviourPun
         {
             Roller_Move rm = gameObject.GetComponent<Roller_Move>();
             rm.run = true;
+            PlayerRoller pr = GetComponent<PlayerRoller>();
+            pr.ChargeInk();
+            print("롤러 잉크 충전된다!");
+
         }
         else if (gameObject.name.Contains("Shooter"))
         {

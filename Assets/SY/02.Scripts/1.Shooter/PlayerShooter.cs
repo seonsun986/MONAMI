@@ -59,7 +59,6 @@ public class PlayerShooter : MonoBehaviourPun
             }
             // 총 쏠 수없는 상태가 되면
             // UI가 켜지긴 해도 충전은 되지 않는다
-
             float inkTankYScale = 0.01f * (maxCount - count);
             inkTank.localScale = new Vector3(inkTank.localScale.x, inkTankYScale, inkTank.localScale.z);
 
