@@ -102,7 +102,6 @@ public class PlayerShooter : MonoBehaviourPun
                 else if (Input.GetMouseButtonUp(0))
                 {
                     inkParticle.Stop();
-
                 }
             }
             // ½ò ¼ö ¾øÀ» ¶§

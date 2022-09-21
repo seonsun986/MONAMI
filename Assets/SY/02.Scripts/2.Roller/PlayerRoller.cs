@@ -11,13 +11,20 @@ public class PlayerRoller : MonoBehaviour
     public GameObject inkFactory;
     public GameObject[] inkFirePos;
 
+    // 잉크 개수 조절
+    public int maxInk = 100;
+    public int currentInk;
+
     //현재 공격중인가?
     bool isAttack = false;
     void Start()
     {
         leftRoller.SetActive(false);
         rightRoller.SetActive(false);
+        currentInk = maxInk;
     }
+
+    float currentTime;
     void Update()
     {
         //롤러 공격 시작
@@ -25,6 +32,7 @@ public class PlayerRoller : MonoBehaviour
         //마우스 버튼을 한번 눌렀을 때 잉크를 나의 앞방향으로 잉크를 생성하고 발사시킨다. => 필요속성 : 잉크공장, 잉크 발사위치
         if (Input.GetMouseButtonDown(0))
         {
+            currentInk -= 4;
             RollerInkShoot();
             leftRoller.SetActive(true);
             rightRoller.SetActive(true);
@@ -38,6 +46,12 @@ public class PlayerRoller : MonoBehaviour
         //잉크 소모!
         if (Input.GetMouseButton(0))
         {
+            currentTime += Time.deltaTime;
+            if(currentTime>0.2f)
+            {
+                currentInk -= 3;
+                currentTime = 0;
+            }
             print("공격을 하는중이다!");
         }
 

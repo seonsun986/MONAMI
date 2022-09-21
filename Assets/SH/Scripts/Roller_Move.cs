@@ -22,6 +22,11 @@ public class Roller_Move : MonoBehaviour
     public Animator anim;
     float animSpeed;
 
+    public bool toggleCameraRotation;
+    public Camera cam;
+    public float smoothness = 10;
+
+
     void Start()
     {
         cc = GetComponent<CharacterController>();
@@ -29,6 +34,16 @@ public class Roller_Move : MonoBehaviour
 
     void Update()
     {
+        // 만약 둘러보기가 비활성화 되어있으면
+        if (toggleCameraRotation != true)
+        {
+            //scale : 2개의 벡터값을 곱해줌.
+            Vector3 playerRotate = Vector3.Scale(cam.transform.forward, new Vector3(1, 0, 1));
+            //slerp : lerp와는 다르게 구형태로 인터폴레이션해줌(보간해준다)
+            //플레이어의 회전은 slerp로 Y는 고정이고 좌 우로 스무스하게
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
+        }
+
         PlayerMove();
         //PlayerMove2();
 
@@ -59,18 +74,19 @@ public class Roller_Move : MonoBehaviour
         Vector3 dir = transform.forward * v + transform.right * h;
         dir.Normalize();
 
+
         if (cc.collisionFlags == CollisionFlags.Below)
         {
             yVelocity = 0;
             isJumping = false;
         }
 
-        //다시 회전 돌아가는걸 막기 위한 부분
-        if (!(h == 0 && v == 0))
-        {
-            // 회전하는 부분. Point 1.
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotSpeed);
-        }
+        ////다시 회전 돌아가는걸 막기 위한 부분
+        //if (!(h == 0 && v == 0))
+        //{
+        //    // 회전하는 부분. Point 1.
+        //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotSpeed);
+        //}
 
         // 움직일 때
         if (v != 0 || h != 0)
@@ -128,76 +144,10 @@ public class Roller_Move : MonoBehaviour
             
 
         }
-        
         dir.y = yVelocity;
         anim.SetFloat("MovementSpeed", animSpeed);
         cc.Move(dir * finalSpeed * Time.deltaTime);
 
-    }
-
-    void PlayerMove2()
-    {
-        finalSpeed = (run) ? runSpeed : speed;
-
-
-        float v = Input.GetAxisRaw("Vertical");
-        float h = Input.GetAxisRaw("Horizontal");
-        Vector3 dir = transform.forward * v + transform.right * h;
-        dir.Normalize();
-
-        //다시 회전 돌아가는걸 막기 위한 부분
-        if (!(h == 0 && v == 0))
-        {
-            // 회전하는 부분. Point 1.
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotSpeed);
-        }
-
-        if(h==0 && v==0)
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-                anim.Play("Attack");
-            }
-            else
-            {
-                anim.Play("Idle");
-            }
-            
-        }
-        else
-        {
-            if(Input.GetMouseButton(0))
-            {
-                anim.SetTrigger("InkWalk");
-            }
-            else
-            {
-                anim.SetTrigger("Walk");
-                if (Input.GetMouseButton(0))
-                {
-                    anim.SetTrigger("InkWalk");
-                }
-            }
-        }
-
-        if(Input.GetButtonDown("Jump"))
-        {
-            anim.SetTrigger("Jump");
-        }
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            if(anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
-            {
-                anim.SetTrigger("JumpAttack");
-            }
-            else
-            {
-                anim.SetTrigger("Attack");
-            }
-        }
-
-        cc.Move(dir * finalSpeed * Time.deltaTime);
     }
 
     
