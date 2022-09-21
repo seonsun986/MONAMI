@@ -13,38 +13,55 @@ public class PlayerCharger : MonoBehaviour
     bool isAttack = false;
 
     public GameObject VFX_Charging;
+    public GameObject VFX_HitImpact;
+
+    //TEST
+    public GameObject test_Image;
 
     void Start()
     {
         VFX_Charging.SetActive(false);
     }
 
+    RaycastHit hitInfo;
     void Update()
     {
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
             isAttack = true;
-            Charging();
+            hitInfo = Charging();
             //데미지를 중첩시켜줌(minDamage=>maxDamage)
         }
         //쏘았을 때만 플레이
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
-            ChargerShot();
+            ChargerShot(hitInfo);
             //보이지않는 콜라이더 transform.pos => hitInfoPos까지 바닥에 깔아준다.
             isAttack = false;
             VFX_Charging.SetActive(false);
         }
     }
-    void Charging()
+
+    RaycastHit Charging()
     {
         //기모으는 파티클 재생
         VFX_Charging.SetActive(true);
+        //메인카메라의 위치에서 메인카메라의 앞방향으로 시선을 만들고 싶다.
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-
+        if (Physics.Raycast(ray, out hitInfo))
+        {
+            //print(hitInfo.transform.name);
+            //잉크자국을 부딪힌 곳에 남기고싶다.
+        }
+        return hitInfo;
     }
-    void ChargerShot()
+    void ChargerShot(RaycastHit hitInfo)
     {
-
+        GameObject inkImpact = Instantiate(VFX_HitImpact);
+        print(hitInfo.transform.name);
+        inkImpact.transform.position = hitInfo.point;
+        inkImpact.transform.forward = hitInfo.normal;
     }
 }
+
