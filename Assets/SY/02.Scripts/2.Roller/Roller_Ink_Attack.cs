@@ -16,11 +16,10 @@ public class Roller_Ink_Attack : MonoBehaviour
 
     Rigidbody rb;
     public float inkSpeed;
-    public GameObject vector;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Vector3 vector = transform.forward + new Vector3(0, 5, 10);
+        Vector3 vector = transform.forward * 10 + transform.up * 15;
         rb.AddForce(vector.normalized * inkSpeed);
     }
 
