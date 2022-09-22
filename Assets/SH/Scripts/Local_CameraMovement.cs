@@ -87,6 +87,8 @@ public class Local_CameraMovement : MonoBehaviourPun
             //만약에 뭐가 없다면 그냥 최대거리를 반영해줌.
             finalDistace = maxDistance;
         }
+        //만약 캔하이드를 한 상태 라면
+
         //
         realCamera.localPosition = Vector3.Lerp(realCamera.localPosition, dirNomalized * finalDistace, Time.deltaTime * smoothness);
     }
