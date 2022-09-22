@@ -75,7 +75,7 @@ public class Charger_Move : MonoBehaviour
         Vector3 dir = h * Vector3.right + v * Vector3.forward;
         yVelocity += gravity * Time.deltaTime;
         dir.Normalize();
-        dir = transform.TransformDirection(dir);
+        dir = cam.transform.TransformDirection(dir);
        
         if (h != 0 || v != 0)
         {

@@ -16,8 +16,6 @@ public class PlayerCharger : MonoBehaviour
     public GameObject chargerInkFactory;
     public GameObject chargerFirePos;
 
-    //TEST
-    public GameObject test_Image;
 
     // crosshair
     public Image crosshair;
@@ -67,12 +65,13 @@ public class PlayerCharger : MonoBehaviour
         }
     }
 
+    public Camera cam;
     RaycastHit Charging()
     {
         //기모으는 파티클 재생
         VFX_Charging.SetActive(true);
         //메인카메라의 위치에서 메인카메라의 앞방향으로 시선을 만들고 싶다.
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
         if (Physics.Raycast(ray, out hitInfo))
         {

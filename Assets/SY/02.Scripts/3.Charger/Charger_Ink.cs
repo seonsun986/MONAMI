@@ -16,11 +16,14 @@ public class Charger_Ink : MonoBehaviour
     public float inkSpeed;
 
     Rigidbody rb;
+    public Camera cam;
 
     public GameObject hitImpactFactory;
-
+    Vector3 center;
     void Start()
     {
+        //Vector3 center = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2);
+        //Vector3 wcenter = cam.ScreenToWorldPoint(center);
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * inkSpeed, ForceMode.Impulse);
     }
@@ -50,6 +53,8 @@ public class Charger_Ink : MonoBehaviour
         }
 
     }
+
+   public float strength2 = 2;
     void OnCollisionEnter(Collision other)
     {
 
@@ -57,20 +62,21 @@ public class Charger_Ink : MonoBehaviour
         hitImpact.transform.position = hitForward.point;
         hitImpact.transform.forward = hitForward.normal;
         //차저(잉크)와 부딪힌 것이 내가 아닌 상대방 중 적팀 이라면!
-        if (other.collider.CompareTag("!isMine"))
-        {
-            //데미지를 주고싶다.
+        //if (other.collider.CompareTag("!isMine"))
+        //{
+        //    //데미지를 주고싶다.
 
-            Destroy(this.gameObject);
-        }
+        //    Destroy(this.gameObject);
+        //}
         //벽에 부딪혀 뿌리기
+
         Paintable p = other.collider.GetComponent<Paintable>();
         if (p != null)
         {
-
+            
             Vector3 pos = other.contacts[0].point;
             //PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p.id, pos, radius, hardness, strength, paintColor.r, paintColor.g, paintColor.b);
-            PaintManager.instance.paints(p, pos, radius, hardness, strength, paintColor);
+            PaintManager.instance.paints(p, pos, radius, hardness, strength2, paintColor);
 
             Destroy(this.gameObject);
         }
