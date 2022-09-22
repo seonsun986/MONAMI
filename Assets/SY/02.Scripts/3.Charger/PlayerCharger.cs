@@ -6,15 +6,15 @@ using UnityEngine.UI;
 //사용자가 마우스 왼쪽 버튼을 누르면
 //기를 모으고(빛나는 파티클 재생)
 //마우스 버튼을 떼면 HitInfo의 방향으로 발사체를 발사시켜준다.
-//히트인포와 나와의 거리를 구한 뒤
-//바닥에 눈에 보이지 않는 콜라이더를 앞방향으로 쫘르륵 굴려주며 잉크를 묻힌다!
+
 public class PlayerCharger : MonoBehaviour
 {
     //쏘았는가
     bool isAttack = false;
 
     public GameObject VFX_Charging;
-    public GameObject VFX_HitImpact;
+    public GameObject chargerInkFactory;
+    public GameObject chargerFirePos;
 
     //TEST
     public GameObject test_Image;
@@ -51,7 +51,7 @@ public class PlayerCharger : MonoBehaviour
             }
             isAttack = true;
             hitInfo = Charging();
-            //데미지를 중첩시켜줌(minDamage=>maxDamage)
+            //데미지를 중첩시켜줌(minDamage=>maxDamage) / 리턴 데미지
         }
         //쏘았을 때만 플레이
         if (Input.GetMouseButtonUp(0))
@@ -80,13 +80,13 @@ public class PlayerCharger : MonoBehaviour
             //잉크자국을 부딪힌 곳에 남기고싶다.
         }
         return hitInfo;
-    }
+    } 
     void ChargerShot(RaycastHit hitInfo)
     {
-        GameObject inkImpact = Instantiate(VFX_HitImpact);
-        print(hitInfo.transform.name);
-        inkImpact.transform.position = hitInfo.point;
-        inkImpact.transform.forward = hitInfo.normal;
+        GameObject ink = Instantiate(chargerInkFactory);
+        ink.transform.position = chargerFirePos.transform.position;
+        ink.transform.forward = chargerFirePos.transform.forward;
     }
+   
 }
 
