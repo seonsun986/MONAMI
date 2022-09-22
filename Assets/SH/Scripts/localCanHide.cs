@@ -14,10 +14,7 @@ public class localCanHide : MonoBehaviourPun
     public Color[] colors;
     public string[] texts;
 
-    public Texture2D imageMap;
-
     public float rayDistance = 20;
-    public RawImage rawImage;
     public GameObject sphere;       // 오징어로 변했을 때 공격당하기 위함
     public GameObject body;
     public GameObject weapon;
@@ -66,7 +63,6 @@ public class localCanHide : MonoBehaviourPun
     string colorName;
     void Update()
     {
-
             Ray ray = new Ray(transform.position, transform.up * -1);
             RaycastHit hitInfo;
 
@@ -222,7 +218,6 @@ public class localCanHide : MonoBehaviourPun
                 //squid.transform.forward = transform.forward;
 
             }
-            print("길이 : " + distance);
         }
 
     }

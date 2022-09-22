@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //사용자가 마우스 왼쪽 버튼을 누르면
 //기를 모으고(빛나는 파티클 재생)
@@ -18,16 +19,36 @@ public class PlayerCharger : MonoBehaviour
     //TEST
     public GameObject test_Image;
 
+    // crosshair
+    public Image crosshair;
+
     void Start()
     {
         VFX_Charging.SetActive(false);
+        crosshair.gameObject.SetActive(false);
+        crosshair.fillAmount = 0;
     }
 
     RaycastHit hitInfo;
+
+    // 게이지를 위한 것
+    float currentVelocity = 0;
+
+    // 마우스를 누르면 currentFill에 현재 Fillamount를 넣는다
+    // chargetime이 지나면 Lerp로 currentFill에서 wantFill로 넣는다
+    // 현재시간을 초기화 한다
     void Update()
     {
         if (Input.GetMouseButton(0))
         {
+            crosshair.gameObject.SetActive(true);
+            //StartCoroutine(IeCharge());
+            float currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.01f, ref currentVelocity, 2 * Time.deltaTime);
+            crosshair.fillAmount = currentAmount;
+            if (crosshair.fillAmount > 1)
+            {
+                crosshair.fillAmount = 1;
+            }
             isAttack = true;
             hitInfo = Charging();
             //데미지를 중첩시켜줌(minDamage=>maxDamage)
@@ -35,10 +56,14 @@ public class PlayerCharger : MonoBehaviour
         //쏘았을 때만 플레이
         if (Input.GetMouseButtonUp(0))
         {
+            crosshair.gameObject.SetActive(false);
+            crosshair.fillAmount = 0;
             ChargerShot(hitInfo);
             //보이지않는 콜라이더 transform.pos => hitInfoPos까지 바닥에 깔아준다.
             isAttack = false;
             VFX_Charging.SetActive(false);
+            
+
         }
     }
 

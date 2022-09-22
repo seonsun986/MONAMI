@@ -81,13 +81,6 @@ public class Roller_Move : MonoBehaviour
             isJumping = false;
         }
 
-        ////다시 회전 돌아가는걸 막기 위한 부분
-        //if (!(h == 0 && v == 0))
-        //{
-        //    // 회전하는 부분. Point 1.
-        //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotSpeed);
-        //}
-
         // 움직일 때
         if (v != 0 || h != 0)
         {

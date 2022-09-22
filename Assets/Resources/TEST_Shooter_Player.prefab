@@ -11424,7 +11424,6 @@ MonoBehaviour:
   texts: []
   imageMap: {fileID: 0}
   rayDistance: 20
-  rawImage: {fileID: 0}
   sphere: {fileID: 5908255354689754333}
   body: {fileID: 5908255355343154739}
   weapon: {fileID: 6623609963887286236}

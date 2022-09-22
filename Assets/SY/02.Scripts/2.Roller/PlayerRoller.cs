@@ -44,6 +44,12 @@ public class PlayerRoller : MonoBehaviour
                 float uiYscale = currentInk * 0.0237f;
                 uiInk.localScale = new Vector3(uiInk.localScale.x, uiYscale, uiInk.localScale.z);
             }
+
+            if(uiInk.localScale.y > 2.37f)
+            {
+                uiInk.localScale = new Vector3(uiInk.localScale.x, 2.37f, uiInk.localScale.z);
+
+            }
         }
 
         // 총 쏠 수없는 상태가 되면

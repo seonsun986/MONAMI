@@ -56,6 +56,12 @@ public class PlayerShooter : MonoBehaviourPun
                     float uiYscale = (maxCount - count) * 0.0237f;
                     uiInk.localScale = new Vector3(uiInk.localScale.x, uiYscale, uiInk.localScale.z);
                 }
+
+                if (uiInk.localScale.y > 2.37f)
+                {
+                    uiInk.localScale = new Vector3(uiInk.localScale.x, 2.37f, uiInk.localScale.z);
+
+                }
             }
             // 총 쏠 수없는 상태가 되면
             // UI가 켜지긴 해도 충전은 되지 않는다
