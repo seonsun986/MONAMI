@@ -94,9 +94,9 @@ public class localCanHide : MonoBehaviourPun
                 }
 
                 // 색깔판정을 했을 시 내 색깔일 때
-                if (rgb[0] < myColor_R + 0.1f && rgb[0] > myColor_R - 0.1f &&
-                    rgb[1] < myColor_G + 0.1f && rgb[1] > myColor_G - 0.1f &&
-                    rgb[2] > myColor_B - 0.1f && rgb[2] < myColor_B + 0.1f)
+                if (rgb[0] < myColor_R + 0.4f && rgb[0] > myColor_R - 0.4f &&
+                    rgb[1] < myColor_G + 0.4f && rgb[1] > myColor_G - 0.4f &&
+                    rgb[2] > myColor_B - 0.4f && rgb[2] < myColor_B + 0.4f)
                 {
                     canHide = true;
 
@@ -186,6 +186,8 @@ public class localCanHide : MonoBehaviourPun
             print("롤러 잉크 충전된다!");
 
         }
+
+        // 플레이어가 슈터라면
         else if (gameObject.name.Contains("Shooter"))
         {
             ShooterMovement pm = GetComponent<ShooterMovement>();
@@ -195,6 +197,19 @@ public class localCanHide : MonoBehaviourPun
             ps.ChargeInk();
             print("슈터 잉크 충전된다!");
         }
+
+        // 플레이어가 차저라면
+        else if (gameObject.name.Contains("Charger"))
+        {
+            Charger_Move cm = GetComponent<Charger_Move>();
+            cm.isRun = true;
+            PlayerCharger pc = GetComponent<PlayerCharger>();
+            // 총알 충전을 위한 함수
+            pc.ChargeInk();
+            print("차저 잉크 충전된다!");
+        }
+
+
 
 
         // 숨을 때 바닥에 닫는다면

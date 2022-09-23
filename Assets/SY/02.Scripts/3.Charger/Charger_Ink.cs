@@ -22,13 +22,12 @@ public class Charger_Ink : MonoBehaviour
     Vector3 center;
     void Start()
     {
-        //Vector3 center = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2);
-        //Vector3 wcenter = cam.ScreenToWorldPoint(center);
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * inkSpeed, ForceMode.Impulse);
     }
 
     RaycastHit hitForward;
+    public float radiusByCharge;
     void Update()
     {
 
@@ -48,7 +47,7 @@ public class Charger_Ink : MonoBehaviour
             Paintable p = hitInfo.collider.GetComponent<Paintable>();
             if (p != null)
             {
-                PaintManager.instance.paints(p, hitInfo.point, radius, hardness, strength, paintColor);
+                PaintManager.instance.paints(p, hitInfo.point, radiusByCharge, hardness, strength, paintColor);
             }
         }
 
