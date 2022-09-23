@@ -11,16 +11,24 @@ public class Roller_Ink_Attack : MonoBehaviour
     public float radius = 1;
     //강도
     public float strength = 1;
-    //경도...??
+    //경도
     public float hardness = 1;
 
     Rigidbody rb;
     public float inkSpeed;
+    public float gravity = -20;
+    float yVelocity = 0;
+
+    Vector3 dir;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Vector3 vector = transform.forward * 20 + transform.up * 15;
-        rb.AddForce(vector.normalized * inkSpeed);
+        dir = transform.forward * 20 + transform.up * 15;
+    }
+    void Update()
+    {
+        rb.AddForce(dir.normalized * inkSpeed);
+        
     }
 
     private void OnCollisionStay(Collision other)
