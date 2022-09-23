@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
+using Photon.Pun;
 
-public class Roller_Move : MonoBehaviour
+
+public class Roller_Move : MonoBehaviourPun
 {
     public float speed = 5;
-    public float runSpeed = 10;     // 내 잉크에 있을 때 스피드 값
-    public bool run;
+    public float runSpeed = 13;     // 내 잉크에 있을 때 스피드 값
+    public bool isRun;
     bool isJumping;
     public float finalSpeed;
 
@@ -26,14 +28,22 @@ public class Roller_Move : MonoBehaviour
     public Camera cam;
     public float smoothness = 10;
 
+    // 닉네임
+    public TextMeshProUGUI nickName;
 
     void Start()
     {
+        GameManager.Instance.CountPlayer(photonView);
         cc = GetComponent<CharacterController>();
+        nickName.text = photonView.Owner.NickName;
+
     }
 
     void Update()
     {
+        if (photonView.IsMine == false) return;
+
+
         // 만약 둘러보기가 비활성화 되어있으면
         if (toggleCameraRotation != true)
         {
@@ -62,7 +72,7 @@ public class Roller_Move : MonoBehaviour
         // 중력 더한다
         yVelocity += gravity * Time.deltaTime;
         //최종 내 스피드는 런이 활성화 되어있으면 빠르게 그게 아니면 보통의 속도로 이동
-        finalSpeed = (run) ? runSpeed : speed;
+        finalSpeed = (isRun) ? runSpeed : speed;
 
         //TransformDirection : 방향을 뜻함
         //Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -102,9 +112,9 @@ public class Roller_Move : MonoBehaviour
 
         //점프를 안하고 있을 때 그리고!
         //사용자가 점프버튼을 누르면 점프하고 싶다.
-        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") && Input.GetButtonDown("Jump") && isJumping == false)
+        if (isJumping == false && Input.GetButtonDown("Jump"))
         {
-            anim.SetTrigger("Jump");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Jump");
             isJumping = true;
             yVelocity = jumpPower;
         }
@@ -115,11 +125,11 @@ public class Roller_Move : MonoBehaviour
         {
             if(isJumping == true)
             {
-                anim.SetTrigger("JumpAttack");
+                photonView.RPC("RPCSetTrigger", RpcTarget.All, "JumpAttack");
             }
             else
             {
-                anim.SetTrigger("Attack");
+                photonView.RPC("RPCSetTrigger", RpcTarget.All, "Attack");
             }
             
         }
@@ -132,17 +142,33 @@ public class Roller_Move : MonoBehaviour
             }
             else
             {
-                anim.SetTrigger("Move");
+                photonView.RPC("RPCSetTrigger", RpcTarget.All, "Move");
             }
             
 
         }
         dir.y = yVelocity;
-        anim.SetFloat("MovementSpeed", animSpeed);
+        photonView.RPC("RPCSetFloat", RpcTarget.All, animSpeed);
         cc.Move(dir * finalSpeed * Time.deltaTime);
 
     }
 
-    
+    [PunRPC]
+    public void RPCSetTrigger(string trigger)
+    {
+        anim.SetTrigger(trigger);
+    }
+
+    [PunRPC]
+    public void RPCSetFloat(float setFloat)
+    {
+        anim.SetFloat("MovementSpeed", setFloat);
+    }
+
+    [PunRPC]
+    public void RPCAnimPlay(string animPlay, int layer)
+    {
+        anim.Play(animPlay, layer);
+    }
 
 }

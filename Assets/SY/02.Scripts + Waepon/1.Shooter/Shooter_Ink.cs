@@ -27,7 +27,8 @@ public class Shooter_Ink : MonoBehaviourPun
 
     }
 
-    private void OnCollisionStay(Collision other)
+
+    private void OnCollisionEnter(Collision other)
     {
         Paintable p = other.collider.GetComponent<Paintable>();
         if (p != null)
@@ -40,7 +41,8 @@ public class Shooter_Ink : MonoBehaviourPun
             PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p.id, pos, radius, hardness, strength, paintColor.r, paintColor.g, paintColor.b);
             //PaintManager.instance.paint(p, pos, radius, hardness, strength, paintColor);
 
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
+
     }
 }

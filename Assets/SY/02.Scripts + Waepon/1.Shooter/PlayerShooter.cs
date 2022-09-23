@@ -42,6 +42,8 @@ public class PlayerShooter : MonoBehaviourPun
     // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 100이 최대 
     public RectTransform uiInk; // 최대 스케일 : 2.37, 꺼지지 않아있을 때만 스케일 조정한다
     public Transform inkTank;   // 최대 스케일 : 1
+    float currentTime2;
+    public float delayTime = 0.2f;
 
     void Update()
     {
@@ -96,12 +98,19 @@ public class PlayerShooter : MonoBehaviourPun
             {
                 //마우스 왼쪽버튼을 누르면
                 //Time.time 함수가 nexFire 값보다 클 때만 실행
-                if (Input.GetMouseButton(0) && Time.time > nextFire)
+                if (Input.GetMouseButton(0))
                 {
-                    inkParticle.Play();
-                    //잉크파티클 재생
-                    nextFire = Time.time + fireRate;
-                    photonView.RPC("RPCShowBullet", RpcTarget.All);
+                    currentTime2 += Time.deltaTime;
+                    if(currentTime2 > delayTime)
+                    {
+                        inkParticle.Play();
+                        //잉크파티클 재생
+
+                        photonView.RPC("RPCShowBullet", RpcTarget.All,cam.transform.position, cam.transform.forward);
+                        currentTime2 = 0;
+                    }
+
+                    
                     //InkShot();
                 }
                 else if (Input.GetMouseButtonUp(0))
@@ -192,21 +201,34 @@ public class PlayerShooter : MonoBehaviourPun
             currentTime = 0;
         }
     }
-    
+
+    public GameObject pinkBullet;
+    public GameObject blueBullet;
     [PunRPC]
-    public void RPCShowBullet()
+    public void RPCShowBullet(Vector3 position, Vector3 forward)
     {
         count++;
         // 카메라 정중앙으로 레이를 쏜다.
-        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+        Ray ray = new Ray(position, forward);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo))
         {
             Vector3 vo = CalculateVelocity(hitInfo.point, firePos.transform.position, 0.2f);
-            GameObject ink = Instantiate(InkFactory);
-            ink.transform.position = firePos.transform.position;
-            ink.transform.forward = firePos.transform.forward;
-            ink.GetComponent<Rigidbody>().velocity = vo;
+            // 플레이어가 삥꾸라면
+            if(gameObject.name.Contains("Pink"))
+            {
+                GameObject ink = Instantiate(pinkBullet);
+                ink.transform.position = firePos.transform.position;
+                ink.transform.forward = firePos.transform.forward;
+                ink.GetComponent<Rigidbody>().velocity = vo;
+            }
+            else
+            {
+                GameObject ink = Instantiate(blueBullet);
+                ink.transform.position = firePos.transform.position;
+                ink.transform.forward = firePos.transform.forward;
+                ink.GetComponent<Rigidbody>().velocity = vo;
+            }            
         }
     }
 }

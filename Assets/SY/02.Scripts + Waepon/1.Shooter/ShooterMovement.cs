@@ -17,6 +17,7 @@ public class ShooterMovement : MonoBehaviourPun, IPunObservable
     public float runspeed = 12f;
     public float finalSpeed;
     public float rotSpeed = 5;
+    public bool isRun;
 
     float animSpeed;
     //내 발 아래 내 색깔의 잉크가 있을 때
@@ -46,13 +47,6 @@ public class ShooterMovement : MonoBehaviourPun, IPunObservable
 
     void Update()
     {
-
-        //임시로 시프트를 누르면 빠르게 된다고 되어있지만 나중에 색깔을 인식했을 때로 변경 //2개의 조건 달기 나의 색일 때, 오징어로 변했을 때
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            run = true;
-        }
-        else { run = false; }
     }
 
     //업데이트가 다끝나고 실행되는 LateUpdate
@@ -74,7 +68,7 @@ public class ShooterMovement : MonoBehaviourPun, IPunObservable
     void PlayerMove()
     {
         //최종 내 스피드는 런이 활성화 되어있으면 빠르게 그게 아니면 보통의 속도로 이동
-        finalSpeed = (run) ? runspeed : speed;
+        finalSpeed = (isRun) ? runspeed : speed;
 
         //TransformDirection : 방향을 뜻함
         //Vector3 forward = transform.TransformDirection(Vector3.forward);

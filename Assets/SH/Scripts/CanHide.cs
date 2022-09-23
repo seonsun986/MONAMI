@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class CanHide : MonoBehaviourPun
 {
+    public Camera cam;
     [Header("숨는 키")]
     [SerializeField]
     private KeyCode hideKey = KeyCode.LeftShift;
@@ -75,7 +76,8 @@ public class CanHide : MonoBehaviourPun
             // hideKey를 누르면 색깔 판정을 한다.
             if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
             {
-
+                //Zoom In
+                cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 4f;
                 // ID로 접근 --> 쉐이더 그래프 ID -> int값 출력
                 Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
                 if (paintable != null)
@@ -132,10 +134,12 @@ public class CanHide : MonoBehaviourPun
                 photonView.RPC("RPCCanHide", RpcTarget.All);
 
             }
+
+            // 숨을 수 없을 때
             else
             {
                 
-                // 숨을 수 없을 때
+                
                 //CanNotHide();
                 photonView.RPC("RPCCannotHide", RpcTarget.All);
 
@@ -208,17 +212,31 @@ public class CanHide : MonoBehaviourPun
         // 만약 플레이어가 롤러라면
         if (gameObject.name.Contains("Roller"))
         {
-            Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
-            rMove.speed = 13;
+            Roller_Move rm = gameObject.GetComponent<Roller_Move>();
+            rm.isRun = true;
+            PlayerRoller pr = GetComponent<PlayerRoller>();
+            pr.ChargeInk();
+            print("롤러 잉크 충전된다!");
         }
         else if (gameObject.name.Contains("Shooter"))
         {
             ShooterMovement pm = GetComponent<ShooterMovement>();
-            pm.run = true;
+            pm.isRun = true;
             PlayerShooter ps = GetComponent<PlayerShooter>();
             // 총알 충전을 위한 함수
             ps.ChargeInk();
-            print("잉크 충전된다!");
+            print("슈터 잉크 충전된다!");
+        }
+
+        // 플레이어가 차저라면
+        else if (gameObject.name.Contains("Charger"))
+        {
+            Charger_Move cm = GetComponent<Charger_Move>();
+            cm.isRun = true;
+            PlayerCharger pc = GetComponent<PlayerCharger>();
+            // 총알 충전을 위한 함수
+            pc.ChargeInk();
+            print("차저 잉크 충전된다!");
         }
 
         // 숨을 때 바닥에 닫는다면
@@ -305,7 +323,6 @@ public class CanHide : MonoBehaviourPun
                 //squid.transform.forward = transform.forward;
 
             }
-            print("길이 : " + distance);
         }
     }
 
@@ -343,7 +360,14 @@ public class CanHide : MonoBehaviourPun
         if (gameObject.name.Contains("Roller"))
         {
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
-            rMove.speed = 8;
+            rMove.isRun = false;
+        }
+
+        // 만약 플레이어가 슈터라면
+        else if (gameObject.name.Contains("Shooter"))
+        {
+            ShooterMovement sm = gameObject.GetComponent<ShooterMovement>();
+            sm.isRun = false;
         }
         squid.SetActive(false);
     }

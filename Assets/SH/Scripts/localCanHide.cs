@@ -184,7 +184,7 @@ public class localCanHide : MonoBehaviourPun
         if (gameObject.name.Contains("Roller"))
         {
             Roller_Move rm = gameObject.GetComponent<Roller_Move>();
-            rm.run = true;
+            rm.isRun = true;
             PlayerRoller pr = GetComponent<PlayerRoller>();
             pr.ChargeInk();
             print("롤러 잉크 충전된다!");
@@ -195,7 +195,7 @@ public class localCanHide : MonoBehaviourPun
         else if (gameObject.name.Contains("Shooter"))
         {
             ShooterMovement pm = GetComponent<ShooterMovement>();
-            pm.run = true;
+            pm.isRun = true;
             PlayerShooter ps = GetComponent<PlayerShooter>();
             // 총알 충전을 위한 함수
             ps.ChargeInk();

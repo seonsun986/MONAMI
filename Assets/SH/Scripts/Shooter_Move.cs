@@ -40,7 +40,6 @@ public class Shooter_Move : MonoBehaviour
         {
             isRun = false;
             // 앞이나 뒤로 움직일때만 달릴 수 있다
-            isRun = Input.GetKey(KeyCode.LeftShift);
             speed = isRun == true ? runSpeed : walkSpeed;
             animSpeed = isRun == true ? 1 : 0.5f;
 

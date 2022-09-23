@@ -18,12 +18,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         //현재 들어온 플레이어 숫자에 따라 맞는 플레이어를 생성한다.
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate("TEST_Shooter_Player_Blue", Vector3.zero, Quaternion.identity);
+            PhotonNetwork.Instantiate("Roller_Blue", Vector3.zero, Quaternion.identity);
         }
         else
         {
             print("블루 캐릭터 생성!");
-            PhotonNetwork.Instantiate("TEST_Shooter_Player", Vector3.zero, Quaternion.identity);
+            PhotonNetwork.Instantiate("Roller_Pink", Vector3.zero, Quaternion.identity);
 
         }
 
@@ -35,11 +35,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     string instantiateP;
     public List<PhotonView> players = new List<PhotonView>();
-
+    public PhotonView countDown;
     public void CountPlayer(PhotonView pv)
     {
         players.Add(pv);
         // 만약에 인원이 1명이라면
         // Instantiate하는걸 바꾼다.
+        if(players.Count >= PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            countDown.RPC("RpcStartCount", RpcTarget.All);
+        }
     }
 }
