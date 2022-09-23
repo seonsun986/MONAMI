@@ -27,6 +27,7 @@ public class PlayerCharger : MonoBehaviour
         crosshair.fillAmount = 0;
     }
 
+    public Camera cam;
     RaycastHit hitInfo;
 
     // 게이지를 위한 것
@@ -39,6 +40,9 @@ public class PlayerCharger : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
+            //cam.transform.position += cam.transform.forward * 0.05f;
+            cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 2;
+
             crosshair.gameObject.SetActive(true);
             //StartCoroutine(IeCharge());
             float currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.01f, ref currentVelocity, 2 * Time.deltaTime);
@@ -54,6 +58,8 @@ public class PlayerCharger : MonoBehaviour
         //쏘았을 때만 플레이
         if (Input.GetMouseButtonUp(0))
         {
+            cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 0;
+
             crosshair.gameObject.SetActive(false);
             crosshair.fillAmount = 0;
             ChargerShot(hitInfo);
@@ -65,7 +71,6 @@ public class PlayerCharger : MonoBehaviour
         }
     }
 
-    public Camera cam;
     RaycastHit Charging()
     {
         //기모으는 파티클 재생

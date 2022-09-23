@@ -12,7 +12,7 @@ public class Local_CameraMovement : MonoBehaviourPun
     //마우스 감도
     public float sensitivity = 100f;
     //카메라 상하로 움직일 때 제한 각도
-    public float clampAngle = 70f;
+    public float clampAngle = 50f;
 
     //마우스 인풋을 받을 변수
     private float rotX;
@@ -34,6 +34,9 @@ public class Local_CameraMovement : MonoBehaviourPun
     public float smoothness = 10f;
 
     public GameObject cam;
+
+    //카메라 줌
+    public float zoomDistance;
 
     void Start()
     {
@@ -73,23 +76,20 @@ public class Local_CameraMovement : MonoBehaviourPun
         transform.position = Vector3.MoveTowards(transform.position, objectTofollow.position, followSpeed * Time.deltaTime);
 
         //로컬스페이스에서 월드스페이스로 바꿔줌 (방향 x 최대거리);
-        finalDir = transform.TransformPoint(dirNomalized * maxDistance);
+        finalDir = transform.TransformPoint(dirNomalized * (maxDistance - zoomDistance));
 
         RaycastHit hit;
         Debug.DrawRay(transform.position, finalDir, Color.red);
         if (Physics.Linecast(transform.position, finalDir, out hit))
         {
             //만약에 라인을 그렸을 때 뭐가 있으면 (맞은 곳의 거리->최소거리)
-            finalDistace = Mathf.Clamp(hit.distance, minDistance, maxDistance);
+            finalDistace = Mathf.Clamp(hit.distance, (minDistance - zoomDistance), (maxDistance - zoomDistance));
         }
         else
         {
             //만약에 뭐가 없다면 그냥 최대거리를 반영해줌.
-            finalDistace = maxDistance;
+            finalDistace = maxDistance - zoomDistance;
         }
-        //만약 캔하이드를 한 상태 라면
-
-        //
         realCamera.localPosition = Vector3.Lerp(realCamera.localPosition, dirNomalized * finalDistace, Time.deltaTime * smoothness);
     }
 }
