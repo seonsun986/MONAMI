@@ -108,6 +108,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         popUp.SetActive(false);
     }
+    private void OnMouseEnter()
+    {
+        //파티클 생성
+
+    }
 
 
 }

@@ -7,21 +7,21 @@ using TMPro;
 
 public class Lobby2Manager : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
     public TextMeshProUGUI matchingCount;
     float countTime;
     void Start()
     {
+        //네트워크로 씬을 동기화 시켜주기.
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     // LoadLevel은 비동기라 넘어갈때까지 계속 
     bool b;
-    // Update is called once per frame
     void Update()
     {
         if (b == true) return;
 
+        //매칭 타이머 관련
         if (matchingCount.gameObject.activeSelf == true)
         {
             countTime += Time.deltaTime;
