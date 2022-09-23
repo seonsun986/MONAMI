@@ -72134,7 +72134,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7744107791255157423
 Transform:
   m_ObjectHideFlags: 0
@@ -72188,6 +72188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: befb26c750ad98f4db5a8994e8abe6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 2098249793874088198}
   VFX_Charging: {fileID: 8400979549991532548}
   chargerInkFactory: {fileID: 6579896275286540440, guid: 4860b3ea7c8b51447a149ae81f31bfb4, type: 3}
   chargerFirePos: {fileID: 2473549565976277145}
@@ -72200,7 +72201,6 @@ MonoBehaviour:
   lowInkUI: {fileID: 474867391346393720}
   uiInk: {fileID: 474867391037775676}
   inkTank: {fileID: 2473549567378847986}
-  cam: {fileID: 2098249793874088198}
   chargerTime: 0.1
   chargeBullet: 5
 --- !u!114 &7744107791255157410
@@ -72272,6 +72272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fe1fb82a11fcb14dbe38195216656bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 2098249793874088198}
   hideKey: 304
   canHide: 0
   colors: []
@@ -73360,3 +73361,4 @@ MonoBehaviour:
   finalDistace: 0
   smoothness: 10
   cam: {fileID: 6200798294196488991}
+  zoomDistance: 0

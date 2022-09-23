@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class PlayerCharger : MonoBehaviour
 {
+    public Camera cam;
     //쏘았는가
     bool isAttack = false;
 
@@ -36,8 +37,6 @@ public class PlayerCharger : MonoBehaviour
     public bool canShoot;
     public GameObject lowInkUI;
 
-    // 화면 정중앙
-    Vector3 center;
     void Start()
     {
         VFX_Charging.SetActive(false);
@@ -46,7 +45,6 @@ public class PlayerCharger : MonoBehaviour
         currentInk = maxInk;
         lowInkUI.SetActive(false);
         //lazer.enabled = false;
-        center = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2);
         if(gameObject.name.Contains("Pink"))
         {
             lazer = Instantiate(lazer_pink);
@@ -130,6 +128,8 @@ public class PlayerCharger : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
+                //Zoom In
+                cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 2f;
                 // 차저 레이저관리(로컬)
                 lazer.SetActive(true);
                 //lazer.transform.forward = chargerFirePos.transform.forward;
@@ -160,6 +160,8 @@ public class PlayerCharger : MonoBehaviour
             //쏘았을 때만 플레이
             if (Input.GetMouseButtonUp(0))
             {
+                //Zoom In
+                cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 0f;
                 lazer.SetActive(false);
                 crosshair.gameObject.SetActive(false);
                 crosshair.fillAmount = 0;
@@ -174,7 +176,7 @@ public class PlayerCharger : MonoBehaviour
         
     }
 
-    public Camera cam;
+    
     RaycastHit Charging()
     {
         //기모으는 파티클 재생

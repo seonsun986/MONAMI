@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class localCanHide : MonoBehaviourPun
 {
+    public Camera cam;
     [Header("숨는 키")]
     [SerializeField]
     private KeyCode hideKey = KeyCode.LeftShift;
@@ -63,74 +64,77 @@ public class localCanHide : MonoBehaviourPun
     string colorName;
     void Update()
     {
-            Ray ray = new Ray(transform.position, transform.up * -1);
-            RaycastHit hitInfo;
+        Ray ray = new Ray(transform.position, transform.up * -1);
+        RaycastHit hitInfo;
 
-            // hideKey를 누르면 색깔 판정을 한다.
-            if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
+        // hideKey를 누르면 색깔 판정을 한다.
+        if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
+        {
+            //Zoom In
+            cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 4f;
+            // ID로 접근 --> 쉐이더 그래프 ID -> int값 출력
+            Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
+            if (paintable != null)
             {
+                RenderTexture render = paintable.getMask();
+                if (render == null) print("render is null");
+                Texture2D text = RenderTextureTo2DTexture(render);
+                if (text == null) print("text is null");
+                Vector2 pixelUV = hitInfo.textureCoord;
+                pixelUV.x *= text.width;
+                pixelUV.y *= text.height;
+                Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
+                print("뽑아온 색깔 #" + ColorUtility.ToHtmlStringRGB(color));
+                print("RGB 색깔 : " + color.r + ", " + color.g + ", " + color.b);
 
-                // ID로 접근 --> 쉐이더 그래프 ID -> int값 출력
-                Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
-                if (paintable != null)
-                {
-                    RenderTexture render = paintable.getMask();
-                    if (render == null) print("render is null");
-                    Texture2D text = RenderTextureTo2DTexture(render);
-                    if (text == null) print("text is null");
-                    Vector2 pixelUV = hitInfo.textureCoord;
-                    pixelUV.x *= text.width;
-                    pixelUV.y *= text.height;
-                    Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
-                    print("뽑아온 색깔 #" + ColorUtility.ToHtmlStringRGB(color));
-                    print("RGB 색깔 : " + color.r + ", " + color.g + ", " + color.b);
-
-                    string getColor = ColorUtility.ToHtmlStringRGB(color);
-                    rgb[0] = color.r;
-                    rgb[1] = color.g;
-                    rgb[2] = color.b;
+                string getColor = ColorUtility.ToHtmlStringRGB(color);
+                rgb[0] = color.r;
+                rgb[1] = color.g;
+                rgb[2] = color.b;
 
 
-                }
-
-                // 색깔판정을 했을 시 내 색깔일 때
-                if (rgb[0] < myColor_R + 0.4f && rgb[0] > myColor_R - 0.4f &&
-                    rgb[1] < myColor_G + 0.4f && rgb[1] > myColor_G - 0.4f &&
-                    rgb[2] > myColor_B - 0.4f && rgb[2] < myColor_B + 0.4f)
-                {
-                    canHide = true;
-
-                }
-                // 색깔판정을 했을 시 상대편 색깔일때
-                else
-                {
-                    canHide = false;
-                }
-            }
-            if (Input.GetKeyUp(hideKey))
-            {
-                if (canHide == true)
-                { particle_Ink_Splash.Play(); }
-
-                canHide = false;
-                UI_chageInk.SetActive(false);
-                UI_ChagerInkPaint.SetActive(false);
-                VFX_squid_Speed.SetActive(false);
             }
 
-            if (canHide == true)
+            // 색깔판정을 했을 시 내 색깔일 때
+            if (rgb[0] < myColor_R + 0.4f && rgb[0] > myColor_R - 0.4f &&
+                rgb[1] < myColor_G + 0.4f && rgb[1] > myColor_G - 0.4f &&
+                rgb[2] > myColor_B - 0.4f && rgb[2] < myColor_B + 0.4f)
             {
-
-                // 숨을 수 있을 때
-                CanHideP();
+                canHide = true;
 
             }
+            // 색깔판정을 했을 시 상대편 색깔일때
             else
             {
-                // 숨을 수 없을 때
-                CanNotHide();
-
+                canHide = false;
             }
+        }
+        if (Input.GetKeyUp(hideKey))
+        {
+            //Zoom Out
+            cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 0f;
+            if (canHide == true)
+            { particle_Ink_Splash.Play(); }
+
+            canHide = false;
+            UI_chageInk.SetActive(false);
+            UI_ChagerInkPaint.SetActive(false);
+            VFX_squid_Speed.SetActive(false);
+        }
+
+        if (canHide == true)
+        {
+
+            // 숨을 수 있을 때
+            CanHideP();
+
+        }
+        else
+        {
+            // 숨을 수 없을 때
+            CanNotHide();
+
+        }
     }
 
 
@@ -237,7 +241,7 @@ public class localCanHide : MonoBehaviourPun
 
     }
 
-    
+
     void CanNotHide()
     {
         particle_Ink_Hiding.Stop();
