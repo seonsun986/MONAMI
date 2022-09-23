@@ -72129,12 +72129,12 @@ GameObject:
   - component: {fileID: 7744107791255157422}
   - component: {fileID: 7744107791255157413}
   m_Layer: 0
-  m_Name: Charger_New 1
+  m_Name: Charger_Pink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7744107791255157423
 Transform:
   m_ObjectHideFlags: 0
@@ -72189,11 +72189,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFX_Charging: {fileID: 8400979549991532548}
-  chargerInkFactory: {fileID: 6579896275286540440, guid: fb96e51fe02470c4aaad589492eb764e, type: 3}
+  chargerInkFactory: {fileID: 6579896275286540440, guid: 4860b3ea7c8b51447a149ae81f31bfb4, type: 3}
   chargerFirePos: {fileID: 2473549565976277145}
   maxInk: 100
   currentInk: 0
-  lazer: {fileID: 0}
+  lazer_pink: {fileID: 3616775562873905986, guid: 8da02bb54df4a7a47a47f5def64c0df5, type: 3}
+  lazer_blue: {fileID: 3616775562873905986, guid: d69b5cde8eacea940ae74dbceda19561, type: 3}
   crosshair: {fileID: 7744107792838084318}
   canShoot: 0
   lowInkUI: {fileID: 474867391346393720}

@@ -50,9 +50,12 @@ public class PlayerCharger : MonoBehaviour
         if(gameObject.name.Contains("Pink"))
         {
             lazer = Instantiate(lazer_pink);
-
         }
-        
+        if (gameObject.name.Contains("Blue"))
+        {
+            lazer = Instantiate(lazer_blue);
+        }
+
     }
 
     RaycastHit hitInfo;
