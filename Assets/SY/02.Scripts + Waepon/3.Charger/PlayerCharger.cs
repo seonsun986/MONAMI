@@ -17,14 +17,42 @@ public class PlayerCharger : MonoBehaviour
     public GameObject chargerFirePos;
 
 
+    // 충전 변수
+    public int maxInk = 100;
+    public int currentInk;
+    // 기 모으기 변수(이거에 따라 총알이 나가는 힘과 총알이 줄어드는 개수가 달라진다.)
+    // 한번 게이지가 full이면 잉크를 10씩 줄인다.
+    // 놓는순간에 currentInk수를 줄인다.
+    int chargeInk;
+
+
+    public GameObject lazer_pink;
+    public GameObject lazer_blue;
+    GameObject lazer;
     // crosshair
     public Image crosshair;
 
+    // 쏠 수 있게
+    public bool canShoot;
+    public GameObject lowInkUI;
+
+    // 화면 정중앙
+    Vector3 center;
     void Start()
     {
         VFX_Charging.SetActive(false);
         crosshair.gameObject.SetActive(false);
         crosshair.fillAmount = 0;
+        currentInk = maxInk;
+        lowInkUI.SetActive(false);
+        //lazer.enabled = false;
+        center = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2);
+        if(gameObject.name.Contains("Pink"))
+        {
+            lazer = Instantiate(lazer_pink);
+
+        }
+        
     }
 
     RaycastHit hitInfo;
@@ -35,34 +63,112 @@ public class PlayerCharger : MonoBehaviour
     // 마우스를 누르면 currentFill에 현재 Fillamount를 넣는다
     // chargetime이 지나면 Lerp로 currentFill에서 wantFill로 넣는다
     // 현재시간을 초기화 한다
+
+
+    // 충전은 여기서!
+    // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 100이 최대 
+    public RectTransform uiInk; // 최대 스케일 : 2.37, 꺼지지 않아있을 때만 스케일 조정한다
+    public Transform inkTank;   // 최대 스케일 : 1
+    float currentAmount;
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            crosshair.gameObject.SetActive(true);
-            //StartCoroutine(IeCharge());
-            float currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.01f, ref currentVelocity, 2 * Time.deltaTime);
-            crosshair.fillAmount = currentAmount;
-            if (crosshair.fillAmount > 1)
-            {
-                crosshair.fillAmount = 1;
-            }
-            isAttack = true;
-            hitInfo = Charging();
-            //데미지를 중첩시켜줌(minDamage=>maxDamage) / 리턴 데미지
-        }
-        //쏘았을 때만 플레이
-        if (Input.GetMouseButtonUp(0))
-        {
-            crosshair.gameObject.SetActive(false);
-            crosshair.fillAmount = 0;
-            ChargerShot(hitInfo);
-            //보이지않는 콜라이더 transform.pos => hitInfoPos까지 바닥에 깔아준다.
-            isAttack = false;
-            VFX_Charging.SetActive(false);
-            
+        
 
+        // UI 충전
+        // 잉크충전 UI가 켜져있다면
+        if (uiInk.gameObject.activeSelf == true)
+        {
+            if (uiInk.localScale.y >= 0)
+            {
+                float uiYscale = currentInk * 0.0237f;
+                uiInk.localScale = new Vector3(uiInk.localScale.x, uiYscale, uiInk.localScale.z);
+            }
+
+            if (uiInk.localScale.y > 2.37f)
+            {
+                uiInk.localScale = new Vector3(uiInk.localScale.x, 2.37f, uiInk.localScale.z);
+
+            }
         }
+
+        // 잉크탱크 충전
+        float inkTankYScale = 0.01f * currentInk;
+        inkTank.localScale = new Vector3(inkTank.localScale.x, inkTankYScale, inkTank.localScale.z);
+
+
+        // 총 쏠 수없는 상태가 되면
+        // UI가 켜지긴 해도 충전은 되지 않는다
+
+        if (currentInk <= 0)
+        {
+            /// 잉크부족! UI 띄우기
+            if (lowInkUI.activeSelf == false)
+            {
+                lowInkUI.SetActive(true);
+            }
+            // 0 보다 작지않게하기
+            currentInk = 0;
+            canShoot = false;
+        }
+
+        else
+        {
+            // 잉크부족! UI 없애기
+            if (lowInkUI.activeSelf == true)
+            {
+                lowInkUI.SetActive(false);
+            }
+            canShoot = true;
+        }
+
+        // 쏠 수 있을 때만 밑에 것들을 실행한다
+
+        if(canShoot== true)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                // 차저 레이저관리(로컬)
+                lazer.SetActive(true);
+                //lazer.transform.forward = chargerFirePos.transform.forward;
+                lazer.GetComponent<LineRenderer>().SetPosition(0, chargerFirePos.transform.position);
+                Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+                RaycastHit hitInfo;
+                if(Physics.Raycast(ray, out hitInfo))
+                {
+                    lazer.GetComponent<LineRenderer>().SetPosition(1, hitInfo.point);
+
+                }
+
+                crosshair.gameObject.SetActive(true);
+
+                // 이 UI는 나중에 로컬로 보내야한다
+                currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.01f, ref currentVelocity, 2 * Time.deltaTime);
+                crosshair.fillAmount = currentAmount;
+                chargeInk = (int)(currentAmount * 20);
+                if (crosshair.fillAmount > 1)
+                {
+                    chargeInk = 10;
+                    crosshair.fillAmount = 1;
+                }
+                isAttack = true;
+                hitInfo = Charging();
+                //데미지를 중첩시켜줌(minDamage=>maxDamage) / 리턴 데미지
+            }
+            //쏘았을 때만 플레이
+            if (Input.GetMouseButtonUp(0))
+            {
+                lazer.SetActive(false);
+                crosshair.gameObject.SetActive(false);
+                crosshair.fillAmount = 0;
+                ChargerShot(hitInfo);
+                //보이지않는 콜라이더 transform.pos => hitInfoPos까지 바닥에 깔아준다.
+                isAttack = false;
+                VFX_Charging.SetActive(false);
+                currentInk -= chargeInk;
+
+            }
+        }
+        
     }
 
     public Camera cam;
@@ -83,9 +189,36 @@ public class PlayerCharger : MonoBehaviour
     void ChargerShot(RaycastHit hitInfo)
     {
         GameObject ink = Instantiate(chargerInkFactory);
+        Charger_Ink ci = ink.GetComponent<Charger_Ink>();
+        // 최대 3
+        ci.radiusByCharge = currentAmount * 3;
         ink.transform.position = chargerFirePos.transform.position;
         ink.transform.forward = chargerFirePos.transform.forward;
     }
-   
+
+
+    [Header("총알 충전을 위한 변수")]
+    float currentTime2;              // 현재 시간
+    public float chargerTime = 0.1f;   // 충전 시간
+    public int chargeBullet = 5; // 0.1초 마다 충전 개수
+
+
+
+    public void ChargeInk()
+    {
+        currentTime2 += Time.deltaTime;
+        if (currentTime2 > chargerTime)
+        {
+            if (currentInk >= maxInk)
+            {
+                currentInk = maxInk;
+                return;
+            }
+            // 카운트를 추가 시킨다
+            currentInk += chargeBullet;
+            currentTime2 = 0;
+        }
+    }
+
 }
 

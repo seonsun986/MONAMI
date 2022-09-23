@@ -147,7 +147,7 @@ public class PlayerRoller : MonoBehaviour
             }
             // 카운트를 추가 시킨다
             currentInk += chargeBullet;
-            currentTime = 0;
+            currentTime2 = 0;
         }
     }
 }
