@@ -31981,6 +31981,7 @@ GameObject:
   - component: {fileID: 5665079476156360820}
   - component: {fileID: 5665079476156360822}
   - component: {fileID: 808524279379021194}
+  - component: {fileID: 1023066824603550258}
   m_Layer: 0
   m_Name: Roller_Blue
   m_TagString: Untagged
@@ -32067,6 +32068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd41d6646305f419205be68e3a1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   hideKey: 304
   canHide: 0
   colors: []
@@ -32133,7 +32135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftRoller: {fileID: 5665079475170732558}
   rightRoller: {fileID: 5665079475138230694}
-  inkFactory: {fileID: 4846498193903140890, guid: a0660dd9fbc112d4ebc6f5c4e2af001e, type: 3}
+  inkFactory: {fileID: 3547631078468283309, guid: 6851f80bb75336844b3863dc1d52443b, type: 3}
   inkFirePos:
   - {fileID: 5665079475848152146}
   - {fileID: 5665079475590529780}
@@ -32165,10 +32167,27 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 1023066824603550258}
   - {fileID: 406708227309353256}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1023066824603550258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4109508876281176534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &4109508876437184245
 GameObject:
   m_ObjectHideFlags: 0

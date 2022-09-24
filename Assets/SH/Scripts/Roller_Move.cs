@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 using Photon.Pun;
 
@@ -29,10 +29,11 @@ public class Roller_Move : MonoBehaviourPun
     public float smoothness = 10;
 
     // 닉네임
-    public TextMeshProUGUI nickName;
+    public Text nickName;
 
     void Start()
     {
+        // GameManager에게 나의 photonView를 주자
         GameManager.Instance.CountPlayer(photonView);
         cc = GetComponent<CharacterController>();
         nickName.text = photonView.Owner.NickName;
