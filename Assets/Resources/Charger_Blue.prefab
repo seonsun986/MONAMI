@@ -50309,7 +50309,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4e890922fe61d57499fe6a8f40890bc0, type: 2}
-  - {fileID: 2100000, guid: 779639139ccc1f342a40bb19f0b891db, type: 2}
+  - {fileID: 0}
   - {fileID: 2100000, guid: f3f0f24b7d3def349af28247a5285b7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -72128,6 +72128,8 @@ GameObject:
   - component: {fileID: 7744107791255157410}
   - component: {fileID: 7744107791255157422}
   - component: {fileID: 7744107791255157413}
+  - component: {fileID: 8689472538306984508}
+  - component: {fileID: 7505259326715954226}
   m_Layer: 0
   m_Name: Charger_Blue
   m_TagString: Untagged
@@ -72240,6 +72242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd41d6646305f419205be68e3a1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   hideKey: 304
   canHide: 0
   colors: []
@@ -72292,6 +72295,45 @@ MonoBehaviour:
   particle_Ink_Splash: {fileID: 2473549566995955062}
   particle_Ink_Hiding: {fileID: 2473549567456897779}
   VFX_squid_Speed: {fileID: 6827350163526167739}
+--- !u!114 &8689472538306984508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744107791255157411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 7505259326715954226}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &7505259326715954226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744107791255157411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &7744107792627354869
 GameObject:
   m_ObjectHideFlags: 0
@@ -73336,6 +73378,7 @@ MonoBehaviour:
   maxDistance: 10
   finalDistace: 0
   smoothness: 10
+  zoomDistance: 0
   cam: {fileID: 0}
 --- !u!114 &9156843991524923474
 MonoBehaviour:

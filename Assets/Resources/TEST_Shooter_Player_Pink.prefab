@@ -576,6 +576,7 @@ MonoBehaviour:
   maxDistance: 10
   finalDistace: 0
   smoothness: 10
+  zoomDistance: 0
   cam: {fileID: 2350908911189288275}
 --- !u!1 &702023986662313164
 GameObject:
@@ -10758,7 +10759,7 @@ GameObject:
   - component: {fileID: 7575568190903827877}
   - component: {fileID: 2446244471523997733}
   m_Layer: 6
-  m_Name: Canvas
+  m_Name: Canvas_World
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14546,6 +14547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd41d6646305f419205be68e3a1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   hideKey: 304
   canHide: 0
   colors: []
