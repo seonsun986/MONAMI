@@ -10,6 +10,8 @@ public class Roller_Move : MonoBehaviourPun
 {
     public float speed = 5;
     public float runSpeed = 13;     // 내 잉크에 있을 때 스피드 값
+    public float downSpeed = 5;
+    public bool isInEnemyInk;
     public bool isRun;
     bool isJumping;
     public float finalSpeed;
@@ -33,8 +35,6 @@ public class Roller_Move : MonoBehaviourPun
 
     void Start()
     {
-        // GameManager에게 나의 photonView를 주자
-        GameManager.Instance.CountPlayer(photonView);
         cc = GetComponent<CharacterController>();
         nickName.text = photonView.Owner.NickName;
 
@@ -73,7 +73,15 @@ public class Roller_Move : MonoBehaviourPun
         // 중력 더한다
         yVelocity += gravity * Time.deltaTime;
         //최종 내 스피드는 런이 활성화 되어있으면 빠르게 그게 아니면 보통의 속도로 이동
-        finalSpeed = (isRun) ? runSpeed : speed;
+        if(isInEnemyInk == false)
+        {
+            finalSpeed = (isRun) ? runSpeed : speed;
+        }
+        else
+        {
+            finalSpeed = downSpeed;
+        }
+        
 
         //TransformDirection : 방향을 뜻함
         //Vector3 forward = transform.TransformDirection(Vector3.forward);

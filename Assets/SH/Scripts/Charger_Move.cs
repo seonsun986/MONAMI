@@ -9,9 +9,11 @@ public class Charger_Move : MonoBehaviour
     //내 지형일 때 런 스피드.
     [Header("PlayerSpeed")]
     public float speed = 5;
-    public float runspeed = 12f;
+    public float runSpeed = 12f;
     public float finalSpeed;
     public float rotSpeed = 5;
+    public float downSpeed = 5;
+    public bool isInEnemyInk;
 
     CharacterController cc;
     public Animator anim;
@@ -68,7 +70,14 @@ public class Charger_Move : MonoBehaviour
     {
         // 중력 더하기
         yVelocity += gravity * Time.deltaTime;
-        finalSpeed = isRun == true ? runspeed : speed;
+        if (isInEnemyInk == false)
+        {
+            finalSpeed = (isRun) ? runSpeed : speed;
+        }
+        else
+        {
+            finalSpeed = downSpeed;
+        }
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");

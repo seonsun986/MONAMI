@@ -14,8 +14,6 @@ public class PlayerShooter : MonoBehaviourPun
     public GameObject InkFactory;
     //사거리
     public float distance;
-    //잉크 지연 시간 설정
-    private float fireRate = 0.1f;
     //다음 잉크 발사시간
     private float nextFire = 0.0f;
     //파티클

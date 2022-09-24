@@ -13,8 +13,10 @@ public class ShooterMovement : MonoBehaviourPun, IPunObservable
 
     //내 지형일 때 런 스피드.
     [Header("PlayerSpeed")]
+    public float downSpeed = 5;
+    public bool isInEnemyInk;
     public float speed = 5;
-    public float runspeed = 12f;
+    public float runSpeed = 12f;
     public float finalSpeed;
     public float rotSpeed = 5;
     public bool isRun;
@@ -68,7 +70,14 @@ public class ShooterMovement : MonoBehaviourPun, IPunObservable
     void PlayerMove()
     {
         //최종 내 스피드는 런이 활성화 되어있으면 빠르게 그게 아니면 보통의 속도로 이동
-        finalSpeed = (isRun) ? runspeed : speed;
+        if (isInEnemyInk == false)
+        {
+            finalSpeed = (isRun) ? runSpeed : speed;
+        }
+        else
+        {
+            finalSpeed = downSpeed;
+        }
 
         //TransformDirection : 방향을 뜻함
         //Vector3 forward = transform.TransformDirection(Vector3.forward);

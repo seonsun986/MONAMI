@@ -6,6 +6,11 @@ using Photon.Pun;
 
 public class CanHide : MonoBehaviourPun
 {
+
+    // 남의 잉크에서는 느려져야한다 
+    // 그러면 내가 핑크팀인지 파란팀인지 알아야할텐데?
+    // 아하.. 그럼 맨처음에 내가 무슨 팀인지 알게하자
+    // Pink : 1,0,0.5 Blue : 0,0.5,1
     public Camera cam;
     [Header("숨는 키")]
     [SerializeField]
@@ -14,8 +19,6 @@ public class CanHide : MonoBehaviourPun
 
     public Color[] colors;
     public string[] texts;
-
-    public Texture2D imageMap;
 
     public float rayDistance = 20;
     //public RawImage rawImage;
@@ -29,6 +32,11 @@ public class CanHide : MonoBehaviourPun
     float myColor_R;
     float myColor_G;
     float myColor_B;
+    float enemyColor_R;
+    float enemyColor_G;
+    float enemyColor_B;
+    public bool isInenemyColor;
+
     public float[] rgb = new float[3];
 
     // 오징어 나타내기 위한 것들
@@ -53,6 +61,24 @@ public class CanHide : MonoBehaviourPun
     // 필요속성 : canShoot, 충전개수, maxCount로
     void Start()
     {
+        // 내가 핑크팀이라면
+        if(name.Contains("Pink"))
+        {
+            // 적팀의 색깔은
+            enemyColor_R = 0;
+            enemyColor_G = 0.5f;
+            enemyColor_B = 1;
+        }
+
+        // 내가 블루팀이라면
+        if(name.Contains("Blue"))
+        {
+            // 적팀의 색깔은
+            enemyColor_R = 1;
+            enemyColor_G = 0f;
+            enemyColor_B = 0.5f;
+        }
+
         cc = GetComponent<CharacterController>();
         UI_chageInk.SetActive(false);
         UI_ChagerInkPaint.SetActive(false);
@@ -77,7 +103,7 @@ public class CanHide : MonoBehaviourPun
             if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
             {
                 //Zoom In
-                cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 4f;
+                cam.GetComponentInParent<CameraMovement>().zoomDistance = 4f;
                 // ID로 접근 --> 쉐이더 그래프 ID -> int값 출력
                 Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
                 if (paintable != null)
@@ -101,23 +127,36 @@ public class CanHide : MonoBehaviourPun
 
                 }
 
+                
                 // 색깔판정을 했을 시 내 색깔일 때
-                if (rgb[0] < myColor_R + 0.1f && rgb[0] > myColor_R - 0.1f && 
-                    rgb[1] < myColor_G + 0.1f && rgb[1] > myColor_G - 0.1f && 
-                    rgb[2] > myColor_B - 0.1f && rgb[2] < myColor_B + 0.1f)
+                if (rgb[0] < myColor_R + 0.4f && rgb[0] > myColor_R - 0.4f && 
+                    rgb[1] < myColor_G + 0.4f && rgb[1] > myColor_G - 0.4f && 
+                    rgb[2] > myColor_B - 0.4f && rgb[2] < myColor_B + 0.4f)
                 {
                     canHide = true;
-                    
+                    isInenemyColor = false;
+
                 }
-                // 색깔판정을 했을 시 상대편 색깔일때
+                // 색깔판정을 했을 시 상대편 색깔일때(숨을때만이 아닌데..?)
+                else if(rgb[0] < enemyColor_R + 0.3f && rgb[0] > enemyColor_R - 0.3f &&
+                        rgb[1] < enemyColor_G + 0.3f && rgb[1] > enemyColor_G - 0.3f &&
+                        rgb[2] > enemyColor_B - 0.3f && rgb[2] < enemyColor_B + 0.3f)
+                {
+                    canHide = false;
+                    isInenemyColor = true;
+                }
+                // 색깔판정을 했을 시 그냥 바닥일때
                 else
                 {
                     canHide = false;
+                    isInenemyColor = false;
                 }
             }
             if (Input.GetKeyUp(hideKey))
             {
-                if(canHide ==true)
+                //Zoom Out
+                cam.GetComponentInParent<CameraMovement>().zoomDistance = 0f;
+                if (canHide ==true)
                 { particle_Ink_Splash.Play();}
 
                 canHide = false;
@@ -212,8 +251,11 @@ public class CanHide : MonoBehaviourPun
         // 만약 플레이어가 롤러라면
         if (gameObject.name.Contains("Roller"))
         {
+            // 속도빠르게 하기
             Roller_Move rm = gameObject.GetComponent<Roller_Move>();
             rm.isRun = true;
+            
+            // 잉크 충전하기 
             PlayerRoller pr = GetComponent<PlayerRoller>();
             pr.ChargeInk();
             print("롤러 잉크 충전된다!");
@@ -356,10 +398,21 @@ public class CanHide : MonoBehaviourPun
         weapon.gameObject.SetActive(true);
         inkTank.SetActive(true);
 
-        // 만약 플레이어가 롤러라면
+        // 만약 플레이어가 롤러일 때
         if (gameObject.name.Contains("Roller"))
         {
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
+            // 적 페인트 안에 있을 때
+            if (isInenemyColor == true)
+            {
+                rMove.isInEnemyInk = true;
+            }
+            else
+            {
+                rMove.isInEnemyInk = false;
+            }
+
+            // 이건 공통이므로
             rMove.isRun = false;
         }
 
@@ -367,7 +420,38 @@ public class CanHide : MonoBehaviourPun
         else if (gameObject.name.Contains("Shooter"))
         {
             ShooterMovement sm = gameObject.GetComponent<ShooterMovement>();
+            // 적 페인트 안에 있을 때
+            if (isInenemyColor == true)
+            {
+                sm.isInEnemyInk = true;
+            }
+            // 그냥 바닥에 있을 때
+            else
+            {
+                sm.isInEnemyInk = false;
+            }
+
+            // 이건 공통이므로
             sm.isRun = false;
+        }
+
+        // 플레이어가 차저라면
+        else if(gameObject.name.Contains("Charger"))
+        {
+            Charger_Move cm = gameObject.GetComponent<Charger_Move>();
+            // 적 페인트 안에 있을 때
+            if (isInenemyColor == true)
+            {
+                cm.isInEnemyInk = true;
+            }
+            // 그냥 바닥에 있을 때
+            else
+            {
+                cm.isInEnemyInk = false;
+            }
+
+            // 이건 공통이므로
+            cm.isRun = false;
         }
         squid.SetActive(false);
     }
