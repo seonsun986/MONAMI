@@ -5,13 +5,14 @@ using UnityEngine;
 public class RaycastMouseOver : MonoBehaviour
 {
     public GameObject info;
+    public GameObject impact;
 
     private new Collider collider;
-    private new MeshRenderer renderer;
     private bool lastOver;
     
     private void Start()
     {
+        impact.SetActive(false);
         info.SetActive(false);
         collider = GetComponent<Collider>();
 
@@ -32,5 +33,6 @@ public class RaycastMouseOver : MonoBehaviour
     {
         lastOver = isOver;
         info.SetActive(isOver);
+        impact.SetActive(isOver);
     }
 }
