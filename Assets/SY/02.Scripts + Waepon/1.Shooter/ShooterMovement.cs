@@ -5,7 +5,7 @@ using Photon.Pun;
 using TMPro;
 
 
-public class ShooterMovement : MonoBehaviourPun, IPunObservable
+public class ShooterMovement : MonoBehaviourPun
 {
     public Animator anim;
     public Camera cam;
@@ -21,7 +21,7 @@ public class ShooterMovement : MonoBehaviourPun, IPunObservable
     public float rotSpeed = 5;
     public bool isRun;
 
-    float animSpeed;
+    public float animSpeed;
     //내 발 아래 내 색깔의 잉크가 있을 때
     public bool run;
 
@@ -147,10 +147,6 @@ public class ShooterMovement : MonoBehaviourPun, IPunObservable
         photonView.RPC("RPCSetFloat", RpcTarget.All, animSpeed);
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-
-    }
 
     [PunRPC]
     public void RPCSetTrigger(string trigger)

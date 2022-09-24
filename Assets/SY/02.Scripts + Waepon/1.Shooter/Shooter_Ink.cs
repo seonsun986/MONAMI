@@ -30,6 +30,33 @@ public class Shooter_Ink : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision other)
     {
+        // 총알이 핑크라면
+        if (gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
+        {
+            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+            if (hp != null)
+            {
+                if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+                {
+                    hp.hp--;
+                }
+            }
+
+        }
+
+        // 총알이 블루라면
+        if (gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+        {
+            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+            if (hp != null)
+            {
+                if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
+                {
+                    hp.hp--;
+                }
+            }
+        }
+
         Paintable p = other.collider.GetComponent<Paintable>();
         if (p != null)
         {

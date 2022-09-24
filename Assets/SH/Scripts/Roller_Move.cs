@@ -24,7 +24,7 @@ public class Roller_Move : MonoBehaviourPun
     CharacterController cc;
     
     public Animator anim;
-    float animSpeed;
+    public float animSpeed;
 
     public bool toggleCameraRotation;
     public Camera cam;

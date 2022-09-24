@@ -41,10 +41,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
             count.text = minute + " : " + seconds;
             // 60초 짜리는 안띄우기
 
-            if (seconds == "60")
-            {
-                seconds = "00";
-            }
+            
         }
 
         if (countTime <= 0)

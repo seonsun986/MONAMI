@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 //사용자가 마우스 왼쪽 버튼을 누르면
 //기를 모으고(빛나는 파티클 재생)
 //마우스 버튼을 떼면 HitInfo의 방향으로 발사체를 발사시켜준다.
 
-public class PlayerCharger : MonoBehaviour
+public class PlayerCharger : MonoBehaviourPun
 {
     public Camera cam;
     //쏘았는가
@@ -39,6 +40,9 @@ public class PlayerCharger : MonoBehaviour
 
     void Start()
     {
+        // GameManager에게 나의 photonView를 주자
+        GameManager.Instance.CountPlayer(photonView);
+
         VFX_Charging.SetActive(false);
         crosshair.gameObject.SetActive(false);
         crosshair.fillAmount = 0;
@@ -73,7 +77,7 @@ public class PlayerCharger : MonoBehaviour
     float currentAmount;
     void Update()
     {
-        
+        if (!photonView.IsMine) return;
 
         // UI 충전
         // 잉크충전 UI가 켜져있다면
@@ -145,12 +149,12 @@ public class PlayerCharger : MonoBehaviour
                 crosshair.gameObject.SetActive(true);
 
                 // 이 UI는 나중에 로컬로 보내야한다
-                currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.01f, ref currentVelocity, 2 * Time.deltaTime);
+                currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.03f, ref currentVelocity, 1f * Time.deltaTime);
                 crosshair.fillAmount = currentAmount;
                 chargeInk = (int)(currentAmount * 20);
                 if (crosshair.fillAmount > 1)
                 {
-                    chargeInk = 10;
+                    chargeInk = 20;
                     crosshair.fillAmount = 1;
                 }
                 isAttack = true;
@@ -165,7 +169,7 @@ public class PlayerCharger : MonoBehaviour
                 lazer.SetActive(false);
                 crosshair.gameObject.SetActive(false);
                 crosshair.fillAmount = 0;
-                ChargerShot(hitInfo);
+                photonView.RPC("RPCChargerShot", RpcTarget.All);
                 //보이지않는 콜라이더 transform.pos => hitInfoPos까지 바닥에 깔아준다.
                 isAttack = false;
                 VFX_Charging.SetActive(false);
@@ -191,14 +195,17 @@ public class PlayerCharger : MonoBehaviour
         }
         return hitInfo;
     } 
-    void ChargerShot(RaycastHit hitInfo)
+
+    [PunRPC]
+    void RPCChargerShot()
     {
         GameObject ink = Instantiate(chargerInkFactory);
         Charger_Ink ci = ink.GetComponent<Charger_Ink>();
         // 최대 3
-        ci.radiusByCharge = currentAmount * 3;
+        ci.radiusByCharge = currentAmount * 5;
         ink.transform.position = chargerFirePos.transform.position;
         ink.transform.forward = chargerFirePos.transform.forward;
+        print("총알 잉크 크기" + currentAmount * 3);
     }
 
 

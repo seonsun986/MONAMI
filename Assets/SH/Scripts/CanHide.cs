@@ -59,6 +59,7 @@ public class CanHide : MonoBehaviourPun
     // 1초에 30개씩 총알 충전되도록 한다
     // maxcount보다 count가 많아지면 maxCount로 다시 하게 한다
     // 필요속성 : canShoot, 충전개수, maxCount로
+
     void Start()
     {
         // 내가 핑크팀이라면
@@ -87,6 +88,7 @@ public class CanHide : MonoBehaviourPun
         myColor_R = playerColor.r;
         myColor_G = playerColor.g;
         myColor_B = playerColor.b;
+
     }
 
     RaycastHit hitInfo;
@@ -281,9 +283,8 @@ public class CanHide : MonoBehaviourPun
         // 만약 플레이어가 롤러라면
         if (gameObject.name.Contains("Roller"))
         {
-            // 속도빠르게 하기
-            Roller_Move rm = gameObject.GetComponent<Roller_Move>();
-            rm.isRun = true;
+            Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
+            rMove.isRun = true;
             
             // 잉크 충전하기 
             PlayerRoller pr = GetComponent<PlayerRoller>();
@@ -292,8 +293,9 @@ public class CanHide : MonoBehaviourPun
         }
         else if (gameObject.name.Contains("Shooter"))
         {
-            ShooterMovement pm = GetComponent<ShooterMovement>();
-            pm.isRun = true;
+            ShooterMovement sm = gameObject.GetComponent<ShooterMovement>();
+
+            sm.isRun = true;
             PlayerShooter ps = GetComponent<PlayerShooter>();
             // 총알 충전을 위한 함수
             ps.ChargeInk();
@@ -303,7 +305,8 @@ public class CanHide : MonoBehaviourPun
         // 플레이어가 차저라면
         else if (gameObject.name.Contains("Charger"))
         {
-            Charger_Move cm = GetComponent<Charger_Move>();
+            Charger_Move cm = gameObject.GetComponent<Charger_Move>();
+
             cm.isRun = true;
             PlayerCharger pc = GetComponent<PlayerCharger>();
             // 총알 충전을 위한 함수
@@ -340,11 +343,72 @@ public class CanHide : MonoBehaviourPun
     [PunRPC]
     public void RPCCanHide()
     {
-        // 들어가고 나오고 움직이고 파티클 동기화
-        if (!particle_Ink_Hiding.isPlaying)
+        // 들어가고 나오고 움직이고 파티클 동기화 && 움직일때만 나오게 하기
+        // 만약 플레이어가 롤러라면
+        if (gameObject.name.Contains("Roller"))
         {
-            particle_Ink_Hiding.Play();
+            Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
+
+            if (rMove.animSpeed != 0)
+            {
+                if (!particle_Ink_Hiding.isPlaying)
+                {
+                    particle_Ink_Hiding.Play();
+                }
+            }
+            else
+            {
+                if (particle_Ink_Hiding.isPlaying)
+                {
+                    particle_Ink_Hiding.Stop();
+                }
+            }
+            
         }
+
+        // 만약 플레이어가 슈터라면
+        else if (gameObject.name.Contains("Shooter"))
+        {
+            ShooterMovement sm = gameObject.GetComponent<ShooterMovement>();
+
+            if (sm.animSpeed != 0)
+            {
+                if (!particle_Ink_Hiding.isPlaying)
+                {
+                    particle_Ink_Hiding.Play();
+                }
+            }
+            else
+            {
+                if (particle_Ink_Hiding.isPlaying)
+                {
+                    particle_Ink_Hiding.Stop();
+                }
+            }
+        }
+
+        // 플레이어가 차저라면
+        else if (gameObject.name.Contains("Charger") )
+        {
+            Charger_Move cm = gameObject.GetComponent<Charger_Move>();
+
+            if (cm.animSpeed != 0)
+            {
+                if (!particle_Ink_Hiding.isPlaying)
+                {
+                    particle_Ink_Hiding.Play();
+                }
+            }
+            else
+            {
+                if (particle_Ink_Hiding.isPlaying)
+                {
+                    particle_Ink_Hiding.Stop();
+                }
+            }
+        }
+
+        
         if (Input.GetKeyDown(hideKey))
         {
             particle_Ink_Splash.Play();
@@ -358,21 +422,6 @@ public class CanHide : MonoBehaviourPun
         weapon.gameObject.SetActive(false);
         inkTank.SetActive(false);
 
-        //// 만약 플레이어가 롤러라면
-        //if (gameObject.name.Contains("Roller"))
-        //{
-        //    Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
-        //    rMove.speed = 13;
-        //}
-        //else if (gameObject.name.Contains("Shooter"))
-        //{
-        //    PlayerMovement pm = GetComponent<PlayerMovement>();
-        //    pm.run = true;
-        //    PlayerShooter ps = GetComponent<PlayerShooter>();
-        //    // 총알 충전을 위한 함수
-        //    ps.ChargeInk();
-        //    print("잉크 충전된다!");
-        //}
 
         // 숨을 때 바닥에 닫는다면
         // 오징어가 보이지 않게한다
@@ -400,21 +449,6 @@ public class CanHide : MonoBehaviourPun
 
 
 
-    void CanNotHide()
-    {
-        sphere.gameObject.SetActive(false);
-        body.gameObject.SetActive(true);
-        weapon.gameObject.SetActive(true);
-        inkTank.SetActive(true);
-
-        // 만약 플레이어가 롤러라면
-        if (gameObject.name.Contains("Roller"))
-        {
-            Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
-            rMove.speed = 8;
-        }
-        squid.SetActive(false);
-    }
 
     [PunRPC]
     public void RPCCannotHide()
@@ -427,11 +461,11 @@ public class CanHide : MonoBehaviourPun
         body.gameObject.SetActive(true);
         weapon.gameObject.SetActive(true);
         inkTank.SetActive(true);
-
-        // 만약 플레이어가 롤러일 때
+        // 만약 플레이어가 롤러라면
         if (gameObject.name.Contains("Roller"))
         {
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
+
             // 적 페인트 안에 있을 때
             if (isInenemyColor == true)
             {
@@ -450,6 +484,7 @@ public class CanHide : MonoBehaviourPun
         else if (gameObject.name.Contains("Shooter"))
         {
             ShooterMovement sm = gameObject.GetComponent<ShooterMovement>();
+
             // 적 페인트 안에 있을 때
             if (isInenemyColor == true)
             {
@@ -466,9 +501,10 @@ public class CanHide : MonoBehaviourPun
         }
 
         // 플레이어가 차저라면
-        else if(gameObject.name.Contains("Charger"))
+        else if (gameObject.name.Contains("Charger"))
         {
             Charger_Move cm = gameObject.GetComponent<Charger_Move>();
+
             // 적 페인트 안에 있을 때
             if (isInenemyColor == true)
             {
@@ -483,6 +519,7 @@ public class CanHide : MonoBehaviourPun
             // 이건 공통이므로
             cm.isRun = false;
         }
+
         squid.SetActive(false);
     }
 }

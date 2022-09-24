@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Charger_Ink : MonoBehaviour
+public class Charger_Ink : MonoBehaviourPun
 {
     //정해진 색깔을
     public Color paintColor;
@@ -27,10 +28,9 @@ public class Charger_Ink : MonoBehaviour
     }
 
     RaycastHit hitForward;
-    public float radiusByCharge;
+    public float radiusByCharge;        // 차징 시간에 따른 잉크 크기
     void Update()
     {
-
         RaycastHit hitInfoF;
         Ray rayF = new Ray(transform.position, transform.forward);
         if (Physics.Raycast(rayF, out hitInfoF))
@@ -40,14 +40,16 @@ public class Charger_Ink : MonoBehaviour
 
 
         //레이를 바닥으로 쏘아 레이에 닿은 부분에 페인트 뿌리기
-        Ray ray = new Ray(transform.position, Vector3.down);
+        Ray ray = new Ray(transform.position, transform.up * -1);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo))
         {
             Paintable p = hitInfo.collider.GetComponent<Paintable>();
             if (p != null)
             {
-                PaintManager.instance.paints(p, hitInfo.point, radiusByCharge, hardness, strength, paintColor);
+                Vector3 pos = hitInfo.point;
+                PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p.id, pos, radiusByCharge, hardness, strength, paintColor.r, paintColor.g, paintColor.b);
+
             }
         }
 
@@ -60,6 +62,7 @@ public class Charger_Ink : MonoBehaviour
         GameObject hitImpact = Instantiate(hitImpactFactory);
         hitImpact.transform.position = hitForward.point;
         hitImpact.transform.forward = hitForward.normal;
+
         //차저(잉크)와 부딪힌 것이 내가 아닌 상대방 중 적팀 이라면!
         //if (other.collider.CompareTag("!isMine"))
         //{
@@ -67,6 +70,34 @@ public class Charger_Ink : MonoBehaviour
 
         //    Destroy(this.gameObject);
         //}
+
+        // 총알이 핑크라면
+        if(gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
+        {
+            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+            if(hp!=null)
+            {
+                if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+                {
+                    hp.hp--;
+                }
+            }
+          
+        }
+
+        // 총알이 블루라면
+        if (gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+        {
+            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+            if (hp != null)
+            {
+                if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
+                {
+                    hp.hp--;
+                }
+            }
+        }
+
         //벽에 부딪혀 뿌리기
 
         Paintable p = other.collider.GetComponent<Paintable>();
@@ -74,10 +105,10 @@ public class Charger_Ink : MonoBehaviour
         {
             
             Vector3 pos = other.contacts[0].point;
-            //PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p.id, pos, radius, hardness, strength, paintColor.r, paintColor.g, paintColor.b);
-            PaintManager.instance.paints(p, pos, radius, hardness, strength2, paintColor);
+            PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p.id, pos, radius, hardness, strength, paintColor.r, paintColor.g, paintColor.b);
 
             Destroy(this.gameObject);
+            Destroy(hitImpact);
         }
 
     }

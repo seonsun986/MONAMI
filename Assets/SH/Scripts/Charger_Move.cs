@@ -18,7 +18,7 @@ public class Charger_Move : MonoBehaviourPun
 
     CharacterController cc;
     public Animator anim;
-    float animSpeed;
+    public float animSpeed;
 
 
     //내 발 아래 내 색깔의 잉크가 있을 때
@@ -96,33 +96,33 @@ public class Charger_Move : MonoBehaviourPun
             // 앞이나 뒤로 움직일때만 달릴 수 있다
             //isRun = Input.GetKey(KeyCode.LeftShift);
             animSpeed = 1;
-            anim.SetLayerWeight(1, 1);
+            photonView.RPC("RPCSetLayerWeight", RpcTarget.All, 1, 1f);
 
         }
         else
         {
             animSpeed = 0;
-            anim.SetLayerWeight(1, 0);
+            photonView.RPC("RPCSetLayerWeight", RpcTarget.All, 1, 0f);
         }
 
         // 누루는 순간에는 조준모드로 활성화
         if(Input.GetButtonDown("Fire1"))
         {
-            anim.SetTrigger("Aim");
-        }
-        
-        if (Input.GetButtonUp("Fire1"))
-        {
-            anim.SetTrigger("Fire");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Aim");
         }
 
-        
+        if (Input.GetButtonUp("Fire1"))
+        {
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Fire");
+        }
+
+
         //만약 바닥에 닿아있다면`
         if (cc.collisionFlags == CollisionFlags.Below)
         {
             if (isJumping)
             {
-                anim.Play("Movement");
+                photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement");
             }
             //수직속도를 0으로 하고싶다.
             yVelocity = 0;
@@ -133,13 +133,13 @@ public class Charger_Move : MonoBehaviourPun
         if (isJumping == false && Input.GetButtonDown("Jump"))
         {
             yVelocity = jumpPower;
-            anim.SetTrigger("Jump");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Jump");
             isJumping = true;
         }
-
-        anim.SetFloat("MoveSpeedAnim", animSpeed);
         dir.y = yVelocity;
         cc.Move(dir * finalSpeed * Time.deltaTime);
+        photonView.RPC("RPCSetFloat", RpcTarget.All, animSpeed);
+    
     }
 
     [PunRPC]
@@ -155,9 +155,9 @@ public class Charger_Move : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RPCAnimPlay(string animPlay, int layer)
+    public void RPCAnimPlay(string animPlay)
     {
-        anim.Play(animPlay, layer);
+        anim.Play(animPlay);
     }
 
     [PunRPC]

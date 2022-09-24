@@ -14589,6 +14589,7 @@ MonoBehaviour:
   finalSpeed: 0
   rotSpeed: 5
   isRun: 0
+  animSpeed: 0
   run: 0
   toggleCameraRotation: 0
   smoothness: 10
@@ -14614,7 +14615,6 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 8991515371425146324}
   - {fileID: 2651571955518700147}
   - {fileID: 7553158807871713381}
   sceneViewId: 0

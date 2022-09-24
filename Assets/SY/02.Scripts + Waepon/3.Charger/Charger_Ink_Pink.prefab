@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 6579896275286540443}
   - component: {fileID: 6579896275286540518}
   - component: {fileID: 6579896275286540519}
-  m_Layer: 0
-  m_Name: Charger_Ink
+  m_Layer: 7
+  m_Name: Charger_Ink_Pink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,11 +111,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paintColor: {r: 1, g: 0, b: 0.5, a: 1}
   radius: 3
-  strength: 0.26
+  strength: 0.4
   hardness: 0.01
   inkSpeed: 150
   cam: {fileID: 0}
   hitImpactFactory: {fileID: 1703928220513809131, guid: b627a4e9f383d98418baa4d3a6d8030b, type: 3}
+  radiusByCharge: 0
   strength2: 1
 --- !u!54 &6579896275286540519
 Rigidbody:

@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 6579896275286540443}
   - component: {fileID: 6579896275286540518}
   - component: {fileID: 6579896275286540519}
-  m_Layer: 0
+  - component: {fileID: 581125814103389393}
+  m_Layer: 8
   m_Name: Charger_Ink_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +116,7 @@ MonoBehaviour:
   hardness: 0.01
   inkSpeed: 150
   cam: {fileID: 0}
-  hitImpactFactory: {fileID: 1703928220513809131, guid: b627a4e9f383d98418baa4d3a6d8030b, type: 3}
+  hitImpactFactory: {fileID: 1703928220513809131, guid: 7e7691e002ccabd42a9dc4ae3fa03a33, type: 3}
   radiusByCharge: 0
   strength2: 1
 --- !u!54 &6579896275286540519
@@ -134,3 +135,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &581125814103389393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6579896275286540440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

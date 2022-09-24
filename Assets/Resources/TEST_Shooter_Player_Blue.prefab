@@ -12463,6 +12463,7 @@ MonoBehaviour:
   finalSpeed: 0
   rotSpeed: 5
   isRun: 0
+  animSpeed: 0
   run: 0
   toggleCameraRotation: 0
   smoothness: 10
