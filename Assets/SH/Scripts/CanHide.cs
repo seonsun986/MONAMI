@@ -75,7 +75,7 @@ public class CanHide : MonoBehaviourPun
         {
             // 적팀의 색깔은
             enemyColor_R = 1;
-            enemyColor_G = 0f;
+            enemyColor_G = 0;
             enemyColor_B = 0.5f;
         }
 
@@ -90,7 +90,7 @@ public class CanHide : MonoBehaviourPun
     }
 
     RaycastHit hitInfo;
-    string colorName;
+    int count;
     void Update()
     {
         // 내것이라면
@@ -98,8 +98,51 @@ public class CanHide : MonoBehaviourPun
         {
             Ray ray = new Ray(transform.position, transform.up * -1);
             RaycastHit hitInfo;
-           
+
+
+            // 상대편 잉크 위인지 확인하려면 update에서 해야한다
+            // 2프레임에 한번씩만 판정하자
             // hideKey를 누르면 색깔 판정을 한다.
+
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
+                if (paintable != null)
+                {
+                    RenderTexture render = paintable.getMask();
+                    if (render == null) print("render is null");
+                    Texture2D text = RenderTextureTo2DTexture(render);
+                    if (text == null) print("text is null");
+                    Vector2 pixelUV = hitInfo.textureCoord;
+                    pixelUV.x *= text.width;
+                    pixelUV.y *= text.height;
+                    Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
+
+                    string getColor = ColorUtility.ToHtmlStringRGB(color);
+                    rgb[0] = color.r;
+                    rgb[1] = color.g;
+                    rgb[2] = color.b;
+
+                }
+
+                // 색깔판정을 했을 시 상대편 색깔일때
+                if (rgb[0] < enemyColor_R + 0.3f && rgb[0] > enemyColor_R - 0.3f &&
+                    rgb[1] < enemyColor_G + 0.3f && rgb[1] > enemyColor_G - 0.3f &&
+                    rgb[2] > enemyColor_B - 0.3f && rgb[2] < enemyColor_B + 0.3f)
+                {
+                    isInenemyColor = true;
+                }
+                else
+                {
+                    isInenemyColor = false;
+                }
+                
+            }
+
+
+
+
+
             if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
             {
                 //Zoom In
@@ -134,22 +177,12 @@ public class CanHide : MonoBehaviourPun
                     rgb[2] > myColor_B - 0.4f && rgb[2] < myColor_B + 0.4f)
                 {
                     canHide = true;
-                    isInenemyColor = false;
 
                 }
-                // 색깔판정을 했을 시 상대편 색깔일때(숨을때만이 아닌데..?)
-                else if(rgb[0] < enemyColor_R + 0.3f && rgb[0] > enemyColor_R - 0.3f &&
-                        rgb[1] < enemyColor_G + 0.3f && rgb[1] > enemyColor_G - 0.3f &&
-                        rgb[2] > enemyColor_B - 0.3f && rgb[2] < enemyColor_B + 0.3f)
-                {
-                    canHide = false;
-                    isInenemyColor = true;
-                }
-                // 색깔판정을 했을 시 그냥 바닥일때
+                // 다른 색깔들일때
                 else
                 {
                     canHide = false;
-                    isInenemyColor = false;
                 }
             }
             if (Input.GetKeyUp(hideKey))
@@ -176,12 +209,9 @@ public class CanHide : MonoBehaviourPun
 
             // 숨을 수 없을 때
             else
-            {
-                
-                
+            { 
                 //CanNotHide();
                 photonView.RPC("RPCCannotHide", RpcTarget.All);
-
             }
         }
 

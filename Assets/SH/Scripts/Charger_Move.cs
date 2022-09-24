@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
+using Photon.Pun;
 
-public class Charger_Move : MonoBehaviour
+public class Charger_Move : MonoBehaviourPun
 {
     //내 지형일 때 런 스피드.
     [Header("PlayerSpeed")]
@@ -37,16 +38,20 @@ public class Charger_Move : MonoBehaviour
     bool isJumping = false;
 
     // 닉네임
-    public TextMeshProUGUI nickName;
+    public Text nickName;
 
     void Start()
     {
+        nickName.text = photonView.Owner.NickName;
+        if (photonView.IsMine == false) return;
         cc = GetComponent<CharacterController>();
     }
 
     public bool isRun;      //달리기 확인용 변수
     void Update()
     {
+        if (photonView.IsMine == false) return;
+
         //만약 둘러보기가 비활성화 되어있으면
         if (toggleCameraRotation != true)
         {
@@ -98,7 +103,6 @@ public class Charger_Move : MonoBehaviour
         {
             animSpeed = 0;
             anim.SetLayerWeight(1, 0);
-
         }
 
         // 누루는 순간에는 조준모드로 활성화
@@ -136,5 +140,29 @@ public class Charger_Move : MonoBehaviour
         anim.SetFloat("MoveSpeedAnim", animSpeed);
         dir.y = yVelocity;
         cc.Move(dir * finalSpeed * Time.deltaTime);
+    }
+
+    [PunRPC]
+    public void RPCSetTrigger(string trigger)
+    {
+        anim.SetTrigger(trigger);
+    }
+
+    [PunRPC]
+    public void RPCSetFloat(float setFloat)
+    {
+        anim.SetFloat("MoveSpeedAnim", setFloat);
+    }
+
+    [PunRPC]
+    public void RPCAnimPlay(string animPlay, int layer)
+    {
+        anim.Play(animPlay, layer);
+    }
+
+    [PunRPC]
+    public void RPCSetLayerWeight(int layerIndex, float weight)
+    {
+        anim.SetLayerWeight(layerIndex, weight);
     }
 }

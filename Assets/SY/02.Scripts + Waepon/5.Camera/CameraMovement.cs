@@ -77,14 +77,15 @@ public class CameraMovement : MonoBehaviourPun
 
         //따라가게
         transform.position = Vector3.MoveTowards(transform.position, objectTofollow.position, followSpeed * Time.deltaTime);
-
         //로컬스페이스에서 월드스페이스로 바꿔줌 (방향 x 최대거리);
         finalDir = transform.TransformPoint(dirNomalized * (maxDistance - zoomDistance));
 
         RaycastHit hit;
         Debug.DrawRay(transform.position, finalDir, Color.red);
-        if (Physics.Linecast(transform.position, finalDir, out hit))
+        int layer = 1 << LayerMask.NameToLayer("Wall");
+        if (Physics.Linecast(transform.position, finalDir, out hit, layer))
         {
+            print(hit.transform.name);
             //만약에 라인을 그렸을 때 뭐가 있으면 (맞은 곳의 거리->최소거리)
             finalDistace = Mathf.Clamp(hit.distance, (minDistance - zoomDistance), (maxDistance - zoomDistance));
         }

@@ -18,12 +18,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         //현재 들어온 플레이어 숫자에 따라 맞는 플레이어를 생성한다.
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate("Roller_Blue", Vector3.zero, Quaternion.identity);
+            PhotonNetwork.Instantiate("Charger_Blue", Vector3.zero, Quaternion.identity);
         }
         else
         {
             print("블루 캐릭터 생성!");
-            PhotonNetwork.Instantiate("Roller_Pink", Vector3.zero, Quaternion.identity);
+            PhotonNetwork.Instantiate("Charger_Pink", Vector3.zero, Quaternion.identity);
 
         }
 
