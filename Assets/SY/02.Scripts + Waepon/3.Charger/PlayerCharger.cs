@@ -10,6 +10,9 @@ using Photon.Pun;
 
 public class PlayerCharger : MonoBehaviourPun
 {
+    public Transform test_cam;
+    public Transform test_firePos;
+
     public Camera cam;
     //쏘았는가
     bool isAttack = false;
@@ -49,7 +52,7 @@ public class PlayerCharger : MonoBehaviourPun
         currentInk = maxInk;
         lowInkUI.SetActive(false);
         //lazer.enabled = false;
-        if(gameObject.name.Contains("Pink"))
+        if (gameObject.name.Contains("Pink"))
         {
             lazer = Instantiate(lazer_pink);
         }
@@ -128,7 +131,7 @@ public class PlayerCharger : MonoBehaviourPun
 
         // 쏠 수 있을 때만 밑에 것들을 실행한다
 
-        if(canShoot== true)
+        if (canShoot == true)
         {
             if (Input.GetMouseButton(0))
             {
@@ -140,7 +143,7 @@ public class PlayerCharger : MonoBehaviourPun
                 lazer.GetComponent<LineRenderer>().SetPosition(0, chargerFirePos.transform.position);
                 Ray ray = new Ray(cam.transform.position, cam.transform.forward);
                 RaycastHit hitInfo;
-                if(Physics.Raycast(ray, out hitInfo))
+                if (Physics.Raycast(ray, out hitInfo))
                 {
                     lazer.GetComponent<LineRenderer>().SetPosition(1, hitInfo.point);
 
@@ -177,10 +180,10 @@ public class PlayerCharger : MonoBehaviourPun
 
             }
         }
-        
+
     }
 
-    
+
     RaycastHit Charging()
     {
         //기모으는 파티클 재생
@@ -194,17 +197,29 @@ public class PlayerCharger : MonoBehaviourPun
             //잉크자국을 부딪힌 곳에 남기고싶다.
         }
         return hitInfo;
-    } 
+    }
 
     [PunRPC]
     void RPCChargerShot()
     {
+        Debug.DrawRay(test_cam.position, test_cam.forward * 200f, Color.green);
+        RaycastHit hithit;
+
+        if (Physics.Raycast(test_cam.position, test_cam.forward, out hithit, 200f))
+        {
+            test_firePos.LookAt(hithit.point);
+            Debug.DrawRay(test_firePos.position, test_firePos.forward * 200f, Color.cyan);
+        }
+
         GameObject ink = Instantiate(chargerInkFactory);
         Charger_Ink ci = ink.GetComponent<Charger_Ink>();
+
         // 최대 3
         ci.radiusByCharge = currentAmount * 5;
-        ink.transform.position = chargerFirePos.transform.position;
-        ink.transform.forward = chargerFirePos.transform.forward;
+
+        ink.transform.position = test_firePos.transform.position;
+        ink.transform.forward = test_firePos.transform.forward;
+
         print("총알 잉크 크기" + currentAmount * 3);
     }
 
