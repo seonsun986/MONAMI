@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 419800885}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Test_FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
@@ -69827,7 +69827,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2.4
-  m_Radius: 0.5
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.01
@@ -69861,7 +69861,7 @@ MonoBehaviour:
   uiInk: {fileID: 474867391037775676}
   inkTank: {fileID: 2473549567378847986}
   chargerTime: 0.1
-  chargeBullet: 5
+  chargeBullet: 8
 --- !u!114 &7744107791255157410
 MonoBehaviour:
   m_ObjectHideFlags: 0

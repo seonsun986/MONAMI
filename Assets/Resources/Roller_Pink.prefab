@@ -32027,7 +32027,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2.5
-  m_Radius: 0.5
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.01
@@ -32118,8 +32118,8 @@ MonoBehaviour:
   lowInkUI: {fileID: 8131323552437476567}
   uiInk: {fileID: 8131323551860572563}
   inkTank: {fileID: 4109508877192963750}
-  chargerTime: 0.2
-  chargeBullet: 5
+  chargerTime: 0.1
+  chargeBullet: 8
 --- !u!114 &2909670833248121774
 MonoBehaviour:
   m_ObjectHideFlags: 0

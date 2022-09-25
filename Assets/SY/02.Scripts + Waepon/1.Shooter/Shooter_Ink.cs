@@ -40,6 +40,9 @@ public class Shooter_Ink : MonoBehaviourPun
                 {
                     hp.hp--;
                 }
+
+                Destroy(gameObject);
+
             }
 
         }
@@ -54,6 +57,9 @@ public class Shooter_Ink : MonoBehaviourPun
                 {
                     hp.hp--;
                 }
+
+                Destroy(gameObject);
+
             }
         }
 

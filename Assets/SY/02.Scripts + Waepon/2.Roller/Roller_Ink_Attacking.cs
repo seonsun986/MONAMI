@@ -18,6 +18,33 @@ public class Roller_Ink_Attacking: MonoBehaviourPun
 
     private void OnCollisionStay(Collision other)
     {
+        // √—æÀ¿Ã «Œ≈©∂Û∏È
+        if (gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
+        {
+            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+            if (hp != null)
+            {
+                if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+                {
+                    hp.hp--;
+                }
+            }
+
+        }
+
+        // √—æÀ¿Ã ∫Ì∑Á∂Û∏È
+        if (gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+        {
+            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+            if (hp != null)
+            {
+                if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
+                {
+                    hp.hp--;
+                }
+            }
+        }
+
         print("∫Œµ˙»˚");
         Paintable p = other.collider.GetComponent<Paintable>();
         if (p != null)

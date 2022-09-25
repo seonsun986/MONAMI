@@ -12048,7 +12048,7 @@ GameObject:
   - component: {fileID: 2651571955518700147}
   - component: {fileID: 1808995558090385743}
   m_Layer: 8
-  m_Name: TEST_Shooter_Player_Blue
+  m_Name: Shooter_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12085,7 +12085,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2.5
-  m_Radius: 0.5
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -12131,7 +12131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd41d6646305f419205be68e3a1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
+  cam: {fileID: 702023986434491938}
   hideKey: 304
   canHide: 0
   colors: []

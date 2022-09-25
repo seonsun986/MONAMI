@@ -178,15 +178,22 @@ public class PaintManager : Singleton<PaintManager>
         // Texture PNG bytes로 인코딩
         byte[] texturePNGBytes = texture2D.EncodeToPNG();
 
+        File.WriteAllBytes(Application.dataPath + "/text.png", texturePNGBytes);
+
+
     }
 
 
 
     private void Update()
     {
-       
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            SaveRenderTextureToPNG(plane.GetComponent<Paintable>().getMask());
+          //  for (int i = 0; i < )
+        }
     }
 
-   
+
 
 }

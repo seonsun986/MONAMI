@@ -71,32 +71,30 @@ public class Charger_Ink : MonoBehaviourPun
         //    Destroy(this.gameObject);
         //}
 
-        // 총알이 핑크라면
-        if(gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
+        Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+        if(hp!=null)
         {
-            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
-            if(hp!=null)
+            print(gameObject.name);
+            if(gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
             {
-                if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+                if(other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
                 {
                     hp.hp--;
+                    print("hp줄인다");
                 }
             }
-          
-        }
 
-        // 총알이 블루라면
-        if (gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
-        {
-            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
-            if (hp != null)
+            else if(gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
                 {
                     hp.hp--;
+                    print("hp줄인다");
+
                 }
             }
-        }
+        }     
+         Destroy(gameObject);         
 
         //벽에 부딪혀 뿌리기
 

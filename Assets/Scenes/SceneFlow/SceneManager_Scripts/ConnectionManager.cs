@@ -60,7 +60,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         print("마스터 서버에 접속 성공!" + "/ OnConnectedToMaster");
 
         //닉네임 설정
-        PhotonNetwork.NickName = "Player "+ Random.Range(1,100);
+        PhotonNetwork.NickName = inputNickname.text;
         //기본 로비 진입 / 채널개념
         PhotonNetwork.JoinLobby(new Photon.Realtime.TypedLobby("로비1", Photon.Realtime.LobbyType.Default));
         //PhotonNetwork.JoinLobby();

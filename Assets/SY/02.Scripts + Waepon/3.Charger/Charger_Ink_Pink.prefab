@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6579896275286540440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.73047006, y: 0.73047006, z: 2.4349}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   radius: 3
   strength: 0.4
   hardness: 0.01
-  inkSpeed: 150
+  inkSpeed: 50
   cam: {fileID: 0}
   hitImpactFactory: {fileID: 1703928220513809131, guid: b627a4e9f383d98418baa4d3a6d8030b, type: 3}
   radiusByCharge: 0

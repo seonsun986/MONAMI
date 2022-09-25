@@ -24,9 +24,9 @@ public class Player_HP : MonoBehaviourPun
 
     void Update()
     {
-        if (!photonView.IsMine) return;
-        if(hp <=0)
+        if (hp <=0)
         {
+            print($"Player hp : {hp}");
             photonView.RPC("RPCDie", RpcTarget.All);
         }
     }
