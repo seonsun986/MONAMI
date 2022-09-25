@@ -12,6 +12,13 @@ public class PlayerRoller : MonoBehaviourPun
     public GameObject inkFactory;
     public GameObject[] inkFirePos;
 
+    //점프어택의 대한 변수
+    //점프 시 잉크 공장
+    public GameObject jump_InkFactory;
+    //점프 시 잉크 생성위치
+    public GameObject[] jump_InkFirePos;
+
+
     // 잉크 개수 조절
     public int maxInk = 100;
     public int currentInk;
@@ -22,6 +29,7 @@ public class PlayerRoller : MonoBehaviourPun
 
     //현재 공격중인가?
     bool isAttack = false;
+    Roller_Move roller_move;
     void Start()
     {
         // GameManager에게 나의 photonView를 주자
@@ -30,6 +38,7 @@ public class PlayerRoller : MonoBehaviourPun
         leftRoller.SetActive(false);
         rightRoller.SetActive(false);
         currentInk = maxInk;
+        roller_move = GetComponent<Roller_Move>();
     }
 
     float currentTime;
@@ -41,7 +50,7 @@ public class PlayerRoller : MonoBehaviourPun
     void Update()
     {
         // 내 것이라면
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
             // 잉크충전 UI가 켜져있다면
             if (uiInk.gameObject.activeSelf == true)
@@ -94,7 +103,14 @@ public class PlayerRoller : MonoBehaviourPun
             if (Input.GetMouseButtonDown(0) && canShoot == true)
             {
                 currentInk -= 4;
-                photonView.RPC("RPCRollerInkShoot", RpcTarget.All);
+                if (roller_move.isJumping == true)
+                {
+                    photonView.RPC("RPCRollerInkJumpShoot", RpcTarget.All);
+                }
+                else
+                {
+                    photonView.RPC("RPCRollerInkShoot", RpcTarget.All);
+                }
                 leftRoller.SetActive(true);
                 rightRoller.SetActive(true);
                 //공격을 시작했다!
@@ -103,7 +119,7 @@ public class PlayerRoller : MonoBehaviourPun
                 //애니메이션 재생
             }
 
-            if(currentInk > 0)
+            if (currentInk > 0)
             {
                 //롤러로 공격하는 중
                 //잉크 소모!
@@ -128,7 +144,7 @@ public class PlayerRoller : MonoBehaviourPun
                 print("공격을 멈췄다!");
 
             }
-            
+
 
             //롤러 공격을 끝냈다!
             //잉크 소모 하지 않게 해주기!
@@ -145,7 +161,7 @@ public class PlayerRoller : MonoBehaviourPun
         }
 
     }
-    
+
     // 총알이 보여야하므로
     // 하지만 총알은 나만 생성하면 되므로 Instantiate로 한다
     [PunRPC]
@@ -156,6 +172,16 @@ public class PlayerRoller : MonoBehaviourPun
             GameObject ink = Instantiate(inkFactory);
             ink.transform.position = inkFirePos[i].transform.position;
             ink.transform.forward = inkFirePos[i].transform.forward;
+        }
+    }
+    [PunRPC]
+    public void RPCRollerInkJumpShoot()
+    {
+        for (int i = 0; i < jump_InkFirePos.Length; i++)
+        {
+            GameObject ink = Instantiate(jump_InkFactory);
+            ink.transform.position = jump_InkFirePos[i].transform.position;
+            ink.transform.forward = jump_InkFirePos[i].transform.forward;
         }
     }
 
