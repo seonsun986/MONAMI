@@ -5,13 +5,21 @@ using Photon.Pun;
 
 public class Player_HP : MonoBehaviourPun
 {
+    Transform pink_RespawnPoint;
+    Transform blue_RespawnPoint;
 
     public int hp = 1;
     float currentTime;
     public float respawnTime = 3;
+
+    // 카메라는 살아있어야한다
+    public GameObject body;
+    public GameObject weapon;
+    public GameObject inkTank;
     void Start()
     {
-        
+        pink_RespawnPoint = GameObject.Find("PinkTeam_Respawn").transform;
+        blue_RespawnPoint = GameObject.Find("BlueTeam_Respawn").transform;
     }
 
     void Update()
@@ -23,13 +31,33 @@ public class Player_HP : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     public void RPCDie()
     {
-        gameObject.SetActive(false);
+        body.gameObject.SetActive(false);
+        weapon.gameObject.SetActive(false);
+        inkTank.gameObject.SetActive(false);
+
         currentTime += Time.deltaTime;
         if (currentTime > respawnTime)
         {
-            gameObject.SetActive(true);
+            
+            if (name.Contains("Pink"))
+            {
+                gameObject.transform.position = pink_RespawnPoint.position;
+            }
+
+            else if(name.Contains("Blue"))
+            {
+                gameObject.transform.position = blue_RespawnPoint.position;
+
+            }
+
+            body.gameObject.SetActive(true);
+            weapon.gameObject.SetActive(true);
+            inkTank.gameObject.SetActive(true);
+            currentTime = 0;
+            hp = 1;
         }
     }
 }

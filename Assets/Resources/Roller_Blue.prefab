@@ -31982,6 +31982,7 @@ GameObject:
   - component: {fileID: 5665079476156360822}
   - component: {fileID: 808524279379021194}
   - component: {fileID: 1023066824603550258}
+  - component: {fileID: 5715818016172532055}
   m_Layer: 8
   m_Name: Roller_Blue
   m_TagString: Untagged
@@ -32055,6 +32056,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpPower: 4
   anim: {fileID: 3615678987804150789}
+  animSpeed: 0
   toggleCameraRotation: 0
   cam: {fileID: 6428030302631091714}
   smoothness: 10
@@ -32191,6 +32193,23 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &5715818016172532055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4109508876281176534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea07e3e99adac642bff90ad9744f8d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 1
+  respawnTime: 3
+  body: {fileID: 8693617043850144036}
+  weapon: {fileID: 8386977330572005126}
+  inkTank: {fileID: 4109508876993522229}
 --- !u!1 &4109508876437184245
 GameObject:
   m_ObjectHideFlags: 0

@@ -88,6 +88,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         print("OnJoinedRoom");
+
         PhotonNetwork.LoadLevel("03.Lobby2");
     }
     //방 입장이 실패 시 호출되는 함수
@@ -98,6 +99,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         print("OnJoinRoomFaild, " + ",  " + returnCode + ", " + message);
 
     }
+
 
     public GameObject popUp;
     public void RegularBtn()
