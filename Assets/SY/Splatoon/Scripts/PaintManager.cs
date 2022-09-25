@@ -33,6 +33,7 @@ public class PaintManager : Singleton<PaintManager>
 
     public override void Awake()
     {
+        Cursor.visible = false;
         base.Awake();
 
         paintMaterial = new Material(texturePaint);
