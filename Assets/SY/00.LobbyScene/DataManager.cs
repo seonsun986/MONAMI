@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//내가 선택무기, 내 ID
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
@@ -13,8 +14,13 @@ public class DataManager : MonoBehaviour
 
             DontDestroyOnLoad(this.gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     public string weaponName;
+    public int id;
 
     void Start()
     {

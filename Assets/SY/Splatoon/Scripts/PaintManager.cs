@@ -33,9 +33,9 @@ public class PaintManager : Singleton<PaintManager>
 
     public override void Awake()
     {
+        base.Awake();
         //오징어 마우스 커서 안보이게
         Cursor.visible = false;
-        base.Awake();
 
         paintMaterial = new Material(texturePaint);
         extendMaterial = new Material(extendIslands);

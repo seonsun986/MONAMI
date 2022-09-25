@@ -8,7 +8,8 @@ using TMPro;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-   
+
+
     void Start()
     {
         //CreateRoom();
@@ -17,7 +18,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        
+
     }
 
     //public void JoinLobby2()
@@ -36,21 +37,43 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //}
 
 
-    public void CreateRoom()
+    public void JoinRandomOrCreateRoom()
     {
         //방 정보 셋팅
-        RoomOptions roomOptions = new RoomOptions();
+        /* RoomOptions roomOptions = new RoomOptions();
 
-        //최대인원 (0명이면 최대인원, 현재 1:1이 목표이므로 2로 하자)
-        roomOptions.MaxPlayers = 2;
-        //룸 목록에 보이냐? 보이지 않느냐?  / isVisible을 True하면 보임 기본상태는 트루
-        roomOptions.IsVisible = true;
+         //최대인원 (0명이면 최대인원, 현재 1:1이 목표이므로 2로 하자)
+         roomOptions.MaxPlayers = 2;
+         //룸 목록에 보이냐? 보이지 않느냐?  / isVisible을 True하면 보임 기본상태는 트루
+         roomOptions.IsVisible = true;*/
+
+
+
+
+
+        //int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        //Player[] sortedPlayers = PhotonNetwork.PlayerList;
+
+        //for (int i = 0; i < sortedPlayers.Length; i += 1)
+        //{
+        //    if (sortedPlayers[i].ActorNumber == actorNumber)
+        //    {
+        //        PlayerID = i + 1;
+        //        print("내 ID" + PlayerID);
+        //        break;
+        //    }
+        //}
+
+
+        //랜덤
+        PhotonNetwork.JoinRandomOrCreateRoom();
+
 
         //방을 만든다
-        PhotonNetwork.CreateRoom("XR_A", roomOptions, TypedLobby.Default);
+        // PhotonNetwork.CreateRoom("XR_A", roomOptions, TypedLobby.Default);
     }
     //방 생성 완료
-    public override void OnCreatedRoom()
+    /*public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
         print("방생성!!" + "/ OnCreatedRoom");
@@ -68,13 +91,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //방 입장
         JoinRoom();
 
-    }
+    }*/
     //방 입장 요청
     int count;
-    public void JoinRoom()
+
+    /*public override void OnJoinedRoom()
     {
+        base.OnJoinedRoom();
+        print("OnJoinedRoom");
+    }*/
+
+    //랜덤 방 입장이 성공했을 때 불리는 함수
+    //=================================랜덤 방 입장 관련 CS (편집 수영 0925 16:13)==========================================
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        DataManager.instance.id = actorNumber;
+        print("My ID : " + actorNumber);
+        PhotonNetwork.LoadLevel("03.Lobby2");
         //PhotonNetwork.LoadLevel("Lobby2");
-        PhotonNetwork.JoinRoom("XR_A");
+        // PhotonNetwork.JoinRoom("XR_A");
         //PhotonNetwork.JoinLobby(new Photon.Realtime.TypedLobby("로비1", Photon.Realtime.LobbyType.Default));
 
         //PhotonNetwork.joinRoom                 : 선택한 방에 들어갈 때
@@ -82,17 +119,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.JoinRandomOrCreateRoom   : 랜덤방을 들어가려고 할 때, 조건에 맞는 방이 없다면 내가 방을 생성 후 입장
         //PhotonNetwork.JoinRandomRoom           : 랜덤한 방 들어갈 때
     }
-
-    //방 입장이 성공했을 때 불리는 함수
-    public override void OnJoinedRoom()
-    {
-        base.OnJoinedRoom();
-        print("OnJoinedRoom");
-        PhotonNetwork.LoadLevel("03.Lobby2");
-    }
-    //방 입장이 실패 시 호출되는 함수
-
-    public override void OnJoinRoomFailed(short returnCode, string message)
+    //랜덤 방 입장이 실패 시 호출되는 함수
+    public override void OnJoinRandomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
         print("OnJoinRoomFaild, " + ",  " + returnCode + ", " + message);
