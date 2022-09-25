@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 public class PlayerCharger : MonoBehaviour
 {
+    public Transform test_cam;
+    public Transform testFirePos;
+
     public Camera cam;
     //쏘았는가
     bool isAttack = false;
@@ -129,7 +132,7 @@ public class PlayerCharger : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 //Zoom In
-                cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 2f;
+                cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 4f;
                 // 차저 레이저관리(로컬)
                 lazer.SetActive(true);
                 //lazer.transform.forward = chargerFirePos.transform.forward;
@@ -193,12 +196,27 @@ public class PlayerCharger : MonoBehaviour
     } 
     void ChargerShot(RaycastHit hitInfo)
     {
+        Debug.DrawRay(test_cam.position, test_cam.forward * 200.0f, Color.green);
+        RaycastHit hithit;
+
+        if (Physics.Raycast(test_cam.position, test_cam.forward, out hithit, 200f))
+        {
+            testFirePos.LookAt(hithit.point);
+            Debug.DrawRay(testFirePos.position, testFirePos.forward * 200.0f,Color.cyan); 
+        }
+
         GameObject ink = Instantiate(chargerInkFactory);
         Charger_Ink ci = ink.GetComponent<Charger_Ink>();
         // 최대 3
         ci.radiusByCharge = currentAmount * 3;
+
+        ink.transform.position = testFirePos.transform.position;
+        ink.transform.forward = testFirePos.transform.forward;
+
+
+        /*//방향 만들어주기.
         ink.transform.position = chargerFirePos.transform.position;
-        ink.transform.forward = chargerFirePos.transform.forward;
+        ink.transform.forward = chargerFirePos.transform.forward;*/
     }
 
 

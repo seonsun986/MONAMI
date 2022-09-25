@@ -60384,6 +60384,36 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.38671163, y: -0.12381303, z: 0.00000029802322}
     m_Extent: {x: 0.38334087, y: 1.3868041, z: 0.36766782}
   m_DirtyAABB: 0
+--- !u!1 &3365763517134869679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3744028026070943528}
+  m_Layer: 0
+  m_Name: TestFirePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3744028026070943528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365763517134869679}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.425, z: 1.691}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7744107791255157423}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3459615298116448213
 GameObject:
   m_ObjectHideFlags: 0
@@ -72155,6 +72185,7 @@ Transform:
   - {fileID: 2473549566512593536}
   - {fileID: 2473549567456897778}
   - {fileID: 2473549566995955065}
+  - {fileID: 3744028026070943528}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72188,6 +72219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: befb26c750ad98f4db5a8994e8abe6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test_cam: {fileID: 4479925663426993290}
+  testFirePos: {fileID: 3744028026070943528}
   cam: {fileID: 2098249793874088198}
   VFX_Charging: {fileID: 8400979549991532548}
   chargerInkFactory: {fileID: 6579896275286540440, guid: 4860b3ea7c8b51447a149ae81f31bfb4, type: 3}
@@ -72240,6 +72273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd41d6646305f419205be68e3a1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   hideKey: 304
   canHide: 0
   colors: []
@@ -73336,6 +73370,7 @@ MonoBehaviour:
   maxDistance: 10
   finalDistace: 0
   smoothness: 10
+  zoomDistance: 0
   cam: {fileID: 0}
 --- !u!114 &9156843991524923474
 MonoBehaviour:

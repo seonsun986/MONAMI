@@ -4322,6 +4322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd41d6646305f419205be68e3a1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   hideKey: 304
   canHide: 0
   colors: []
@@ -4430,6 +4431,7 @@ MonoBehaviour:
   runspeed: 12
   finalSpeed: 0
   rotSpeed: 5
+  isRun: 0
   run: 0
   toggleCameraRotation: 0
   smoothness: 10
@@ -4459,8 +4461,11 @@ MonoBehaviour:
   maxCount: 80
   uiInk: {fileID: 0}
   inkTank: {fileID: 0}
+  delayTime: 0.2
   chargerTime: 0.1
   chargeBullet: 2
+  pinkBullet: {fileID: 0}
+  blueBullet: {fileID: 0}
 --- !u!4 &2804440380758689918
 Transform:
   m_ObjectHideFlags: 0
@@ -12777,6 +12782,7 @@ MonoBehaviour:
   maxDistance: 10
   finalDistace: 0
   smoothness: 10
+  zoomDistance: 0
   cam: {fileID: 3881787232230883192}
 --- !u!1 &3881787232230883192
 GameObject:
@@ -16327,6 +16333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd41d6646305f419205be68e3a1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   hideKey: 304
   canHide: 0
   colors: []

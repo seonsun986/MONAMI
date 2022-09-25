@@ -9,6 +9,8 @@ public class RaycastMouseOver : MonoBehaviour
 
     private new Collider collider;
     private bool lastOver;
+
+    public GameObject popup;
     
     private void Start()
     {
@@ -31,8 +33,11 @@ public class RaycastMouseOver : MonoBehaviour
 
     private void SetOver(bool isOver)
     {
+        if (popup.activeSelf == false)
+        {
         lastOver = isOver;
         info.SetActive(isOver);
         impact.SetActive(isOver);
+        }
     }
 }

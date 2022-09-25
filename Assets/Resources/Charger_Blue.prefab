@@ -50309,7 +50309,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4e890922fe61d57499fe6a8f40890bc0, type: 2}
-  - {fileID: 2100000, guid: 779639139ccc1f342a40bb19f0b891db, type: 2}
+  - {fileID: 0}
   - {fileID: 2100000, guid: f3f0f24b7d3def349af28247a5285b7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -66645,6 +66645,36 @@ Transform:
   m_Father: {fileID: 1395649031521074912}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6362571312499594915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 111517626804060922}
+  m_Layer: 0
+  m_Name: TestFirePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &111517626804060922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6362571312499594915}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.425, z: 1.691}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7744107791255157423}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6370551355962058435
 GameObject:
   m_ObjectHideFlags: 0
@@ -72155,6 +72185,7 @@ Transform:
   - {fileID: 2473549566512593536}
   - {fileID: 2473549567456897778}
   - {fileID: 2473549566995955065}
+  - {fileID: 111517626804060922}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72188,6 +72219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: befb26c750ad98f4db5a8994e8abe6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test_cam: {fileID: 4479925663426993290}
+  testFirePos: {fileID: 111517626804060922}
   cam: {fileID: 2098249793874088198}
   VFX_Charging: {fileID: 8400979549991532548}
   chargerInkFactory: {fileID: 6579896275286540440, guid: a549e83cd9fa96b47ade7fc2c8befcf5, type: 3}
@@ -72240,6 +72273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd41d6646305f419205be68e3a1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   hideKey: 304
   canHide: 0
   colors: []
@@ -73336,6 +73370,7 @@ MonoBehaviour:
   maxDistance: 10
   finalDistace: 0
   smoothness: 10
+  zoomDistance: 0
   cam: {fileID: 0}
 --- !u!114 &9156843991524923474
 MonoBehaviour:
