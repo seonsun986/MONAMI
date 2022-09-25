@@ -40,26 +40,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 핑크(id = 1~3)와 블루(id = 4~6)팀에 따라 리스폰 포인트가 결정된다
 
         // id가 1~3이라면 핑크팀이다!
-        //if (id >= 1 && id <= 3)
-        //{
-        //    CreatePlayer("Pink", pink_SpawnPoint.transform.position + pink_SpawnPoint.transform.right * (-10 + (5 * id)));
-        //}
-
-
-        //// id가 4~6이라면 블루팀이다
-        //else if (id >= 4 && id <= 6)
-        //{
-        //    CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (id - 3))));
-
-        //}
-
-        if (PhotonNetwork.IsMasterClient)
+        if (DataManager.instance.id == 1/*>= 1 && DataManager.instance.id <= 3*/)
         {
-            PhotonNetwork.Instantiate("Charger_Blue", blue_SpawnPoint.transform.position, Quaternion.identity);
+            CreatePlayer("Pink", pink_SpawnPoint.transform.position /*+ pink_SpawnPoint.transform.right * (-10 + (5 * id))*/);
         }
-        else
+
+
+        // id가 4~6이라면 블루팀이다
+        else if (DataManager.instance.id == 2 /*DataManager.instance.id >= 4 && DataManager.instance.id <= 6*/)
         {
-            PhotonNetwork.Instantiate("Charger_Pink", pink_SpawnPoint.transform.position, Quaternion.identity);
+            CreatePlayer("Blue", blue_SpawnPoint.transform.position/* + blue_SpawnPoint.transform.right * (-10 + (5 * (id - 3)))*/);
 
         }
 
@@ -68,19 +58,20 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void CreatePlayer(string team, Vector3 spawnPoint)
     {
         // 선택한 무기가 차저라면
-        if (weaponName.Contains("Charger"))
+
+        if (DataManager.instance.weaponName.Contains("Charger"))
         {
             PhotonNetwork.Instantiate("Charger_" + team, spawnPoint, Quaternion.identity);
         }
         
         // 선택한 무기가 롤러라면
-        else if (weaponName.Contains("Roller"))
+        else if (DataManager.instance.weaponName.Contains("Roller"))
         {
             PhotonNetwork.Instantiate("Roller_" + team, spawnPoint, Quaternion.identity);
         }
 
         // 선택한 무기가 슈터라면
-        else if (weaponName.Contains("Shooter"))
+        else if (DataManager.instance.weaponName.Contains("Shooter"))
         {
             PhotonNetwork.Instantiate("Shooter_" + team, spawnPoint, Quaternion.identity);
         }
