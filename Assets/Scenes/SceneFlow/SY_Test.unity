@@ -443,7 +443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texturePaint: {fileID: 4800000, guid: df2ced0d6e137ab45b17d118b544c9e8, type: 3}
   extendIslands: {fileID: 4800000, guid: ed9b1e1bb283bb04994cf29a3572c8e4, type: 3}
-  plane: {fileID: 0}
+  plane: {fileID: 5617036593428301874}
 --- !u!4 &847492195
 Transform:
   m_ObjectHideFlags: 0
@@ -2680,6 +2680,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcb6277429571714683720d5c85bca87, type: 3}
+--- !u!1 &5617036593428301874 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9118484505477651794, guid: dcb6277429571714683720d5c85bca87, type: 3}
+  m_PrefabInstance: {fileID: 5617036593428301873}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8067884008245873944
 GameObject:
   m_ObjectHideFlags: 0
