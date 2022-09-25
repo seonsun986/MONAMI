@@ -40,6 +40,8 @@ public class Lobby2Manager : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel("SY_Test");
 
         }
+        
+
     }
 
 }
