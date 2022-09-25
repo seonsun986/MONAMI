@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     string weaponName;
     void Start()
     {
+
         startUI.SetActive(true);
         // 스타트 UI에 닉네임 할당
         foreach (Player player in PhotonNetwork.PlayerList)
