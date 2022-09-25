@@ -3,6 +3,7 @@ using UnityEngine.Rendering;
 using System.IO;
 using Photon.Pun;
 using System.Collections.Generic;
+using OpenCvSharp;
 
 public class PaintManager : Singleton<PaintManager>
 {
@@ -151,47 +152,6 @@ public class PaintManager : Singleton<PaintManager>
     {
         p.id = paint.Count;
         paint.Add(p.id, p);
-    }
-    public void SaveRenderTextureToPNG(RenderTexture texture)
-    {
-
-        // Texture -> Texture2D로 변환
-        int width = texture.width;
-        int height = texture.height;
-
-        RenderTexture currentRenderTexture = RenderTexture.active;
-        RenderTexture copiedRenderTexture = new RenderTexture(width, height, 0);
-
-        // copiedRenderTexture 로 texture를 복사
-        Graphics.Blit(texture, copiedRenderTexture);
-
-        RenderTexture.active = copiedRenderTexture;
-
-        // TextureFormat에서 RGB24 는 알파가 존재하지 않는다.
-        Texture2D texture2D = new Texture2D(width, height, TextureFormat.RGB24, false);
-
-        texture2D.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-        texture2D.Apply();
-
-        RenderTexture.active = currentRenderTexture;
-
-        // Texture PNG bytes로 인코딩
-        byte[] texturePNGBytes = texture2D.EncodeToPNG();
-
-        File.WriteAllBytes(Application.dataPath + "/text.png", texturePNGBytes);
-
-
-    }
-
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            SaveRenderTextureToPNG(plane.GetComponent<Paintable>().getMask());
-          //  for (int i = 0; i < )
-        }
     }
 
 

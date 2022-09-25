@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 //네트워크를 사용하기 위해서 / 리얼타임을 사용해야할 일이 있지만 대부분 Pun을 사용하면 된다.
 using Photon.Pun;
 using UnityEngine.UI;
+using OpenCvSharp;
 
 public class ConnectionManager : MonoBehaviourPunCallbacks
 //MonoBehaviourPunCallbacks : 
@@ -78,5 +79,32 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("02.Lobby");
     }
 
-    
+    public Texture2D texture;
+
+    void Update()
+    {
+        //Load texture
+        if(Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            Mat image = OpenCvSharp.Unity.TextureToMat(texture);
+
+            //RGB로 변경
+            Cv2.CvtColor(image, image, ColorConversionCodes.BGR2RGB);
+
+            Scalar red1 = new Scalar(255, 0, 0.5f * 255);
+            Scalar red2 = new Scalar(255 *0.7f, 0, 0.5f * 255 * 0.7f);
+
+            Mat dst = new Mat();
+            Cv2.InRange(image, red2, red1, dst);
+            int a = Cv2.CountNonZero(dst);
+
+            red1 = new Scalar(0, 0.5f * 255, 255);
+            red2 = new Scalar(0, 0.5f * 255 * 0.7f, 255 * 0.7f);
+
+            dst = new Mat();
+            Cv2.InRange(image, red2, red1, dst);
+            a = Cv2.CountNonZero(dst);
+        }
+    }
+
 }

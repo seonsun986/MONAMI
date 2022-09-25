@@ -22,6 +22,10 @@ public class DataManager : MonoBehaviour
     public string weaponName;
     public int id;
 
+    [Header("영역 판정 결과")]
+    public int Pink_point;
+    public int Blue_point;
+
     void Start()
     {
 
