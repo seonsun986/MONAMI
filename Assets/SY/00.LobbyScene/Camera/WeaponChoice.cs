@@ -6,8 +6,20 @@ public class WeaponChoice : MonoBehaviour
 {
     public GameObject popup;
 
+    public GameObject shooter;
+    public GameObject roller;
+    public GameObject charger;
+
+
     void Update()
     {
+        if (popup.activeSelf)
+        {
+            fuck(false);
+        }
+        else
+            fuck(true);
+        
         if (Input.GetMouseButtonDown(0))
         {
 
@@ -25,25 +37,30 @@ public class WeaponChoice : MonoBehaviour
                     print("슈터를 선택하였다.");
                     popup.SetActive(true);
                     DataManager.instance.weaponName = "Shooter";
-                    //정보를 넘겨주자?
-
                 }
-                else if(hit.transform.gameObject.tag == "Roller")
+                if (hit.transform.gameObject.tag == "Roller")
                 {
                     //롤러를 선택하였다.
                     print("롤러를 선택하였다.");
                     popup.SetActive(true);
                     DataManager.instance.weaponName = "Roller";
                 }
-                else
+                if (hit.transform.gameObject.tag == "Charger")
                 {
                     //차저를 선택하였다.
                     print("차저를 선택하였다.");
                     popup.SetActive(true);
                     DataManager.instance.weaponName = "Charger";
                 }
+                
             }
 
+        }
+        void fuck(bool B)
+        {
+            shooter.GetComponent<SphereCollider>().enabled = B;
+            roller.GetComponent<SphereCollider>().enabled = B;
+            charger.GetComponent<SphereCollider>().enabled = B;
         }
     }
 }

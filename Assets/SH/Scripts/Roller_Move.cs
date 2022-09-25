@@ -13,7 +13,7 @@ public class Roller_Move : MonoBehaviourPun
     public float downSpeed = 5;
     public bool isInEnemyInk;
     public bool isRun;
-    bool isJumping;
+    public bool isJumping;
     public float finalSpeed;
 
     public float rotSpeed = 5;

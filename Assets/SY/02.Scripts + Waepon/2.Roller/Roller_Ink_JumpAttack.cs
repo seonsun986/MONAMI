@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Roller_Ink_Attack : MonoBehaviour
+public class Roller_Ink_JumpAttack : MonoBehaviour
 {
 
     //정해진 색깔을
@@ -15,7 +15,6 @@ public class Roller_Ink_Attack : MonoBehaviour
     public float hardness = 1;
 
     Rigidbody rb;
-    float inkSpeed;
 
     Vector3 dir;
     void Start()
@@ -24,10 +23,12 @@ public class Roller_Ink_Attack : MonoBehaviour
         dir = (transform.forward + transform.up).normalized * 1;
 
         rb.velocity = dir * 5f;
+
     }
     void Update()
     {
         rb.velocity += Vector3.down * 0.3f;
+
     }
 
     private void OnCollisionStay(Collision other)
