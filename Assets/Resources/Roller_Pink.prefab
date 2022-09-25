@@ -443,6 +443,36 @@ Transform:
   m_Father: {fileID: 6874005922022853418}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 51.223385, y: 19.249489, z: 6.9931684}
+--- !u!1 &784262616687582207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8442433669137704126}
+  m_Layer: 7
+  m_Name: RollerJumpPos3
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8442433669137704126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784262616687582207}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.5, z: 9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4109508876281176538}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1038792499178618816
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +586,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1260495223013143523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2518983214434433654}
+  m_Layer: 7
+  m_Name: Roller_FirePos2
+  m_TagString: Untagged
+  m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2518983214434433654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260495223013143523}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 1.85}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4109508876281176538}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1308051191163061275
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,6 +733,36 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1 &1438629738049953092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2469238422334557849}
+  m_Layer: 7
+  m_Name: RollerJumpPos1
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2469238422334557849
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438629738049953092}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.5, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4109508876281176538}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1445837580167930388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1073,6 +1163,36 @@ Transform:
   m_Father: {fileID: 8360342012929102044}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2302216730778525356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4880793450212559520}
+  m_Layer: 7
+  m_Name: RollerJumpPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4880793450212559520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2302216730778525356}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.5, z: 6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4109508876281176538}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2343495482834698780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,7 +1369,7 @@ Transform:
   - {fileID: 2513219499306142696}
   - {fileID: 2521737882808357024}
   m_Father: {fileID: 4109508876281176538}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!198 &2318812851070056022
 ParticleSystem:
@@ -32002,8 +32122,9 @@ Transform:
   m_Children:
   - {fileID: 4136178358119126717}
   - {fileID: 5665079475848152147}
-  - {fileID: 5665079475590529781}
+  - {fileID: 2518983214434433654}
   - {fileID: 5665079475293907333}
+  - {fileID: 5665079475590529781}
   - {fileID: 5290294420236962526}
   - {fileID: 2521864262779974144}
   - {fileID: 5665079475987279640}
@@ -32012,6 +32133,11 @@ Transform:
   - {fileID: 6996024171907880558}
   - {fileID: 5665079475324022347}
   - {fileID: 4689414895440969805}
+  - {fileID: 2469238422334557849}
+  - {fileID: 4880793450212559520}
+  - {fileID: 8442433669137704126}
+  - {fileID: 7243594936054919571}
+  - {fileID: 1977009219462130492}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -32050,6 +32176,7 @@ MonoBehaviour:
   downSpeed: 4
   isInEnemyInk: 0
   isRun: 0
+  isJumping: 0
   finalSpeed: 0
   rotSpeed: 5
   gravity: -9.81
@@ -32110,8 +32237,16 @@ MonoBehaviour:
   inkFactory: {fileID: 1389457511802273178, guid: a030ddca37c92e844a7cc923575acabf, type: 3}
   inkFirePos:
   - {fileID: 5665079475848152146}
-  - {fileID: 5665079475590529780}
+  - {fileID: 1260495223013143523}
   - {fileID: 5665079475293907332}
+  - {fileID: 5665079475590529780}
+  jump_InkFactory: {fileID: 1389457511802273178, guid: e14d4658df593e146b6dd175cd01718f, type: 3}
+  jump_InkFirePos:
+  - {fileID: 1438629738049953092}
+  - {fileID: 2302216730778525356}
+  - {fileID: 784262616687582207}
+  - {fileID: 4600887403563831068}
+  - {fileID: 7278240194970986601}
   maxInk: 100
   currentInk: 0
   canShoot: 0
@@ -32876,7 +33011,7 @@ Transform:
   m_Children:
   - {fileID: 8791426924516463502}
   m_Father: {fileID: 4109508876281176538}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4267492195434518357
 MonoBehaviour:
@@ -33072,6 +33207,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1491083125737415308}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4600887403563831068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7243594936054919571}
+  m_Layer: 7
+  m_Name: RollerJumpPos4
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7243594936054919571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4600887403563831068}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.5, z: 12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4109508876281176538}
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4682612204117048216
 GameObject:
@@ -43154,7 +43319,7 @@ Transform:
   - {fileID: 5293251395245500992}
   - {fileID: 5293233640226109430}
   m_Father: {fileID: 4109508876281176538}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!198 &5456159830452699036
 ParticleSystem:
@@ -53358,7 +53523,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5665079475293907332}
   m_LocalRotation: {x: -0, y: 0.2164396, z: -0, w: 0.97629607}
-  m_LocalPosition: {x: 1, y: 2.785, z: 1.53}
+  m_LocalPosition: {x: 1.5, y: 3, z: 1.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4109508876281176538}
@@ -53395,7 +53560,7 @@ Transform:
   m_LocalScale: {x: 0.92542, y: 0.92542, z: 0.92542}
   m_Children: []
   m_Father: {fileID: 4109508876281176538}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5665079475324022346
 MeshFilter:
@@ -53469,7 +53634,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5665079475590529781}
   m_Layer: 7
-  m_Name: Roller_FirePos2
+  m_Name: Roller_FirePos4
   m_TagString: Untagged
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -53483,11 +53648,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5665079475590529780}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.785, z: 1.53}
+  m_LocalPosition: {x: 0, y: 3, z: 3.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4109508876281176538}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5665079475848152146
 GameObject:
@@ -53513,7 +53678,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5665079475848152146}
   m_LocalRotation: {x: -0, y: -0.21643952, z: -0, w: 0.97629607}
-  m_LocalPosition: {x: -1, y: 2.785, z: 1.53}
+  m_LocalPosition: {x: -1.5, y: 3, z: 1.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4109508876281176538}
@@ -53547,7 +53712,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4109508876281176538}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5760075441235894818
 GameObject:
@@ -54379,6 +54544,36 @@ Transform:
   m_Father: {fileID: 6193198706692825248}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7278240194970986601
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1977009219462130492}
+  m_Layer: 7
+  m_Name: RollerJumpPos5
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1977009219462130492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7278240194970986601}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.5, z: 15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4109508876281176538}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7312563430611909773
 GameObject:
   m_ObjectHideFlags: 0
@@ -54562,7 +54757,7 @@ Transform:
   m_Children:
   - {fileID: 1829125364179834022}
   m_Father: {fileID: 4109508876281176538}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: -69.134, y: 177.202, z: 2.798}
 --- !u!136 &7664297836479892693
 CapsuleCollider:
@@ -55045,7 +55240,7 @@ RectTransform:
   - {fileID: 8131323552224489570}
   - {fileID: 8131323552437476564}
   m_Father: {fileID: 4109508876281176538}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -57321,7 +57516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6415353897626769514, guid: d71472e1149c5bb40828f7a2120d23ef, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6415353897626769514, guid: d71472e1149c5bb40828f7a2120d23ef, type: 3}
       propertyPath: m_AnchorMax.x
