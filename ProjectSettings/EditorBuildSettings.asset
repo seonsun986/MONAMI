@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SceneFlow/SY_Test.unity
     guid: ca41d5ff1f75a99479457fd7b994a607
+  - enabled: 1
+    path: Assets/Scenes/SceneFlow/ResultScene.unity
+    guid: 28328e787e1edc24b83245e84db243bb
   m_configObjects: {}

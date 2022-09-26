@@ -12,7 +12,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
 
     public TextMeshProUGUI count;
     public GameObject gameEndImg;
-    public GameObject screenShotCam;
+    //public GameObject screenShotCam;
 
     bool isStart = false;
 
@@ -21,7 +21,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
 
     void Start()
     {
-        screenShotCam.SetActive(false);
+        //screenShotCam.SetActive(false);
     }
 
     [PunRPC]
@@ -31,7 +31,10 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
     }
 
     // Update is called once per frame
-    int screenShotCount;
+    int changeScene;
+    float currentTime2;
+    public float changeTime1 = 1;
+    public float changeTime2 = 3;
     void Update()
     {
         if (isStart == false) return;
@@ -53,21 +56,29 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
 
         if (countTime <= 0)
         {
+            currentTime2 += Time.deltaTime;
             count.text = "0 : 00";
-            Time.timeScale = 0;         // 게임 정지
             gameEndImg.SetActive(true);
+            
 
             SaveRenderTextureToPNG(plane.GetComponent<Paintable>().getMask());      // 바닥 영역판정
-            if(screenShotCount <1)
+
+            if(currentTime2 > changeTime1 && changeScene <1)
             {
-                if(PhotonNetwork.IsMasterClient)
-                {
-                    screenShotCam.SetActive(true);
-                    screenShotCam.GetComponent<ScreenShot>().ScreenShotCam();
-                    screenShotCount++;
-                }
-               
+                PhotonNetwork.LoadLevel("ResultScene");
+                changeScene++;
             }
+
+            //if(screenShotCount <1)
+            //{
+            //    if(PhotonNetwork.IsMasterClient)
+            //    {
+            //        screenShotCam.SetActive(true);
+            //        screenShotCam.GetComponent<ScreenShot>().ScreenShotCam();
+            //        screenShotCount++;
+            //    }
+               
+            //}
             
 
         }
