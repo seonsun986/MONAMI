@@ -40,16 +40,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 핑크(id = 1~3)와 블루(id = 4~6)팀에 따라 리스폰 포인트가 결정된다
 
         // id가 1~3이라면 핑크팀이다!
-        if (DataManager.instance.id == 1/*>= 1 && DataManager.instance.id <= 3*/)
+        if (DataManager.instance.id >= 1 && DataManager.instance.id <= 2)
         {
-            CreatePlayer("Pink", pink_SpawnPoint.transform.position /*+ pink_SpawnPoint.transform.right * (-10 + (5 * id))*/);
+            CreatePlayer("Pink", pink_SpawnPoint.transform.position + pink_SpawnPoint.transform.right * (-10 + (5 * id)));
         }
 
 
         // id가 4~6이라면 블루팀이다
-        else if (DataManager.instance.id == 2 /*DataManager.instance.id >= 4 && DataManager.instance.id <= 6*/)
+        else if (DataManager.instance.id >= 3 && DataManager.instance.id <= 4)
         {
-            CreatePlayer("Blue", blue_SpawnPoint.transform.position/* + blue_SpawnPoint.transform.right * (-10 + (5 * (id - 3)))*/);
+            CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (id - 2))));
 
         }
 

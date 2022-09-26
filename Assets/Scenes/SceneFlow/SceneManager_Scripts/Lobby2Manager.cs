@@ -39,7 +39,7 @@ public class Lobby2Manager : MonoBehaviourPunCallbacks
 
 
         //룸에 접속한 인원이 접속가능한 인원이 되면 마스터클라이언트가 시작.
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 4 && PhotonNetwork.IsMasterClient)
         {
             b = true;
             //CreateRoom();
