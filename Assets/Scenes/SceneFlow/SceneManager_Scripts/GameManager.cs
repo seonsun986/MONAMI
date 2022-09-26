@@ -42,14 +42,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         // id가 1~3이라면 핑크팀이다!
         if (DataManager.instance.id >= 1 && DataManager.instance.id <= 2)
         {
-            CreatePlayer("Pink", pink_SpawnPoint.transform.position + pink_SpawnPoint.transform.right * (-10 + (5 * id)));
+            CreatePlayer("Pink", pink_SpawnPoint.transform.position + pink_SpawnPoint.transform.right * (-10 + (5 * DataManager.instance.id)));
         }
-
 
         // id가 4~6이라면 블루팀이다
         else if (DataManager.instance.id >= 3 && DataManager.instance.id <= 4)
         {
-            CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (id - 2))));
+            CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (DataManager.instance.id - 2))));
 
         }
 
