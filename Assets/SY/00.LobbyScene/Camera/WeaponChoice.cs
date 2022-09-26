@@ -5,21 +5,37 @@ using UnityEngine;
 public class WeaponChoice : MonoBehaviour
 {
     public GameObject popup;
+    public GameObject image;
 
     public GameObject shooter;
     public GameObject roller;
     public GameObject charger;
 
+    public GameObject shooterInfo;
+    public GameObject rollerInfo;
+    public GameObject chargerInfo;
+
+    public void Start()
+    {
+        image.SetActive(false);
+    }
 
     void Update()
     {
         if (popup.activeSelf)
         {
             fuck(false);
+            shooterInfo.SetActive(false);
+            rollerInfo.SetActive(false);
+            chargerInfo.SetActive(false);
+
         }
         else
             fuck(true);
-        
+        /*shooterInfo.SetActive(true);
+        rollerInfo.SetActive(true);
+        chargerInfo.SetActive(true);*/
+
         if (Input.GetMouseButtonDown(0))
         {
 
