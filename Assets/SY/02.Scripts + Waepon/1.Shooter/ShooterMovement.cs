@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using TMPro;
+using UnityEngine.UI;
 
 
 public class ShooterMovement : MonoBehaviourPun
@@ -38,7 +38,7 @@ public class ShooterMovement : MonoBehaviourPun
     bool isJumping = false;
 
     // ´Ð³×ÀÓ
-    public TextMeshProUGUI nickName;
+    public Text nickName;
     void Start()
     {
         nickName.text = photonView.Owner.NickName;

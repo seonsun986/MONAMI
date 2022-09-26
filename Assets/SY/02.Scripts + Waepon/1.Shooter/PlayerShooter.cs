@@ -24,6 +24,7 @@ public class PlayerShooter : MonoBehaviourPun
     // 잉크부족 띄우기 위한 것들
 
     public bool canShoot;
+    public GameObject crossHair;
     public GameObject lowInkUI;
     public int count;
     public int maxCount;
@@ -35,6 +36,7 @@ public class PlayerShooter : MonoBehaviourPun
         canHide = GetComponent<CanHide>();
         lowInkUI.SetActive(false);
         canShoot = true;
+        crossHair.SetActive(false);
     }
 
     // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 100이 최대 
@@ -48,6 +50,7 @@ public class PlayerShooter : MonoBehaviourPun
         // 내것이라면
         if (photonView.IsMine)
         {
+            if (crossHair.activeSelf == false) crossHair.SetActive(true);
             // 잉크충전 UI가 켜져있다면
             if (uiInk.gameObject.activeSelf == true)
             {
