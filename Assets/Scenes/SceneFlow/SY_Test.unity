@@ -2477,6 +2477,10 @@ MonoBehaviour:
   UI_NickName:
   - {fileID: 691960854}
   - {fileID: 597431644}
+  - {fileID: 1153604162}
+  - {fileID: 1206603334}
+  - {fileID: 317262136}
+  - {fileID: 854383060}
   pink_SpawnPoint: {fileID: 1357775525}
   blue_SpawnPoint: {fileID: 617054332}
   players: []
@@ -3522,7 +3526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6155b3a7b396cc94d85ff0395e4b9de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countTime: 40
+  countTime: 180
   count: {fileID: 4240202129129058041}
   gameEndImg: {fileID: 2348006595528814323}
   plane: {fileID: 5617036593428301874}
