@@ -82,7 +82,7 @@ public class PlayerCharger : MonoBehaviourPun
     void Update()
     {
         if (!photonView.IsMine) return;
-
+        if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
         // UI 충전
         // 잉크충전 UI가 켜져있다면
         if (uiInk.gameObject.activeSelf == true)

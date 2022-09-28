@@ -43,6 +43,7 @@ public class Roller_Move : MonoBehaviourPun
     void Update()
     {
         if (photonView.IsMine == false) return;
+        if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
 
 
         // 만약 둘러보기가 비활성화 되어있으면

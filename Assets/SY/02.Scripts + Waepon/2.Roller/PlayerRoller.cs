@@ -53,6 +53,7 @@ public class PlayerRoller : MonoBehaviourPun
         // 내 것이라면
         if (photonView.IsMine)
         {
+            if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
             // 잉크충전 UI가 켜져있다면
             if (uiInk.gameObject.activeSelf == true)
             {
