@@ -39,6 +39,7 @@ public class PlayerCharger : MonoBehaviourPun
 
     // 쏠 수 있게
     public bool canShoot;
+    public bool hideCanShoot;       // 숨었을 때 못쏘게 한다
     public GameObject lowInkUI;
 
     void Start()
@@ -107,15 +108,16 @@ public class PlayerCharger : MonoBehaviourPun
         // 총 쏠 수없는 상태가 되면
         // UI가 켜지긴 해도 충전은 되지 않는다
 
-        if (currentInk <= 0)
+        if (currentInk <= 0 || hideCanShoot == false)
         {
             /// 잉크부족! UI 띄우기
-            if (lowInkUI.activeSelf == false)
+            if (currentInk <= 0  && lowInkUI.activeSelf == false)
             {
+                // 0 보다 작지않게하기
+                currentInk = 0;
                 lowInkUI.SetActive(true);
             }
-            // 0 보다 작지않게하기
-            currentInk = 0;
+           
             canShoot = false;
         }
 
@@ -154,7 +156,7 @@ public class PlayerCharger : MonoBehaviourPun
                 // 이 UI는 나중에 로컬로 보내야한다
                 currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.03f, ref currentVelocity, 1f * Time.deltaTime);
                 crosshair.fillAmount = currentAmount;
-                chargeInk = (int)(currentAmount * 20);
+                chargeInk = (int)(currentAmount * 10);
                 if (crosshair.fillAmount > 1)
                 {
                     chargeInk = 20;

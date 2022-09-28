@@ -122,7 +122,8 @@ public class Charger_Move : MonoBehaviourPun
         {
             if (isJumping)
             {
-                photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement");
+                photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement", 0);
+                photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement",1);
             }
             //수직속도를 0으로 하고싶다.
             yVelocity = 0;
@@ -155,9 +156,9 @@ public class Charger_Move : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RPCAnimPlay(string animPlay)
+    public void RPCAnimPlay(string animPlay, int layer= 0)
     {
-        anim.Play(animPlay);
+        anim.Play(animPlay, layer);
     }
 
     [PunRPC]

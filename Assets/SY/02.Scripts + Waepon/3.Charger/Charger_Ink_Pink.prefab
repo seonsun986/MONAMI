@@ -113,7 +113,7 @@ MonoBehaviour:
   radius: 3
   strength: 0.4
   hardness: 0.01
-  inkSpeed: 50
+  inkSpeed: 80
   cam: {fileID: 0}
   hitImpactFactory: {fileID: 1703928220513809131, guid: b627a4e9f383d98418baa4d3a6d8030b, type: 3}
   radiusByCharge: 0

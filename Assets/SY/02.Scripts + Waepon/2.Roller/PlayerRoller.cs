@@ -25,6 +25,7 @@ public class PlayerRoller : MonoBehaviourPun
 
     // 쏠 수 있게
     public bool canShoot;
+    public bool hideCanShoot;       // 숨었을 때 못쏘게 한다
     public GameObject lowInkUI;
 
     //현재 공격중인가?
@@ -75,15 +76,15 @@ public class PlayerRoller : MonoBehaviourPun
 
             // 잉크 탱크
             // 쏠 수 없게 하기
-            if (currentInk <= 0)
+            if (currentInk <= 0 || hideCanShoot == false)
             {
                 // 잉크부족! UI 띄우기
-                if (lowInkUI.activeSelf == false)
+                if (currentInk <= 0 && lowInkUI.activeSelf == false)
                 {
                     lowInkUI.SetActive(true);
-                }
-                // 0보다 작지않게하기
-                currentInk = 0;
+                    // 0보다 작지않게하기
+                    currentInk = 0;
+                }                
                 canShoot = false;
             }
 
