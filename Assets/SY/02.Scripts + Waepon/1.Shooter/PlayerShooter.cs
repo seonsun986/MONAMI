@@ -24,6 +24,7 @@ public class PlayerShooter : MonoBehaviourPun
     // 잉크부족 띄우기 위한 것들
 
     public bool canShoot;
+    public bool hideCanShoot;       // 숨었을 때 못쏘게 한다
     public GameObject crossHair;
     public GameObject lowInkUI;
     public int count;
@@ -39,7 +40,7 @@ public class PlayerShooter : MonoBehaviourPun
         crossHair.SetActive(false);
     }
 
-    // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 100이 최대 
+    // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 50이 최대 
     public RectTransform uiInk; // 최대 스케일 : 2.37, 꺼지지 않아있을 때만 스케일 조정한다
     public Transform inkTank;   // 최대 스케일 : 1
     float currentTime2;
@@ -73,15 +74,19 @@ public class PlayerShooter : MonoBehaviourPun
 
             // 잉크 탱크 
             // 쏠 수 없게 하기
-            if (count >= maxCount)
+            if (count >= maxCount || hideCanShoot == false)
             {
+                // 잉크가 넘치면 무조건 못쏜다
+                // 숨고있을 땐 무조건 못쏜다
                 // 잉크부족! UI 띄우기
-                if (lowInkUI.activeSelf == false)
+                // 잉크 부족은 숨었을땐 나타나게 하지 않기!ㄴ
+                if (count >= maxCount && lowInkUI.activeSelf == false)
                 {
                     lowInkUI.SetActive(true);
+                    // 넘지 않게하기
+                    count = maxCount;
                 }
-                // 넘지 않게하기
-                count = maxCount;
+                
                 canShoot = false;
             }
 
@@ -92,6 +97,7 @@ public class PlayerShooter : MonoBehaviourPun
                 {
                     lowInkUI.SetActive(false);
                 }
+                // 숨지 않았을때만 쏠 수 있다
                 canShoot = true;
             }
 

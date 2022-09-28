@@ -147,8 +147,7 @@ public class CanHide : MonoBehaviourPun
 
             if (Input.GetKey(hideKey) && Physics.Raycast(ray, out hitInfo))
             {
-                //Zoom In
-                cam.GetComponentInParent<CameraMovement>().zoomDistance = 4f;
+
                 // ID로 접근 --> 쉐이더 그래프 ID -> int값 출력
                 Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
                 if (paintable != null)
@@ -179,6 +178,8 @@ public class CanHide : MonoBehaviourPun
                     rgb[2] > myColor_B - 0.4f && rgb[2] < myColor_B + 0.4f)
                 {
                     canHide = true;
+                    //Zoom In
+                    cam.GetComponentInParent<CameraMovement>().zoomDistance = 4f;
 
                 }
                 // 다른 색깔들일때
@@ -235,8 +236,8 @@ public class CanHide : MonoBehaviourPun
             pixelUV.x *= text.width;
             pixelUV.y *= text.height;
             Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
-            print("뽑아온 색깔 #" + ColorUtility.ToHtmlStringRGB(color));
-            print("RGB 색깔 : " + color.r + ", " + color.g + ", " + color.b);
+            //print("뽑아온 색깔 #" + ColorUtility.ToHtmlStringRGB(color));
+            //print("RGB 색깔 : " + color.r + ", " + color.g + ", " + color.b);
 
             string getColor = ColorUtility.ToHtmlStringRGB(color);
             rgb[0] = color.r;
@@ -289,6 +290,7 @@ public class CanHide : MonoBehaviourPun
             // 잉크 충전하기 
             PlayerRoller pr = GetComponent<PlayerRoller>();
             pr.ChargeInk();
+            pr.hideCanShoot = false;
             print("롤러 잉크 충전된다!");
         }
         else if (gameObject.name.Contains("Shooter"))
@@ -299,6 +301,7 @@ public class CanHide : MonoBehaviourPun
             PlayerShooter ps = GetComponent<PlayerShooter>();
             // 총알 충전을 위한 함수
             ps.ChargeInk();
+            ps.hideCanShoot = false;
             print("슈터 잉크 충전된다!");
         }
 
@@ -311,6 +314,7 @@ public class CanHide : MonoBehaviourPun
             PlayerCharger pc = GetComponent<PlayerCharger>();
             // 총알 충전을 위한 함수
             pc.ChargeInk();
+            pc.hideCanShoot = false;
             print("차저 잉크 충전된다!");
         }
 
@@ -465,6 +469,7 @@ public class CanHide : MonoBehaviourPun
         if (gameObject.name.Contains("Roller"))
         {
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
+            PlayerRoller pr = gameObject.GetComponent<PlayerRoller>();
 
             // 적 페인트 안에 있을 때
             if (isInenemyColor == true)
@@ -478,12 +483,14 @@ public class CanHide : MonoBehaviourPun
 
             // 이건 공통이므로
             rMove.isRun = false;
+            pr.hideCanShoot = true;
         }
 
         // 만약 플레이어가 슈터라면
         else if (gameObject.name.Contains("Shooter"))
         {
             ShooterMovement sm = gameObject.GetComponent<ShooterMovement>();
+            PlayerShooter ps = gameObject.GetComponent<PlayerShooter>();
 
             // 적 페인트 안에 있을 때
             if (isInenemyColor == true)
@@ -498,12 +505,14 @@ public class CanHide : MonoBehaviourPun
 
             // 이건 공통이므로
             sm.isRun = false;
+            ps.hideCanShoot = true;
         }
 
         // 플레이어가 차저라면
         else if (gameObject.name.Contains("Charger"))
         {
             Charger_Move cm = gameObject.GetComponent<Charger_Move>();
+            PlayerCharger pc = gameObject.GetComponent<PlayerCharger>();
 
             // 적 페인트 안에 있을 때
             if (isInenemyColor == true)
@@ -518,8 +527,10 @@ public class CanHide : MonoBehaviourPun
 
             // 이건 공통이므로
             cm.isRun = false;
+            pc.hideCanShoot = true;
         }
 
         squid.SetActive(false);
+        
     }
 }
