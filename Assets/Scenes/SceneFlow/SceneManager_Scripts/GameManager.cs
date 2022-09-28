@@ -91,10 +91,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Instantiate하는걸 바꾼다.
 
         // 플레이어의 카운터가 현재룸의 최대플레이어라면
-        if(players.Count >= PhotonNetwork.CurrentRoom.MaxPlayers && GameStateManager.gameState.gstate == GameStateManager.GameState.Go)
-        {
+        //if(players.Count >= PhotonNetwork.CurrentRoom.MaxPlayers && GameStateManager.gameState.gstate == GameStateManager.GameState.Go)
+        //{
            
-        }
+        //}
     }
 
     public void StartCountDown()

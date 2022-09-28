@@ -85,7 +85,8 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
             currentTime2 += Time.deltaTime;
             count.text = "0 : 00";
             gameEndImg.SetActive(true);
-            
+            //게임상태가 게임오버가 되면 더 이상 공격도 움직이지도 못하게 만든다.
+            GameStateManager.gameState.gstate = GameStateManager.GameState.GameOver;
 
             SaveRenderTextureToPNG(plane.GetComponent<Paintable>().getMask());      // 바닥 영역판정
 
