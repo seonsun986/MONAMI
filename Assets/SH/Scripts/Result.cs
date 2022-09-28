@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System.IO;
 
 public class Result : MonoBehaviourPun
 {
@@ -14,25 +15,42 @@ public class Result : MonoBehaviourPun
     public Animator pink_anim;
     public Animator blue_anim;
 
-    //            string seconds = (countTime % 60).ToString("F0");
+
+    public Image textureImage;
+    private void Awake()
+    {
+        
+    }
     void Start()
     {
         // 마스터만 블루 포인트와 레드포인트 다른 사람들에게 넘겨준다
-        // 
         if(PhotonNetwork.IsMasterClient)
         {
             pink = (double)DataManager.instance.Pink_point;
             blue = (double)DataManager.instance.Blue_point;
+            photonView.RPC("RPCResult", RpcTarget.All, pink, blue);
         }
        
-        photonView.RPC("RPCResult", RpcTarget.Others, pink, blue);
+        
 
 
     }
 
     void Update()
     {
-        
+
+        if(Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            // 방장 이름으로 캡쳐파일 불러오기
+            byte[] textureBytes = File.ReadAllBytes(Application.dataPath + "/ScreenShot/" + PhotonNetwork.MasterClient.NickName);
+            if(textureBytes.Length>0)
+            {
+                Texture2D loadedTexture = new Texture2D(0, 0);
+                loadedTexture.LoadImage(textureBytes);
+                textureImage.sprite = Sprite.Create(loadedTexture, new Rect(0, 0, loadedTexture.width, loadedTexture.height), Vector2.zero);
+            }          
+            
+        }
     }
 
     [PunRPC]
@@ -55,5 +73,6 @@ public class Result : MonoBehaviourPun
             pink_anim.SetTrigger("Defeat");
         }
 
+        print((((pink / (pink + blue)) * 100)).ToString("F1") + "%");
     }
 }

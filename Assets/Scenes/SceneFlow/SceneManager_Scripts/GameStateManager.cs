@@ -32,13 +32,22 @@ public class GameStateManager : MonoBehaviour
     {
         gstate = GameState.Ready;
     }
+
+    int count;
     void Update()
     {
         if (start_UI.activeSelf == false)
         {
+            // GameState가 go가 아닐때 해당 state실행시키고 싶다
             if (gstate == GameState.Go) return;
+
+            else
             {
-                StartCoroutine(ReadyToStart());
+                if (count < 1)
+                {
+                    StartCoroutine(ReadyToStart());
+                    count++;
+                }
             }
         }
 
@@ -56,6 +65,8 @@ public class GameStateManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         go.SetActive(false);
         gstate = GameState.Go;
+
+        GameManager.Instance.StartCountDown();
 
     }
 

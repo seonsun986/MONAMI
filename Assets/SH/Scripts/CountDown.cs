@@ -13,7 +13,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
 
     public TextMeshProUGUI count;
     public GameObject gameEndImg;
-    //public GameObject screenShotCam;
+    public GameObject screenShotCam;
 
     bool isStart = false;
 
@@ -30,7 +30,6 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
         time_Three.SetActive(false);
         time_Two.SetActive(false);
         time_One.SetActive(false);
-        //screenShotCam.SetActive(false);
     }
 
     [PunRPC]
@@ -44,7 +43,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
     float currentTime2;
     public float changeTime1 = 1;
     public float changeTime2 = 3;
-
+    public int screenShotCount;
     void Update()
     {
         if (isStart == false) return;
@@ -96,17 +95,16 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
                 changeScene++;
             }
 
-            //if(screenShotCount <1)
-            //{
-            //    if(PhotonNetwork.IsMasterClient)
-            //    {
-            //        screenShotCam.SetActive(true);
-            //        screenShotCam.GetComponent<ScreenShot>().ScreenShotCam();
-            //        screenShotCount++;
-            //    }
-               
-            //}
-            
+            if (screenShotCount < 1)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    screenShotCam.GetComponent<ScreenShot>().ScreenShotCam();
+                    screenShotCount++;
+                }
+
+            }
+
 
         }
 

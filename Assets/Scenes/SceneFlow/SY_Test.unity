@@ -3039,7 +3039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2077519264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3121,7 +3121,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3143,13 +3143,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077519263}
-  m_LocalRotation: {x: 0.49966422, y: -0.5002653, z: 0.49460852, w: 0.50540364}
-  m_LocalPosition: {x: 0.504377, y: 107.669975, z: -11.993867}
+  m_LocalRotation: {x: 0.49613863, y: -0.5038424, z: 0.49814495, w: 0.5018377}
+  m_LocalPosition: {x: -3.74, y: 107.669975, z: -11.993867}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.348, y: -90.107, z: 0.123}
 --- !u!1 &2094578230
 GameObject:
   m_ObjectHideFlags: 0
@@ -3922,12 +3922,14 @@ MonoBehaviour:
   countTime: 20
   count: {fileID: 4240202129129058041}
   gameEndImg: {fileID: 2348006595528814323}
+  screenShotCam: {fileID: 2077519263}
   plane: {fileID: 5617036593428301874}
   time_Three: {fileID: 1574418980}
   time_Two: {fileID: 579964886}
   time_One: {fileID: 952427493}
   changeTime1: 3
   changeTime2: 3
+  screenShotCount: 0
 --- !u!224 &4240202129129058043
 RectTransform:
   m_ObjectHideFlags: 0

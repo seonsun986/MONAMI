@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Photon.Pun;
 
 public class ScreenShot : MonoBehaviour
 {
@@ -21,13 +22,16 @@ public class ScreenShot : MonoBehaviour
 
     public void ScreenShotCam()
     {
+        // 파일이 없다면
         DirectoryInfo dir = new DirectoryInfo(path);
         if (!dir.Exists)
         {
             Directory.CreateDirectory(path);
         }
         string name;
-        name = path + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".png";
+
+        // 방장 이름으로 캡쳐파일 저장
+        name = path + PhotonNetwork.MasterClient.NickName + ".png";
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
         camera.targetTexture = rt;
         Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
