@@ -78,7 +78,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
 
             
         }
-
+        //게임이 끝나면!!!!!!!!!!
         if (countTime <= 0)
         {
             time_One.SetActive(false);
