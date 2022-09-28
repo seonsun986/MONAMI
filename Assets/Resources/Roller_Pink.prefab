@@ -32265,6 +32265,7 @@ MonoBehaviour:
   maxInk: 100
   currentInk: 0
   canShoot: 0
+  hideCanShoot: 0
   lowInkUI: {fileID: 8131323552437476567}
   uiInk: {fileID: 8131323551860572563}
   inkTank: {fileID: 4109508877192963750}
