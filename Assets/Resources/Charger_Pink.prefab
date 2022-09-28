@@ -69873,6 +69873,7 @@ MonoBehaviour:
   lazer_blue: {fileID: 3616775562873905986, guid: d69b5cde8eacea940ae74dbceda19561, type: 3}
   crosshair: {fileID: 7744107792838084318}
   canShoot: 0
+  hideCanShoot: 0
   lowInkUI: {fileID: 474867391346393720}
   uiInk: {fileID: 474867391037775676}
   inkTank: {fileID: 2473549567378847986}

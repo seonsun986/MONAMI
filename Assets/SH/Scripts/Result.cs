@@ -18,9 +18,26 @@ public class Result : MonoBehaviourPun
     void Start()
     {
         // 마스터만 블루 포인트와 레드포인트 다른 사람들에게 넘겨준다
+        // 
+        if(PhotonNetwork.IsMasterClient)
+        {
+            pink = (double)DataManager.instance.Pink_point;
+            blue = (double)DataManager.instance.Blue_point;
+        }
+       
+        photonView.RPC("RPCResult", RpcTarget.Others, pink, blue);
 
-        photonView.RPC("RPCResult", RpcTarget.Others, pink,blue);
 
+    }
+
+    void Update()
+    {
+        
+    }
+
+    [PunRPC]
+    public void RPCResult(double pink, double blue)
+    {
         pinkRatio.text = (((pink / (pink + blue)) * 100)).ToString("F1") + "%";
         //pinkRatio.text = string.Format("{0:0.#}", (pink / (pink + blue)) * 100) + "%";
         blueRatio.text = (((blue / (pink + blue)) * 100)).ToString("F1") + "%";
@@ -37,18 +54,6 @@ public class Result : MonoBehaviourPun
             blue_anim.SetTrigger("Victory");
             pink_anim.SetTrigger("Defeat");
         }
-        
-    }
 
-    void Update()
-    {
-        
-    }
-
-    [PunRPC]
-    public void RPCResult(double pink, double blue)
-    {
-        pink = (double)DataManager.instance.Pink_point;
-        blue = (double)DataManager.instance.Blue_point;
     }
 }
