@@ -89,8 +89,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         players.Add(pv);
         // 만약에 인원이 1명이라면
         // Instantiate하는걸 바꾼다.
-        if(players.Count >= PhotonNetwork.CurrentRoom.MaxPlayers)
+
+        // 플레이어의 카운터가 현재룸의 최대플레이어라면
+        if(players.Count >= PhotonNetwork.CurrentRoom.MaxPlayers && GameStateManager.gameState.gstate == GameStateManager.GameState.Go)
         {
+            //카운터다운 시작.
             countDown.RPC("RpcStartCount", RpcTarget.All);
         }
     }

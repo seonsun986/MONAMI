@@ -5,6 +5,7 @@ using TMPro;
 using Photon.Pun;
 using System.IO;
 using OpenCvSharp;
+using UnityEngine.UI;
 
 public class CountDown : MonoBehaviourPun//, IPunObservable
 {
@@ -19,8 +20,16 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
     [Header("영역 판정을 위한 변수들")]
     public GameObject plane;        // 바닥
 
+    //SooYoung / 09.28 Update
+    public GameObject time_Three;
+    public GameObject time_Two;
+    public GameObject time_One;
+
     void Start()
     {
+        time_Three.SetActive(false);
+        time_Two.SetActive(false);
+        time_One.SetActive(false);
         //screenShotCam.SetActive(false);
     }
 
@@ -35,10 +44,26 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
     float currentTime2;
     public float changeTime1 = 1;
     public float changeTime2 = 3;
+
     void Update()
     {
         if (isStart == false) return;
-
+        //만약 카운트타임이 3.5, 3 이하라면
+        if (countTime >= 3 && countTime <= 3.5f)
+        {
+            time_Three.SetActive(true);
+        } 
+        //카운트타임이 2이상이거나 2.5이하라면
+        if (countTime >= 2 && countTime <= 2.5f)
+        {
+            time_Three.SetActive(false);
+            time_Two.SetActive(true);
+        }
+        if (countTime >= 1 && countTime <= 1.5f)
+        {
+            time_Two.SetActive(false);
+            time_One.SetActive(true);
+        }
 
         if (countTime > 0)
         {
@@ -56,6 +81,8 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
 
         if (countTime <= 0)
         {
+            time_One.SetActive(false);
+
             currentTime2 += Time.deltaTime;
             count.text = "0 : 00";
             gameEndImg.SetActive(true);

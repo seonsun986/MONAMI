@@ -99,6 +99,7 @@ public class CanHide : MonoBehaviourPun
         if (photonView.IsMine)
         {
             Ray ray = new Ray(transform.position, transform.up * -1);
+            Debug.DrawRay(transform.position, transform.up * -1);
             RaycastHit hitInfo;
 
 
@@ -149,6 +150,7 @@ public class CanHide : MonoBehaviourPun
             {
                 //Zoom In
                 cam.GetComponentInParent<CameraMovement>().zoomDistance = 4f;
+
                 // ID로 접근 --> 쉐이더 그래프 ID -> int값 출력
                 Paintable paintable = hitInfo.transform.GetComponent<Paintable>();
                 if (paintable != null)
@@ -191,6 +193,7 @@ public class CanHide : MonoBehaviourPun
             {
                 //Zoom Out
                 cam.GetComponentInParent<CameraMovement>().zoomDistance = 0f;
+
                 if (canHide ==true)
                 { particle_Ink_Splash.Play();}
 
