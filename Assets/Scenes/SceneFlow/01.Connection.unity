@@ -1359,6 +1359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3bfde6083ec5649a5ebf676a667d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenMaterial: {fileID: 2100000, guid: 45f7b1f2ba9b390459efd77acf70d77e, type: 2}
   inputNickname: {fileID: 987710060}
   btnConnect: {fileID: 300052584}
   texture: {fileID: 0}

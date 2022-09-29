@@ -7,6 +7,8 @@ using System.IO;
 
 public class Result : MonoBehaviourPun
 {
+    public Material screenMaterial;
+
     double pink;
     double blue;
     public Text pinkRatio;
@@ -19,7 +21,7 @@ public class Result : MonoBehaviourPun
     public Image textureImage;
     private void Awake()
     {
-        
+        screenMaterial.SetFloat("_FullscreenIntensity", 0f);
     }
     void Start()
     {

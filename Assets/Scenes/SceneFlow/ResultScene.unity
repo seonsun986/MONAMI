@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc3582bcac354f45a4ffdc76f9c02ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenMaterial: {fileID: 2100000, guid: 45f7b1f2ba9b390459efd77acf70d77e, type: 2}
   pinkRatio: {fileID: 1197963162}
   blueRatio: {fileID: 1360653010}
   slider: {fileID: 1613336140}

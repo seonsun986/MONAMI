@@ -32386,12 +32386,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea07e3e99adac642bff90ad9744f8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenMaterial: {fileID: 2100000, guid: 45f7b1f2ba9b390459efd77acf70d77e, type: 2}
   hp: 3
   respawnTime: 3
   body: {fileID: 8693617043850144036}
   weapon: {fileID: 8386977330572005126}
   inkTank: {fileID: 4109508876993522229}
-  playerNickname: 
+  weaponName: 
   killMsgBox: {fileID: 3691617457950974497}
   killMsgtxt: {fileID: 3691617457575740940}
 --- !u!1 &4109508876437184245
@@ -53348,6 +53349,7 @@ MonoBehaviour:
   radius: 1
   strength: 1
   hardness: 0.01
+  weaponName: 
 --- !u!135 &5665079475138230689
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -53500,6 +53502,7 @@ MonoBehaviour:
   radius: 1
   strength: 1
   hardness: 0.01
+  weaponName: 
 --- !u!135 &5665079475170732553
 SphereCollider:
   m_ObjectHideFlags: 0

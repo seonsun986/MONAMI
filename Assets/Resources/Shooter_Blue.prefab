@@ -12251,12 +12251,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea07e3e99adac642bff90ad9744f8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenMaterial: {fileID: 2100000, guid: 45f7b1f2ba9b390459efd77acf70d77e, type: 2}
   hp: 3
   respawnTime: 3
   body: {fileID: 5908255355343154739}
   weapon: {fileID: 6623609963887286236}
   inkTank: {fileID: 702023987687080693}
-  playerNickname: 
+  weaponName: 
   killMsgBox: {fileID: 8957050505407294960}
   killMsgtxt: {fileID: 8957050505585641949}
 --- !u!1001 &5489974428202943152

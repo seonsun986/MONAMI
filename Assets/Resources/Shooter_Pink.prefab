@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1142973817010349381}
   - component: {fileID: 2798805409379034728}
   - component: {fileID: 9201186486832150267}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Nickname
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2059,7 +2059,7 @@ GameObject:
   - component: {fileID: 705332387011157611}
   - component: {fileID: 3195415785831892830}
   - component: {fileID: 7245017436671361758}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Canvas_World
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7898,6 +7898,7 @@ MonoBehaviour:
   radius: 1
   strength: 1
   hardness: 0.01
+  weaponName: 
 --- !u!54 &2636039765536492978
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8059,6 +8060,7 @@ MonoBehaviour:
   radius: 1
   strength: 1
   hardness: 0.01
+  weaponName: 
 --- !u!54 &2636039766093384314
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14614,12 +14616,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea07e3e99adac642bff90ad9744f8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenMaterial: {fileID: 2100000, guid: 45f7b1f2ba9b390459efd77acf70d77e, type: 2}
   hp: 3
   respawnTime: 3
   body: {fileID: 5908255355343154739}
   weapon: {fileID: 6623609963887286236}
   inkTank: {fileID: 702023987687080693}
-  playerNickname: 
+  weaponName: 
   killMsgBox: {fileID: 3872218602405034947}
   killMsgtxt: {fileID: 3872218602381795310}
 --- !u!1001 &2169083122999046009

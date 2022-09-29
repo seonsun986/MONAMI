@@ -30,11 +30,18 @@ public class Player_HP : MonoBehaviourPun
     public Text killMsgtxt;
     bool isRepawned;
     float currentTime2;
-
+    
     void Start()
     {
+
         // 풀 스크린 가져오기
-        screenMaterial = Resources.Load<Material>("Voronoi_Fykk/screen_tut");
+        screenMaterial = Resources.Load<Material>("Voronoi_Fullscreen");
+        screenMaterial.SetFloat("_FullscreenIntensity", 0f);
+        if (gameObject.name.Contains("Blue"))
+        {
+            Color color = new Color(0, 0.5f, 1);
+            screenMaterial.SetColor("_Color", color);
+        }
 
         pink_RespawnPoint = GameObject.Find("PinkTeam_Respawn").transform;
         blue_RespawnPoint = GameObject.Find("BlueTeam_Respawn").transform;
@@ -43,14 +50,19 @@ public class Player_HP : MonoBehaviourPun
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            screenMaterial.SetFloat("_FullscreenIntensity", 0.5f);
-        }
-
+        
         if (!photonView.IsMine) return;
+        if(hp == 2)
+        {
+            screenMaterial.SetFloat("_FullscreenIntensity", 0.1f);
+        }
+        else if(hp ==1)
+        {
+            screenMaterial.SetFloat("_FullscreenIntensity", 0.2f);
+        }
         if (hp <=0)
         {
+            screenMaterial.SetFloat("_FullscreenIntensity", 0.5f);
             // 리스폰 될때까지 당한 무기 알려주는 UI
             isRepawned = true;
             print($"Player hp : {hp}");
@@ -72,6 +84,7 @@ public class Player_HP : MonoBehaviourPun
                 killMsgBox.SetActive(false);
                 isRepawned = false;
                 currentTime2 = 0;
+                screenMaterial.SetFloat("_FullscreenIntensity", 0f);
             }
         }
     }

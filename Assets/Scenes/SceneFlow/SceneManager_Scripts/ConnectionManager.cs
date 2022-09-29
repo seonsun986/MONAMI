@@ -10,7 +10,7 @@ using OpenCvSharp;
 public class ConnectionManager : MonoBehaviourPunCallbacks
 //MonoBehaviourPunCallbacks : 
 {
-
+    public Material screenMaterial;
     // 닉네임 InputField
     public InputField inputNickname;
     // 접속 Button
@@ -18,6 +18,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        screenMaterial.SetFloat("_FullscreenIntensity", 0f);
         btnConnect.interactable = false;
         // 닉네임이(InputField) 변경될 때 호출되는 함수 등록
         inputNickname.onValueChanged.AddListener(OnValueChanged);
