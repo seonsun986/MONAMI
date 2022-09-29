@@ -20,6 +20,7 @@ public class Charger_Ink : MonoBehaviourPun
     public Camera cam;
 
     public GameObject hitImpactFactory;
+    public int fillAmount;
     Vector3 center;
     void Start()
     {
@@ -74,13 +75,12 @@ public class Charger_Ink : MonoBehaviourPun
         Player_HP hp = other.gameObject.GetComponent<Player_HP>();
         if(hp!=null)
         {
-            print(gameObject.name);
             if(gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
             {
                 if(other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
                 {
-                    hp.hp -= 3;
-                    print("hp 3줄인다");
+                    hp.hp +=  -(fillAmount);
+                    print("hp " + -(fillAmount) + "줄인다!");
                 }
             }
 
@@ -88,8 +88,9 @@ public class Charger_Ink : MonoBehaviourPun
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
                 {
-                    hp.hp -= 3;
-                    print("hp 3줄인다");
+
+                    hp.hp += -(fillAmount);
+                    print("hp " + -(fillAmount) + "줄인다!");
 
                 }
             }

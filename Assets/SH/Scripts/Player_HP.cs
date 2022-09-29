@@ -33,7 +33,7 @@ public class Player_HP : MonoBehaviourPun
     
     void Start()
     {
-
+        hp = 10;
         // 풀 스크린 가져오기
         screenMaterial = Resources.Load<Material>("Voronoi_Fullscreen");
         screenMaterial.SetFloat("_FullscreenIntensity", 0f);
@@ -52,15 +52,15 @@ public class Player_HP : MonoBehaviourPun
     {
         
         if (!photonView.IsMine) return;
-        if(hp == 2)
+        if(hp >=6 && hp < 10)
         {
             screenMaterial.SetFloat("_FullscreenIntensity", 0.1f);
         }
-        else if(hp ==1)
+        else if(hp <=5 && hp>=1)
         {
             screenMaterial.SetFloat("_FullscreenIntensity", 0.2f);
         }
-        if (hp <=0)
+        else if (hp <=0)
         {
             screenMaterial.SetFloat("_FullscreenIntensity", 0.5f);
             // 리스폰 될때까지 당한 무기 알려주는 UI
@@ -116,7 +116,7 @@ public class Player_HP : MonoBehaviourPun
             weapon.gameObject.SetActive(true);
             inkTank.gameObject.SetActive(true);
             currentTime = 0;
-            hp = 3;
+            hp = 10;
         }
     }
 }

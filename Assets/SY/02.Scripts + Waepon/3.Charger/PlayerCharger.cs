@@ -154,7 +154,7 @@ public class PlayerCharger : MonoBehaviourPun
                 crosshair.gameObject.SetActive(true);
 
                 // 이 UI는 나중에 로컬로 보내야한다
-                currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.03f, ref currentVelocity, 1f * Time.deltaTime);
+                currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.02f, ref currentVelocity, 1f * Time.deltaTime);
                 crosshair.fillAmount = currentAmount;
                 chargeInk = (int)(currentAmount * 20);
                 if (crosshair.fillAmount > 1)
@@ -172,9 +172,10 @@ public class PlayerCharger : MonoBehaviourPun
                 //Zoom In
                 cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 0f;
                 lazer.SetActive(false);
+                photonView.RPC("RPCChargerShot", RpcTarget.All);
                 crosshair.gameObject.SetActive(false);
                 crosshair.fillAmount = 0;
-                photonView.RPC("RPCChargerShot", RpcTarget.All);
+                
                 //보이지않는 콜라이더 transform.pos => hitInfoPos까지 바닥에 깔아준다.
                 isAttack = false;
                 VFX_Charging.SetActive(false);
@@ -216,7 +217,8 @@ public class PlayerCharger : MonoBehaviourPun
         GameObject ink = Instantiate(chargerInkFactory);
         Charger_Ink ci = ink.GetComponent<Charger_Ink>();
 
-        // 최대 3
+        // 최대 10
+        ci.fillAmount = (int)(crosshair.fillAmount * 10);
         ci.radiusByCharge = currentAmount * 5;
 
         ink.transform.position = test_firePos.transform.position;

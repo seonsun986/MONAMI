@@ -70049,8 +70049,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea07e3e99adac642bff90ad9744f8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenMaterial: {fileID: 0}
-  hp: 3
+  screenMaterial: {fileID: 2100000, guid: 45f7b1f2ba9b390459efd77acf70d77e, type: 2}
+  hp: 10
   respawnTime: 3
   body: {fileID: 2473549566952177750}
   weapon: {fileID: 884101285723410401}
