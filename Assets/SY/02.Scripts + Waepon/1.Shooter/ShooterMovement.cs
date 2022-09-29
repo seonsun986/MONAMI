@@ -39,7 +39,7 @@ public class ShooterMovement : MonoBehaviourPun
     //점프중인지 여부 확인
     bool isJumping = false;
     public GameObject model;
-
+    Player_HP hp;
     // 닉네임
     public Text nickName;
     void Start()
@@ -48,14 +48,14 @@ public class ShooterMovement : MonoBehaviourPun
         DataManager.instance.nickname = photonView.Owner.NickName;
         if (photonView.IsMine == false) return;
         cc = this.GetComponent<CharacterController>();
-
+        hp = GetComponent<Player_HP>();
     }
 
     void Update()
     {
         if (photonView.IsMine == false) return;
         if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
-
+        if (hp.hp <= 0) return;
         //만약 둘러보기가 비활성화 되어있으면
         if (toggleCameraRotation != true)
         {
