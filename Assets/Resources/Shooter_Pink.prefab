@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1142973817010349381}
   - component: {fileID: 2798805409379034728}
   - component: {fileID: 9201186486832150267}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Nickname
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2059,7 +2059,7 @@ GameObject:
   - component: {fileID: 705332387011157611}
   - component: {fileID: 3195415785831892830}
   - component: {fileID: 7245017436671361758}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Canvas_World
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14852,11 +14852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea07e3e99adac642bff90ad9744f8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
-  screenMaterial: {fileID: 2100000, guid: 45f7b1f2ba9b390459efd77acf70d77e, type: 2}
-=======
   screenMaterial: {fileID: 0}
->>>>>>> 0929ssh1
   hp: 3
   respawnTime: 3
   body: {fileID: 5908255355343154739}
