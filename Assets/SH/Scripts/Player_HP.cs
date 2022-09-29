@@ -68,6 +68,7 @@ public class Player_HP : MonoBehaviourPun
             print($"Player hp : {hp}");
             // 이때 hp가 0이 됐다면
             // "(무기이름)에 당했다를 넣어준다"
+            // 죽인 사람 이름표를 띄워준다
             // 리스폰 타임이 지나면 
             // 해당 게임 오브젝트를 꺼준다
             photonView.RPC("RPCDie", RpcTarget.All);

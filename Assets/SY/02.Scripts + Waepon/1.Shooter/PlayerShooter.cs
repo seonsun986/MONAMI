@@ -30,6 +30,7 @@ public class PlayerShooter : MonoBehaviourPun
     public int count;
     public int maxCount;
     CanHide canHide;
+    Player_HP hp;
     void Start()
     {
         // GameManager에게 나의 photonView를 주자
@@ -38,6 +39,7 @@ public class PlayerShooter : MonoBehaviourPun
         lowInkUI.SetActive(false);
         canShoot = true;
         crossHair.SetActive(false);
+        hp = GetComponent<Player_HP>();
     }
 
     // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 50이 최대 
@@ -52,6 +54,7 @@ public class PlayerShooter : MonoBehaviourPun
         if (photonView.IsMine)
         {
             if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
+            if (hp.hp <= 0) return;
             if (crossHair.activeSelf == false) crossHair.SetActive(true);
             // 잉크충전 UI가 켜져있다면
             if (uiInk.gameObject.activeSelf == true)
