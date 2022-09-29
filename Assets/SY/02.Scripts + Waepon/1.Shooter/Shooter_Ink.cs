@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 
 //잉크의 방향 , 중력, Addforce
@@ -16,16 +17,18 @@ public class Shooter_Ink : MonoBehaviourPun
     //경도
     public float hardness = 1;
 
+    public string weaponName;
 
     void Start()
     {
+        weaponName = DataManager.instance.weaponName;
     }
 
     void Update()
     {
 
-
     }
+
 
 
     private void OnCollisionEnter(Collision other)
@@ -38,6 +41,7 @@ public class Shooter_Ink : MonoBehaviourPun
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
                 {
+                    hp.weaponName = weaponName;
                     hp.hp--;
                 }
 
@@ -55,6 +59,7 @@ public class Shooter_Ink : MonoBehaviourPun
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
                 {
+                    hp.weaponName = weaponName;
                     hp.hp--;
                 }
 

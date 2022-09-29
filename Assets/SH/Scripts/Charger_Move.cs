@@ -43,6 +43,7 @@ public class Charger_Move : MonoBehaviourPun
     void Start()
     {
         nickName.text = photonView.Owner.NickName;
+        DataManager.instance.nickname = photonView.Owner.NickName;
         if (photonView.IsMine == false) return;
         cc = GetComponent<CharacterController>();
     }

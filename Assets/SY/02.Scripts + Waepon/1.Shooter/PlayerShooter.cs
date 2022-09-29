@@ -58,7 +58,7 @@ public class PlayerShooter : MonoBehaviourPun
             {
                 if (uiInk.localScale.y >= 0)
                 {
-                    float uiYscale = (maxCount - count) * 0.0237f;
+                    float uiYscale = (maxCount - count) * 0.0474f;
                     uiInk.localScale = new Vector3(uiInk.localScale.x, uiYscale, uiInk.localScale.z);
                 }
 
@@ -70,7 +70,7 @@ public class PlayerShooter : MonoBehaviourPun
             }
             // 총 쏠 수없는 상태가 되면
             // UI가 켜지긴 해도 충전은 되지 않는다
-            float inkTankYScale = 0.01f * (maxCount - count);
+            float inkTankYScale = 0.02f * (maxCount - count);
             inkTank.localScale = new Vector3(inkTank.localScale.x, inkTankYScale, inkTank.localScale.z);
 
             // 잉크 탱크 

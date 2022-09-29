@@ -37,6 +37,7 @@ public class Roller_Move : MonoBehaviourPun
     {
         cc = GetComponent<CharacterController>();
         nickName.text = photonView.Owner.NickName;
+        DataManager.instance.nickname = photonView.Owner.NickName;
 
     }
 

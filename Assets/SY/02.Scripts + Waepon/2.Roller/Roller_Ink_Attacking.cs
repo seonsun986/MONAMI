@@ -14,7 +14,13 @@ public class Roller_Ink_Attacking: MonoBehaviourPun
     public float strength = 1;
     //°æµµ...??
     public float hardness = 1;
+    public string weaponName;
 
+    private void Start()
+    {
+        weaponName = DataManager.instance.weaponName;
+
+    }
 
     private void OnCollisionStay(Collision other)
     {
@@ -26,6 +32,7 @@ public class Roller_Ink_Attacking: MonoBehaviourPun
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
                 {
+                    hp.weaponName = weaponName;
                     hp.hp--;
                 }
             }
@@ -40,6 +47,7 @@ public class Roller_Ink_Attacking: MonoBehaviourPun
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
                 {
+                    hp.weaponName = weaponName;
                     hp.hp--;
                 }
             }

@@ -1361,6 +1361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputNickname: {fileID: 987710060}
   btnConnect: {fileID: 300052584}
+  texture: {fileID: 0}
 --- !u!1 &1967777088
 GameObject:
   m_ObjectHideFlags: 0

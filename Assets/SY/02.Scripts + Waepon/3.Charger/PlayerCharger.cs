@@ -28,7 +28,7 @@ public class PlayerCharger : MonoBehaviourPun
     // 기 모으기 변수(이거에 따라 총알이 나가는 힘과 총알이 줄어드는 개수가 달라진다.)
     // 한번 게이지가 full이면 잉크를 10씩 줄인다.
     // 놓는순간에 currentInk수를 줄인다.
-    int chargeInk;
+    public int chargeInk = 10;
 
 
     public GameObject lazer_pink;
@@ -156,10 +156,10 @@ public class PlayerCharger : MonoBehaviourPun
                 // 이 UI는 나중에 로컬로 보내야한다
                 currentAmount = Mathf.SmoothDamp(crosshair.fillAmount, crosshair.fillAmount + 0.03f, ref currentVelocity, 1f * Time.deltaTime);
                 crosshair.fillAmount = currentAmount;
-                chargeInk = (int)(currentAmount * 10);
+                chargeInk = (int)(currentAmount * 20);
                 if (crosshair.fillAmount > 1)
                 {
-                    chargeInk = 20;
+                    chargeInk = 10;
                     crosshair.fillAmount = 1;
                 }
                 isAttack = true;

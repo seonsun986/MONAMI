@@ -104,14 +104,16 @@ public class PlayerRoller : MonoBehaviourPun
             //마우스 버튼을 한번 눌렀을 때 잉크를 나의 앞방향으로 잉크를 생성하고 발사시킨다. => 필요속성 : 잉크공장, 잉크 발사위치
             if (Input.GetMouseButtonDown(0) && canShoot == true)
             {
-                currentInk -= 4;
+                
                 if (roller_move.isJumping == true)
                 {
                     photonView.RPC("RPCRollerInkJumpShoot", RpcTarget.All);
+                    currentInk -= 8;
                 }
                 else
                 {
                     photonView.RPC("RPCRollerInkShoot", RpcTarget.All);
+                    currentInk -= 4;
                 }
                 leftRoller.SetActive(true);
                 rightRoller.SetActive(true);

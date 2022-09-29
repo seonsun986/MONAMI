@@ -99,6 +99,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    screenShotCam.SetActive(true);
                     screenShotCam.GetComponent<ScreenShot>().ScreenShotCam();
                     screenShotCount++;
                 }

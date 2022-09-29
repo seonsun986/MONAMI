@@ -30,8 +30,16 @@ public class Result : MonoBehaviourPun
             blue = (double)DataManager.instance.Blue_point;
             photonView.RPC("RPCResult", RpcTarget.All, pink, blue);
         }
-       
-        
+
+        // 방장 이름으로 캡쳐파일 불러오기
+        byte[] textureBytes = File.ReadAllBytes(Application.dataPath + "/ScreenShot/" + PhotonNetwork.MasterClient.NickName + ".png");
+        if (textureBytes.Length > 0)
+        {
+            Texture2D loadedTexture = new Texture2D(0, 0);
+            loadedTexture.LoadImage(textureBytes);
+            textureImage.sprite = Sprite.Create(loadedTexture, new Rect(0, 0, loadedTexture.width, loadedTexture.height), Vector2.zero);
+        }
+
 
 
     }
@@ -39,18 +47,6 @@ public class Result : MonoBehaviourPun
     void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            // 방장 이름으로 캡쳐파일 불러오기
-            byte[] textureBytes = File.ReadAllBytes(Application.dataPath + "/ScreenShot/" + PhotonNetwork.MasterClient.NickName);
-            if(textureBytes.Length>0)
-            {
-                Texture2D loadedTexture = new Texture2D(0, 0);
-                loadedTexture.LoadImage(textureBytes);
-                textureImage.sprite = Sprite.Create(loadedTexture, new Rect(0, 0, loadedTexture.width, loadedTexture.height), Vector2.zero);
-            }          
-            
-        }
     }
 
     [PunRPC]
