@@ -79,8 +79,8 @@ public class Charger_Ink : MonoBehaviourPun
             {
                 if(other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
                 {
-                    hp.hp--;
-                    print("hp줄인다");
+                    hp.hp -= 3;
+                    print("hp 3줄인다");
                 }
             }
 
@@ -88,8 +88,8 @@ public class Charger_Ink : MonoBehaviourPun
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
                 {
-                    hp.hp--;
-                    print("hp줄인다");
+                    hp.hp -= 3;
+                    print("hp 3줄인다");
 
                 }
             }

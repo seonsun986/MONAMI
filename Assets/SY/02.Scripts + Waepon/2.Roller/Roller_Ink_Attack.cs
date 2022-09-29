@@ -18,8 +18,12 @@ public class Roller_Ink_Attack : MonoBehaviour
     float inkSpeed;
 
     Vector3 dir;
+    public string weaponName;
+
     void Start()
     {
+        weaponName = DataManager.instance.weaponName;
+
         rb = GetComponent<Rigidbody>();
         dir = (transform.forward + transform.up).normalized * 1;
 
@@ -41,6 +45,7 @@ public class Roller_Ink_Attack : MonoBehaviour
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
                 {
+                    hp.weaponName = weaponName;
                     hp.hp--;
                 }
             }
@@ -55,6 +60,7 @@ public class Roller_Ink_Attack : MonoBehaviour
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
                 {
+                    hp.weaponName = weaponName;
                     hp.hp--;
                 }
             }

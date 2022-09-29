@@ -36,23 +36,20 @@ public class ShooterMovement : MonoBehaviourPun
     public float jumpPower = 5;
     //점프중인지 여부 확인
     bool isJumping = false;
+    public GameObject model;
 
     // 닉네임
     public Text nickName;
     void Start()
     {
         nickName.text = photonView.Owner.NickName;
+        DataManager.instance.nickname = photonView.Owner.NickName;
         if (photonView.IsMine == false) return;
         cc = this.GetComponent<CharacterController>();
 
     }
 
     void Update()
-    {
-    }
-
-    //업데이트가 다끝나고 실행되는 LateUpdate
-    void LateUpdate()
     {
         if (photonView.IsMine == false) return;
         if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
@@ -67,6 +64,12 @@ public class ShooterMovement : MonoBehaviourPun
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerRotate), Time.deltaTime * smoothness);
         }
         PlayerMove();
+        
+    }
+
+    //업데이트가 다끝나고 실행되는 LateUpdate
+    void LateUpdate()
+    {
     }
     void PlayerMove()
     {
@@ -105,7 +108,11 @@ public class ShooterMovement : MonoBehaviourPun
         if (cc.collisionFlags == CollisionFlags.Below)
         {
             //수직속도를 0으로 하고싶다.
-            if (isJumping) photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement", 1);
+            if (isJumping)
+            {
+                photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement", 0);
+                photonView.RPC("RPCAnimPlay", RpcTarget.All, "Movement", 1);
+            }
             yVelocity = 0;
             isJumping = false;
         }
@@ -162,7 +169,7 @@ public class ShooterMovement : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RPCAnimPlay(string animPlay, int layer)
+    public void RPCAnimPlay(string animPlay, int layer=0)
     {
         anim.Play(animPlay, layer);
     }

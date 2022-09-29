@@ -15,6 +15,8 @@ public class Roller_Ink_JumpAttack : MonoBehaviour
     public float hardness = 1;
 
     Rigidbody rb;
+    public string weaponName;
+
 
     Vector3 dir;
     void Start()
@@ -23,6 +25,7 @@ public class Roller_Ink_JumpAttack : MonoBehaviour
         dir = (transform.forward + transform.up).normalized * 1;
 
         rb.velocity = dir * 5f;
+        weaponName = DataManager.instance.weaponName;
 
     }
     void Update()
@@ -42,6 +45,7 @@ public class Roller_Ink_JumpAttack : MonoBehaviour
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
                 {
+                    hp.weaponName = weaponName;
                     hp.hp--;
                 }
             }
@@ -56,6 +60,7 @@ public class Roller_Ink_JumpAttack : MonoBehaviour
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
                 {
+                    hp.weaponName = weaponName;
                     hp.hp--;
                 }
             }
