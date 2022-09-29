@@ -62,6 +62,7 @@ public class Player_HP : MonoBehaviourPun
         }
         else if (hp <=0)
         {
+            hp = 0;
             screenMaterial.SetFloat("_FullscreenIntensity", 0.5f);
             // 리스폰 될때까지 당한 무기 알려주는 UI
             isRepawned = true;
@@ -109,7 +110,6 @@ public class Player_HP : MonoBehaviourPun
             else if(name.Contains("Blue"))
             {
                 gameObject.transform.position = pink_RespawnPoint.position;
-
             }
 
             body.gameObject.SetActive(true);

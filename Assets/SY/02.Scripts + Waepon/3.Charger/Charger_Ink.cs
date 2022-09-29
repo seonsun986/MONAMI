@@ -22,8 +22,11 @@ public class Charger_Ink : MonoBehaviourPun
     public GameObject hitImpactFactory;
     public int fillAmount;
     Vector3 center;
+    public string weaponName;
+
     void Start()
     {
+        weaponName = DataManager.instance.weaponName;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * inkSpeed, ForceMode.Impulse);
     }
@@ -64,38 +67,43 @@ public class Charger_Ink : MonoBehaviourPun
         hitImpact.transform.position = hitForward.point;
         hitImpact.transform.forward = hitForward.normal;
 
-        //차저(잉크)와 부딪힌 것이 내가 아닌 상대방 중 적팀 이라면!
-        //if (other.collider.CompareTag("!isMine"))
-        //{
-        //    //데미지를 주고싶다.
 
-        //    Destroy(this.gameObject);
-        //}
-
-        Player_HP hp = other.gameObject.GetComponent<Player_HP>();
-        if(hp!=null)
+        if (gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
         {
-            if(gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
+            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+            if (hp != null)
             {
-                if(other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+                if (other.gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
                 {
-                    hp.hp +=  -(fillAmount);
+                    hp.hp += -(fillAmount);
                     print("hp " + -(fillAmount) + "줄인다!");
                 }
-            }
 
-            else if(gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+                Destroy(gameObject);
+                Destroy(hitImpact);
+
+            }
+        }
+
+
+        if (gameObject.layer == LayerMask.NameToLayer("Player_Blue"))
+        {
+            Player_HP hp = other.gameObject.GetComponent<Player_HP>();
+            if (hp != null)
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer("Player_Pink"))
                 {
-
                     hp.hp += -(fillAmount);
                     print("hp " + -(fillAmount) + "줄인다!");
-
                 }
+
+                Destroy(gameObject);
+                Destroy(hitImpact);
+
             }
-        }     
-         Destroy(gameObject);         
+        }
+            
+        
 
         //벽에 부딪혀 뿌리기
 

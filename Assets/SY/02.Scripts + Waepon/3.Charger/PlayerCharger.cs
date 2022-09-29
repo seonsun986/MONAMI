@@ -172,7 +172,7 @@ public class PlayerCharger : MonoBehaviourPun
                 //Zoom In
                 cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 0f;
                 lazer.SetActive(false);
-                photonView.RPC("RPCChargerShot", RpcTarget.All);
+                photonView.RPC("RPCChargerShot", RpcTarget.All, test_cam.position, test_cam.forward, currentAmount);
                 crosshair.gameObject.SetActive(false);
                 crosshair.fillAmount = 0;
                 
@@ -203,12 +203,12 @@ public class PlayerCharger : MonoBehaviourPun
     }
 
     [PunRPC]
-    void RPCChargerShot()
+    void RPCChargerShot(Vector3 position, Vector3 forward, float currentAmount)
     {
         Debug.DrawRay(test_cam.position, test_cam.forward * 200f, Color.green);
         RaycastHit hithit;
 
-        if (Physics.Raycast(test_cam.position, test_cam.forward, out hithit, 200f))
+        if (Physics.Raycast(position, forward, out hithit, 200f))
         {
             test_firePos.LookAt(hithit.point);
             Debug.DrawRay(test_firePos.position, test_firePos.forward * 200f, Color.cyan);
@@ -218,7 +218,7 @@ public class PlayerCharger : MonoBehaviourPun
         Charger_Ink ci = ink.GetComponent<Charger_Ink>();
 
         // √÷¥Î 10
-        ci.fillAmount = (int)(crosshair.fillAmount * 10);
+        ci.fillAmount = (int)(currentAmount * 10);
         ci.radiusByCharge = currentAmount * 5;
 
         ink.transform.position = test_firePos.transform.position;
