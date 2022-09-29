@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ShooterMovement : MonoBehaviourPun
 {
+    Graphics graphics;
+
     public Animator anim;
     public Camera cam;
     CharacterController cc;

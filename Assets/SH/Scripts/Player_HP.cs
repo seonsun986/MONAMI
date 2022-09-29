@@ -5,6 +5,9 @@ using Photon.Pun;
 
 public class Player_HP : MonoBehaviourPun
 {
+    //화면 피격 시 스크린 메테리얼
+    public Material screenMaterial;
+
     Transform pink_RespawnPoint;
     Transform blue_RespawnPoint;
 
@@ -18,12 +21,20 @@ public class Player_HP : MonoBehaviourPun
     public GameObject inkTank;
     void Start()
     {
+        //풀 스크린 가져오기
+        screenMaterial = Resources.Load<Material>("Voronoi_FullScreen_tut");
+
         pink_RespawnPoint = GameObject.Find("PinkTeam_Respawn").transform;
         blue_RespawnPoint = GameObject.Find("BlueTeam_Respawn").transform;
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            print("들어왔다!");
+            screenMaterial.SetFloat("_FullscreenIntensity", 0.5f);
+        }
         if (hp <=0)
         {
             print($"Player hp : {hp}");

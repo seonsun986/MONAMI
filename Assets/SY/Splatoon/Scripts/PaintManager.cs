@@ -7,6 +7,7 @@ using OpenCvSharp;
 
 public class PaintManager : Singleton<PaintManager>
 {
+    public Material mat;
 
     public Dictionary<int, Paintable> paint = new Dictionary<int, Paintable>();
 
