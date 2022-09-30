@@ -42,6 +42,8 @@ public class ShooterMovement : MonoBehaviourPun
     Player_HP hp;
     // 닉네임
     public Text nickName;
+    CanHide canHide;
+
     void Start()
     {
         nickName.text = photonView.Owner.NickName;
@@ -49,6 +51,7 @@ public class ShooterMovement : MonoBehaviourPun
         if (photonView.IsMine == false) return;
         cc = this.GetComponent<CharacterController>();
         hp = GetComponent<Player_HP>();
+        canHide = GetComponent<CanHide>();
     }
 
     void Update()
@@ -92,8 +95,19 @@ public class ShooterMovement : MonoBehaviourPun
         //내가 움직이는 방향은 앞방향 = vertical(세로), 양옆방향 = Horizontal(가로)
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
-        Vector3 dir = transform.forward * v + transform.right * h;
+        Vector3 dir;
+
+        if (canHide.climbing == false)
+        {
+            gravity = -9.81f;
+            dir = transform.forward * v + transform.right * h;
+        }
+        else
+        {
+            dir = transform.up * v + transform.right * h;
+        }
         dir.Normalize();
+
 
         if (v != 0 || h != 0)
         {
@@ -105,9 +119,13 @@ public class ShooterMovement : MonoBehaviourPun
         }
 
         //수직 속도 구하기
-        yVelocity += gravity * Time.deltaTime;
+        if (!canHide.climbing)
+        {
+            // 중력 더한다
+            yVelocity += gravity * Time.deltaTime;
+        }
         //만약 바닥에 닿아있다면`
-        if (cc.collisionFlags == CollisionFlags.Below)
+        if (cc.collisionFlags == CollisionFlags.Below && !canHide.climbing)
         {
             //수직속도를 0으로 하고싶다.
             if (isJumping)
@@ -120,7 +138,7 @@ public class ShooterMovement : MonoBehaviourPun
         }
         //점프를 안하고 있을 때 그리고!
         //사용자가 점프버튼을 누르면 점프하고 싶다.
-        if (isJumping == false && Input.GetButtonDown("Jump"))
+        if (isJumping == false && Input.GetButtonDown("Jump") && !canHide.climbing)
         {
             //수직 속도를 변경하고 싶다.
             photonView.RPC("RPCSetTrigger", RpcTarget.All, "Jump");
@@ -139,6 +157,8 @@ public class ShooterMovement : MonoBehaviourPun
             //anim.SetLayerWeight(1, 1);
             //anim.CrossFade("FireForShooter", 1, 0, 0.3f);
             photonView.RPC("RPCCrossFade", RpcTarget.All, "FireForShooter");
+            //photonView.RPC("RPCSetTrigger", RpcTarget.All, "Fire");
+
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -146,7 +166,10 @@ public class ShooterMovement : MonoBehaviourPun
 
         }
 
-        dir.y = yVelocity;
+        if (!canHide.climbing)
+        {
+            dir.y = yVelocity;
+        }
         cc.Move(dir * finalSpeed * Time.deltaTime);
 
 
@@ -180,6 +203,6 @@ public class ShooterMovement : MonoBehaviourPun
     public void RPCCrossFade(string state)
     {
         anim.SetLayerWeight(1, 1);
-        anim.CrossFade(state, 1, 0, 0.1f);
+        anim.CrossFade(state,1,0, 0.7f);
     }
 }

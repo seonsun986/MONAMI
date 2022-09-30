@@ -32,13 +32,14 @@ public class Roller_Move : MonoBehaviourPun
 
     // 닉네임
     public Text nickName;
+    CanHide canHide;
 
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        canHide = GetComponent<CanHide>();
         nickName.text = photonView.Owner.NickName;
         DataManager.instance.nickname = photonView.Owner.NickName;
-
     }
 
     void Update()
@@ -58,7 +59,6 @@ public class Roller_Move : MonoBehaviourPun
         }
 
         PlayerMove();
-        //PlayerMove2();
 
 
 
@@ -72,8 +72,12 @@ public class Roller_Move : MonoBehaviourPun
 
     void PlayerMove()
     {
-        // 중력 더한다
-        yVelocity += gravity * Time.deltaTime;
+        if(!canHide.climbing)
+        {
+            // 중력 더한다
+            yVelocity += gravity * Time.deltaTime;
+        }
+
         //최종 내 스피드는 런이 활성화 되어있으면 빠르게 그게 아니면 보통의 속도로 이동
         if(isInEnemyInk == false)
         {
@@ -92,11 +96,21 @@ public class Roller_Move : MonoBehaviourPun
         //내가 움직이는 방향은 앞방향 = vertical(세로), 양옆방향 = Horizontal(가로)
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
-        Vector3 dir = transform.forward * v + transform.right * h;
+        Vector3 dir;
+
+        if (canHide.climbing == false)
+        {
+            gravity = -9.81f;
+            dir = transform.forward * v + transform.right * h;            
+        }
+        else
+        {
+            dir = transform.up * v + transform.right * h;            
+        }
         dir.Normalize();
 
 
-        if (cc.collisionFlags == CollisionFlags.Below)
+        if (cc.collisionFlags == CollisionFlags.Below && !canHide.climbing)
         {
             yVelocity = 0;
             isJumping = false;
@@ -123,7 +137,8 @@ public class Roller_Move : MonoBehaviourPun
 
         //점프를 안하고 있을 때 그리고!
         //사용자가 점프버튼을 누르면 점프하고 싶다.
-        if (isJumping == false && Input.GetButtonDown("Jump"))
+        // 오징어 상
+        if (isJumping == false && Input.GetButtonDown("Jump") && !canHide.climbing)
         {
             photonView.RPC("RPCSetTrigger", RpcTarget.All, "Jump");
             isJumping = true;
@@ -158,7 +173,11 @@ public class Roller_Move : MonoBehaviourPun
             
 
         }
-        dir.y = yVelocity;
+        if(!canHide.climbing)
+        {
+            dir.y = yVelocity;
+        }
+        
         photonView.RPC("RPCSetFloat", RpcTarget.All, animSpeed);
         cc.Move(dir * finalSpeed * Time.deltaTime);
 
