@@ -17,6 +17,7 @@ public class GameScene_UI : MonoBehaviour
     void Update()
     {
         currentTime += Time.deltaTime;
+
         if(currentTime>offTime)
         {
             WhiteFade_UI.SetActive(true);

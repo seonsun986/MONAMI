@@ -26,8 +26,12 @@ public class Player_HP : MonoBehaviourPun
 
     // (무기이름)에게 당했다! 있는 게임 오브젝트
     public GameObject killMsgBox;
+    // 죽음 당한 닉네임 있는 게임 오브젝트
+    public GameObject killNameBox;
     // (무기이름)에게 당했다! 넣어줄 텍스트
     public Text killMsgtxt;
+    // 죽음 당한 닉네임 넣어줄 텍스트
+    public Text killNametxt;
     bool isRepawned;
     float currentTime2;
     
@@ -46,6 +50,7 @@ public class Player_HP : MonoBehaviourPun
         pink_RespawnPoint = GameObject.Find("PinkTeam_Respawn").transform;
         blue_RespawnPoint = GameObject.Find("BlueTeam_Respawn").transform;
         killMsgBox.SetActive(false);
+        killNameBox.SetActive(false);
     }
 
     void Update()
@@ -80,10 +85,27 @@ public class Player_HP : MonoBehaviourPun
         {
             currentTime2 += Time.deltaTime;
             killMsgBox.SetActive(true);
-            killMsgtxt.text = weaponName + "에 당했다!";
+            killNameBox.SetActive(true);
+            // 영어 무기 한글로 바꿔주기
+            if(weapon.name == "Shooter")
+            {
+                killMsgtxt.text = "슈터에 당했다!";
+            }
+            else if(weapon.name == "Roller")
+            {
+                killMsgtxt.text = "롤러에 당했다!";
+
+            }
+            else
+            {
+                killMsgtxt.text = "차저에 당했다!";
+            }
+            killNametxt.text = DataManager.instance.nickname;
+
             if (currentTime2 > respawnTime)
             {
                 killMsgBox.SetActive(false);
+                killNameBox.SetActive(false);
                 isRepawned = false;
                 currentTime2 = 0;
                 screenMaterial.SetFloat("_FullscreenIntensity", 0f);

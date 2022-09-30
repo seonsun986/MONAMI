@@ -39,6 +39,7 @@ public class Charger_Move : MonoBehaviourPun
 
     // 닉네임
     public Text nickName;
+    CanHide canHide;
 
     void Start()
     {
@@ -46,6 +47,7 @@ public class Charger_Move : MonoBehaviourPun
         DataManager.instance.nickname = photonView.Owner.NickName;
         if (photonView.IsMine == false) return;
         cc = GetComponent<CharacterController>();
+        canHide = GetComponent<CanHide>();
     }
 
     public bool isRun;      //달리기 확인용 변수
@@ -77,7 +79,12 @@ public class Charger_Move : MonoBehaviourPun
     void PlayerMove()
     {
         // 중력 더하기
-        yVelocity += gravity * Time.deltaTime;
+        if (!canHide.climbing)
+        {
+            // 중력 더한다
+            yVelocity += gravity * Time.deltaTime;
+        }
+
         if (isInEnemyInk == false)
         {
             finalSpeed = (isRun) ? runSpeed : speed;
@@ -89,8 +96,17 @@ public class Charger_Move : MonoBehaviourPun
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        Vector3 dir = h * Vector3.right + v * Vector3.forward;
-        yVelocity += gravity * Time.deltaTime;
+        Vector3 dir;
+
+        if (canHide.climbing == false)
+        {
+            gravity = -9.81f;
+            dir = transform.forward * v + transform.right * h;
+        }
+        else
+        {
+            dir = transform.up * v + transform.right * h;
+        }
         dir.Normalize();
         dir = cam.transform.TransformDirection(dir);
        
@@ -121,7 +137,7 @@ public class Charger_Move : MonoBehaviourPun
 
 
         //만약 바닥에 닿아있다면`
-        if (cc.collisionFlags == CollisionFlags.Below)
+        if (cc.collisionFlags == CollisionFlags.Below && !canHide.climbing)
         {
             if (isJumping)
             {
@@ -134,13 +150,16 @@ public class Charger_Move : MonoBehaviourPun
         }
         //점프를 안하고 있을 때 그리고!
         //사용자가 점프버튼을 누르면 점프하고 싶다.
-        if (isJumping == false && Input.GetButtonDown("Jump"))
+        if (isJumping == false && Input.GetButtonDown("Jump") && !canHide.climbing)
         {
             yVelocity = jumpPower;
             photonView.RPC("RPCSetTrigger", RpcTarget.All, "Jump");
             isJumping = true;
         }
-        dir.y = yVelocity;
+        if (!canHide.climbing)
+        {
+            dir.y = yVelocity;
+        }
         cc.Move(dir * finalSpeed * Time.deltaTime);
         photonView.RPC("RPCSetFloat", RpcTarget.All, animSpeed);
     

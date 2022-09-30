@@ -38,6 +38,8 @@ public class CanHide : MonoBehaviourPun
     public bool isInenemyColor;
 
     public float[] rgb = new float[3];
+    public float[] frontrgb = new float[3];
+
 
     // 오징어 나타내기 위한 것들
     CharacterController cc;
@@ -60,6 +62,109 @@ public class CanHide : MonoBehaviourPun
     // maxcount보다 count가 많아지면 maxCount로 다시 하게 한다
     // 필요속성 : canShoot, 충전개수, maxCount로
 
+    // 1. Ray를 앞으로 쏜다
+    // 2. 벽도 감지해야하고 해당 부분의 색깔도 감지해서 내 색깔이어야지 벽타기가 된다
+    // 3. 만약 hitInfo가 wall이고 감지거리보다 작다면
+    // 4. 중력도 없애야한다
+    [Header("벽타기")]
+    public Transform orientation;
+    public float maxWallLookAngle = 30;     // 최대 감지각
+    public LayerMask Wall;                  // 레이어 마스크 벽
+    RaycastHit frontWallHit;                // SphereCast를 사용했을 때 부딪힌 곳
+    bool wallFront;                         // wall이었을 때 true로 시킬 bool값
+    public bool climbing;                   // wallFront가 true일때 climbing을 true로 시킨다. -> 이때 중력을 끄고 앞 방향을 위 방향을 한다
+    void WallCheck()
+    {
+        Ray ray = new Ray(orientation.position, orientation.forward);
+        
+        // 레이어 마스크 쓴다
+        // 플레이어만 빼고 충돌하게 하고 싶다
+        int layer = 1 << gameObject.layer;
+        if(Physics.Raycast(ray, out frontWallHit,200, ~layer))
+        {
+            Debug.DrawRay(orientation.position, orientation.forward * 2, Color.yellow);
+
+            //부딪힌게 벽이라면 && 거리가 2 이하라면
+            if (frontWallHit.transform.gameObject.layer == LayerMask.NameToLayer("Wall") && frontWallHit.distance <= 2)
+            {
+                
+                // paintable을 벽에서 가져오고
+                Paintable paintable = frontWallHit.transform.GetComponent<Paintable>();
+                if (paintable != null)
+                {
+                    RenderTexture render = paintable.getMask();
+                    if (render == null) print("render is null");
+                    Texture2D text = RenderTextureTo2DTexture(render);
+                    if (text == null) print("text is null");
+                    Vector2 pixelUV = frontWallHit.textureCoord;
+                    pixelUV.x *= text.width;
+                    pixelUV.y *= text.height;
+                    Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
+
+                    string getColor = ColorUtility.ToHtmlStringRGB(color);
+                    frontrgb[0] = color.r;
+                    frontrgb[1] = color.g;
+                    frontrgb[2] = color.b;
+                }
+
+
+                // 앞쪽에 색깔판정을 했을 시 내 색깔일 때
+                if (frontrgb[0] < myColor_R + 0.4f && frontrgb[0] > myColor_R - 0.4f &&
+                    frontrgb[1] < myColor_G + 0.4f && frontrgb[1] > myColor_G - 0.4f &&
+                    frontrgb[2] > myColor_B - 0.4f && frontrgb[2] < myColor_B + 0.4f)
+                {
+                    count1 = 0;
+                    wallFront = true;
+
+                }
+                // 다른 색깔들일때
+                else
+                {
+                    wallFront = false;
+                }
+            }
+
+            print("앞쪽 색깔 여부 : " + wallFront);
+        }
+
+        else
+        {
+
+            if (count1 < 1)
+            {
+                StartCoroutine(EndClimb());
+            }
+
+        }
+    }
+
+    int count1 = 0;
+
+    IEnumerator EndClimb()
+    {
+        count1++;
+        float currentTime = 0;
+        Vector3 startPos = transform.position;
+        Vector3 endPos = startPos + transform.up * 0.8f + transform.forward;
+        climbing = false;
+        while (true)
+        {
+            if (currentTime < 0.2f)
+            {
+                transform.position += (endPos - startPos).normalized * 15 * Time.deltaTime;
+                currentTime += Time.deltaTime;
+                //transform.position = Vector3.Lerp(startPos, endPos, currentTime);
+                yield return null;
+            }
+            else
+            {
+                wallFront = false;
+                yield break;
+            }
+        }
+        
+
+    }
     void Start()
     {
         // 내가 핑크팀이라면
@@ -160,8 +265,6 @@ public class CanHide : MonoBehaviourPun
                     pixelUV.x *= text.width;
                     pixelUV.y *= text.height;
                     Color color = text.GetPixel((int)pixelUV.x, (int)pixelUV.y);
-                    print("뽑아온 색깔 #" + ColorUtility.ToHtmlStringRGB(color));
-                    print("RGB 색깔 : " + color.r + ", " + color.g + ", " + color.b);
 
                     string getColor = ColorUtility.ToHtmlStringRGB(color);
                     rgb[0] = color.r;
@@ -192,6 +295,8 @@ public class CanHide : MonoBehaviourPun
             {
                 //Zoom Out
                 cam.GetComponentInParent<CameraMovement>().zoomDistance = 0f;
+                wallFront = false;
+                climbing = false;
                 if (canHide ==true)
                 { particle_Ink_Splash.Play();}
 
@@ -287,7 +392,7 @@ public class CanHide : MonoBehaviourPun
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
             rMove.isRun = true;
             
-            // 잉크 충전하기 
+            // 잉크 충전하기
             PlayerRoller pr = GetComponent<PlayerRoller>();
             pr.ChargeInk();
             pr.hideCanShoot = false;
@@ -316,6 +421,19 @@ public class CanHide : MonoBehaviourPun
             pc.ChargeInk();
             pc.hideCanShoot = false;
             print("차저 잉크 충전된다!");
+        }
+
+        // 벽타기 함수
+        WallCheck();
+
+        if (wallFront == true)
+        {
+            climbing = true;
+        }
+        else if(wallFront == false)
+        {
+            climbing = false;
+            canHide = false;
         }
 
         // 숨을 때 바닥에 닫는다면
@@ -347,6 +465,9 @@ public class CanHide : MonoBehaviourPun
     [PunRPC]
     public void RPCCanHide()
     {
+        
+       
+
         // 들어가고 나오고 움직이고 파티클 동기화 && 움직일때만 나오게 하기
         // 만약 플레이어가 롤러라면
         if (gameObject.name.Contains("Roller"))
@@ -444,11 +565,13 @@ public class CanHide : MonoBehaviourPun
             }
             else
             {
+                if (wallFront == true) return;
                 squid.SetActive(true);
-                //squid.transform.forward = transform.forward;
 
             }
         }
+        
+        
     }
 
 
