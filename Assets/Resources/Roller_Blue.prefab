@@ -31254,7 +31254,6 @@ GameObject:
   - component: {fileID: 3615678987804150789}
   - component: {fileID: 3615678987804150790}
   - component: {fileID: 3615678987804150788}
-  - component: {fileID: 406708227309353256}
   m_Layer: 8
   m_Name: Roller
   m_TagString: Untagged
@@ -31412,39 +31411,6 @@ MonoBehaviour:
   - {fileID: 4767398677446260769}
   - {fileID: 1661455908083248151}
   - {fileID: 3026511791306679534}
---- !u!114 &406708227309353256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3615678987804150791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 9
-    SynchronizeType: 0
-    Name: Move
-  - Type: 9
-    SynchronizeType: 0
-    Name: Attack
-  - Type: 9
-    SynchronizeType: 0
-    Name: JumpAttack
-  - Type: 9
-    SynchronizeType: 0
-    Name: Jump
-  - Type: 1
-    SynchronizeType: 0
-    Name: MovementSpeed
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!1 &3741722878250454874
 GameObject:
   m_ObjectHideFlags: 0
@@ -32251,7 +32217,6 @@ GameObject:
   - component: {fileID: 4109508876281176537}
   - component: {fileID: 4109508876281176536}
   - component: {fileID: 4109508876281176535}
-  - component: {fileID: 5665079476156360820}
   - component: {fileID: 5665079476156360822}
   - component: {fileID: 808524279379021194}
   - component: {fileID: 1023066824603550258}
@@ -32379,45 +32344,11 @@ MonoBehaviour:
   particle_Ink_Hiding: {fileID: 2318812851070056022}
   VFX_squid_Speed: {fileID: 1915461817049392063}
   orientation: {fileID: 5143209314497105963}
-  detectionLength: 0.7
-  sphereCastRadius: 0.25
   maxWallLookAngle: 30
   Wall:
     serializedVersion: 2
     m_Bits: 512
   climbing: 0
---- !u!114 &5665079476156360820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4109508876281176534}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fe1fb82a11fcb14dbe38195216656bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  hideKey: 304
-  canHide: 0
-  colors: []
-  texts: []
-  rayDistance: 20
-  sphere: {fileID: 8693617042322494410}
-  body: {fileID: 8693617043850144036}
-  weapon: {fileID: 8386977330572005126}
-  inkTank: {fileID: 4109508876993522229}
-  UI_chageInk: {fileID: 8131323552224489573}
-  UI_ChagerInkPaint: {fileID: 8131323551860572562}
-  rgb:
-  - 0
-  - 0
-  - 0
-  squid: {fileID: 7664297836479892692}
-  particle_Ink_Splash: {fileID: 5456159830452699036}
-  particle_Ink_Hiding: {fileID: 2318812851070056022}
-  VFX_squid_Speed: {fileID: 1915461817049392063}
 --- !u!114 &5665079476156360822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32474,7 +32405,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1023066824603550258}
-  - {fileID: 406708227309353256}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -58025,14 +57956,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d71472e1149c5bb40828f7a2120d23ef, type: 3}
---- !u!224 &6897487789269874757 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6415353897626769514, guid: d71472e1149c5bb40828f7a2120d23ef, type: 3}
-  m_PrefabInstance: {fileID: 486150134903627823}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &466706863116468003 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 55509478106947340, guid: d71472e1149c5bb40828f7a2120d23ef, type: 3}
+  m_PrefabInstance: {fileID: 486150134903627823}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &6897487789269874757 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6415353897626769514, guid: d71472e1149c5bb40828f7a2120d23ef, type: 3}
   m_PrefabInstance: {fileID: 486150134903627823}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2573022993689138076 stripped
@@ -58143,11 +58074,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
---- !u!1 &3691617457950974497 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3145416714656011450, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
-  m_PrefabInstance: {fileID: 1773716021206169243}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3691617457950974496 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3145416714656011451, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
@@ -58164,3 +58090,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3691617457950974497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3145416714656011450, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
+  m_PrefabInstance: {fileID: 1773716021206169243}
+  m_PrefabAsset: {fileID: 0}

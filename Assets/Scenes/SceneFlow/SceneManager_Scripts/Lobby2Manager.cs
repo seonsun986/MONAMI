@@ -10,13 +10,17 @@ using TMPro;
 public class Lobby2Manager : MonoBehaviourPunCallbacks
 {
     public TextMeshProUGUI matchingCount;
+    public GameObject player;
+    public Transform spawnPoint;
     float countTime;
 
     void Start()
     {
         //네트워크로 씬을 동기화 시켜주기.
         PhotonNetwork.AutomaticallySyncScene = true;
-       
+        GameObject p = Instantiate(player);
+        p.transform.position = spawnPoint.position;
+        p.transform.eulerAngles = new Vector3(7.391f, 2.372f, 0);    
     }
 
     // LoadLevel은 비동기라 넘어갈때까지 계속 
