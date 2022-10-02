@@ -53,7 +53,6 @@ public class Roller_Ink_Attacking: MonoBehaviourPun
             }
         }
 
-        print("ºÎµúÈû");
         Paintable p = other.collider.GetComponent<Paintable>();
         if (p != null)
         {

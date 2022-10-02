@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Orb : MonoBehaviour
+public class Orb_Line : MonoBehaviour
 {
+    public GameObject cam;
     public GameObject orb;
 
     public Transform firePos;
@@ -21,11 +22,9 @@ public class Orb : MonoBehaviour
 
     //마우스 인풋을 받을 변수
     private float rotX;
+    float mouseValue;
     //마우스 감도
     public float sensitivity = 100f;
-
-    //던지는 스피드
-    public float throw_Speed;
 
     void Start()
     {
@@ -38,11 +37,14 @@ public class Orb : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetMouseButton(0))
+        {
+            mouseValue++;
+        }
         //매프레임마다 인풋을 받기 위함
         //X축을 기준으로 카메라가 움직일 때는 마우스를 상하로 움직이니 
-        rotX += -(Input.GetAxis("Mouse Y")) * sensitivity * Time.deltaTime;
+        rotX = mouseValue;
         //rotX : 카메라의 상하 회전의 값을 -70~70으로 한정지어준다
-        rotX = Mathf.Clamp(rotX, -50, 50);
         //카메라의 회전을 rot만큼 움직여준다
         Quaternion rot = Quaternion.Euler(rotX, 0, 0);
         transform.rotation = rot;
@@ -55,8 +57,9 @@ public class Orb : MonoBehaviour
 
         RaycastHit hitInfo;
 
-        if(Input.GetButton("Fire1"))
+        if(Input.GetMouseButton(0))
         {
+            cam.GetComponentInParent<CameraMovement>().zoomDistance = 3f;
             //포인트카운트가 맥스 포인트보다 작을 때만 실행.
             for (int i = 0; i < maxPoint; i++)
             {
@@ -72,8 +75,9 @@ public class Orb : MonoBehaviour
                 }
             }
         }
-        if(Input.GetButtonUp("Fire1"))
+        if(Input.GetMouseButtonUp(0))
         {
+            cam.GetComponentInParent<CameraMovement>().zoomDistance = 0f;
             GameObject go = Instantiate(orb);
             go.transform.position = pos;
             go.GetComponent<Rigidbody>().velocity = firstVelocity;
