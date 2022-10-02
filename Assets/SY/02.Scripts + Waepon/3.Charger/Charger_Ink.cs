@@ -20,8 +20,8 @@ public class Charger_Ink : MonoBehaviourPun
     public Camera cam;
 
     public GameObject hitImpactFactory;
+
     public int fillAmount;
-    Vector3 center;
     public string weaponName;
 
     void Start()
@@ -53,7 +53,6 @@ public class Charger_Ink : MonoBehaviourPun
             {
                 Vector3 pos = hitInfo.point;
                 PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p.id, pos, radiusByCharge, hardness, strength, paintColor.r, paintColor.g, paintColor.b);
-
             }
         }
 
@@ -102,9 +101,7 @@ public class Charger_Ink : MonoBehaviourPun
 
             }
         }
-            
         
-
         //º®¿¡ ºÎµúÇô »Ñ¸®±â
 
         Paintable p = other.collider.GetComponent<Paintable>();
