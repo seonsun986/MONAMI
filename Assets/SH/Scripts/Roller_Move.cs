@@ -148,7 +148,6 @@ public class Roller_Move : MonoBehaviourPun
 
 
         // R버튼을 누르면 저절로 True가 되므로!
-
         // 마우스 뗄때 count 초기화 시켜준다
         if (orb.isOrb == true && count < 1)
         {
@@ -179,18 +178,26 @@ public class Roller_Move : MonoBehaviourPun
             
             
         }
-        if (Input.GetMouseButtonUp(0) && orb.isOrb == false)
+        if (Input.GetMouseButtonUp(0))
         {
-            // 롤러 내리고 걷고 있다면
-            if(animSpeed == 1)
+            if(orb.isOrb == false)
             {
-                animSpeed = 0.5f;
+                // 롤러 내리고 걷고 있다면
+                if (animSpeed == 1)
+                {
+                    animSpeed = 0.5f;
+                }
+                else
+                {
+                    photonView.RPC("RPCSetTrigger", RpcTarget.All, "Move");
+                }
             }
             else
             {
                 photonView.RPC("RPCSetTrigger", RpcTarget.All, "Move");
             }
-            
+            count = 0;
+
 
         }
         if(!canHide.climbing)
