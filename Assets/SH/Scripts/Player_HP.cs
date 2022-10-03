@@ -96,11 +96,42 @@ public class Player_HP : MonoBehaviourPun
             // 죽인 사람 이름표를 띄워준다
             // 리스폰 타임이 지나면 
             // 해당 게임 오브젝트를 꺼준다
-            photonView.RPC("RPCDie", RpcTarget.All);
-            if(count<1)
+            //photonView.RPC("RPCDie", RpcTarget.All);
+
+            
+
+            if (count<1)
             {
-                photonView.RPC("UI_Die", RpcTarget.All, DataManager.instance.id, DataManager.instance.weaponName, teamName);
+                SSH_Player p = GetComponent<SSH_Player>();
+                photonView.RPC("UI_Die", RpcTarget.All, p.id, p.weaponName, teamName, isRepawned);
                 count++;
+            }
+
+            currentTime += Time.deltaTime;
+            if (currentTime > respawnTime)
+            {
+                if (name.Contains("Pink"))
+                {
+                    gameObject.transform.position = pink_RespawnPoint.position;
+                }
+
+                else if (name.Contains("Blue"))
+                {
+                    gameObject.transform.position = pink_RespawnPoint.position;
+                }
+
+                currentTime = 0;
+                count = 0;
+                hp = 10;
+
+                killMsgBox.SetActive(false);
+                killNameBox.SetActive(false);
+                isRepawned = false;
+                currentTime2 = 0;
+                screenMaterial.SetFloat("_FullscreenIntensity", 0f);
+
+                SSH_Player p = GetComponent<SSH_Player>();
+                photonView.RPC("UI_Die", RpcTarget.All, p.id, p.weaponName, teamName, isRepawned);
             }
         }
 
@@ -125,46 +156,21 @@ public class Player_HP : MonoBehaviourPun
                 killMsgtxt.text = "차저에 당했다!";
             }
             killNametxt.text = DataManager.instance.nickname;
-
-            if (currentTime2 > respawnTime)
-            {
-                killMsgBox.SetActive(false);
-                killNameBox.SetActive(false);
-                isRepawned = false;
-                count = 0;
-                currentTime2 = 0;
-                screenMaterial.SetFloat("_FullscreenIntensity", 0f);
-            }
         }
     }
 
-    [PunRPC]
-    public void RPCDie()
+    private void LateUpdate()
     {
-        body.gameObject.SetActive(false);
-        weapon.gameObject.SetActive(false);
-        inkTank.gameObject.SetActive(false);
+        RPCDie(!isRepawned);
+    }
 
-        currentTime += Time.deltaTime;
-        if (currentTime > respawnTime)
-        {
-            
-            if (name.Contains("Pink"))
-            {
-                gameObject.transform.position = pink_RespawnPoint.position;
-            }
-
-            else if(name.Contains("Blue"))
-            {
-                gameObject.transform.position = pink_RespawnPoint.position;
-            }
-
-            body.gameObject.SetActive(true);
-            weapon.gameObject.SetActive(true);
-            inkTank.gameObject.SetActive(true);
-            currentTime = 0;
-            hp = 10;
-        }
+    [PunRPC]
+    public void RPCDie(bool isActive)
+    {
+        body.gameObject.SetActive(isActive);
+        weapon.gameObject.SetActive(isActive);
+        inkTank.gameObject.SetActive(isActive);
+       
     }
 
     // 1. hp가 0이 되는 순간
@@ -175,17 +181,19 @@ public class Player_HP : MonoBehaviourPun
     int count;
     public GameObject X;
     [PunRPC]
-    public void UI_Die(int id, string weaponName, string team)
+    public void UI_Die(int id, string weaponName, string team, bool _isRepawned)
     {
+        isRepawned = _isRepawned;
         UI_Player.Instance.UI[id - 1].GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/UI_" + weaponName + "_BK");
-        GameObject UI_X = Instantiate(X);
-        UI_X.transform.SetParent(GameObject.Find("Canvas").transform);
-        UI_X.transform.position = UI_Player.Instance.UI[id - 1].transform.position - new Vector3(0, -180, 0);
+        //GameObject UI_X = Instantiate(X);
+        //UI_X.transform.SetParent(GameObject.Find("Canvas").transform);
+        //UI_X.transform.position = UI_Player.Instance.UI[id - 1].transform.position - new Vector3(0, -180, 0);
 
-        if(isRepawned == false)
+        if(_isRepawned == false)
         {
-            Destroy(UI_X);
+            //Destroy(UI_X);
             UI_Player.Instance.UI[id - 1].GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/UI_" + weaponName + "_" + team);
         }
+
     }
 }

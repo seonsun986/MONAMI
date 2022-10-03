@@ -75,6 +75,10 @@ public class CanHide : MonoBehaviourPun
     RaycastHit frontWallHit;                // SphereCast를 사용했을 때 부딪힌 곳
     bool wallFront;                         // wall이었을 때 true로 시킬 bool값
     public bool climbing;                   // wallFront가 true일때 climbing을 true로 시킨다. -> 이때 중력을 끄고 앞 방향을 위 방향을 한다
+
+    // 소리 관련
+    public AudioSource swimmingSound;
+    public AudioSource jumpInoutSound;
     void WallCheck()
     {
         Ray ray = new Ray(orientation.position, orientation.forward);
@@ -293,6 +297,12 @@ public class CanHide : MonoBehaviourPun
                 {
                     canHide = false;
                 }
+
+                // 잉크 헤엄치는 소리
+                if(!swimmingSound.isPlaying)
+                {
+                    swimmingSound.Play();
+                }
             }
             if (Input.GetKeyUp(hideKey))
             {
@@ -301,12 +311,15 @@ public class CanHide : MonoBehaviourPun
                 wallFront = false;
                 climbing = false;
                 if (canHide ==true)
-                { particle_Ink_Splash.Play();}
-
+                { 
+                    particle_Ink_Splash.Play();
+                    jumpInoutSound.Play();
+                }
                 canHide = false;
                 UI_chageInk.SetActive(false);
                 UI_ChagerInkPaint.SetActive(false);
                 VFX_squid_Speed.SetActive(false);
+                swimmingSound.Stop();
             }
 
             if (canHide == true)
@@ -315,13 +328,19 @@ public class CanHide : MonoBehaviourPun
                 // 숨을 수 있을 때
                 CanHideP();
                 photonView.RPC("RPCCanHide", RpcTarget.All);
+                if(Input.GetKeyDown(hideKey))
+                {
+                    jumpInoutSound.Play();
+                }    
 
             }
 
             // 숨을 수 없을 때
             else
-            { 
+            {
                 //CanNotHide();
+                swimmingSound.Stop();
+                
                 photonView.RPC("RPCCannotHide", RpcTarget.All);
                 if (orb.isOrb == false)
                 {

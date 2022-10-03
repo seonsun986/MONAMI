@@ -59,6 +59,7 @@ public class Orb_Line : MonoBehaviour
 
                 //필살기 게이지 0으로 만들어주기 OrbGauge.cs에서 변수 받아오기.
                 _cam.GetComponentInParent<OrbGauge>().currentGauge = 0;
+                _cam.GetComponentInParent<OrbGauge>().isOrb = false;
 
                 //다시 각 플레이어 공격할 수 있게 해주기 각 플레이어 기본공격을 활성화 시켜주자!
 

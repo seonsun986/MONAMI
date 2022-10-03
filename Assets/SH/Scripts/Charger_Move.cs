@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class Charger_Move : MonoBehaviourPun
+public class Charger_Move : SSH_Player
 {
     //내 지형일 때 런 스피드.
     [Header("PlayerSpeed")]
@@ -42,8 +42,11 @@ public class Charger_Move : MonoBehaviourPun
     CanHide canHide;
     OrbGauge orb;
     public GameObject weapon;
-    void Start()
+    public override void Start()
     {
+        base.Start();
+        weaponName = "Charger";
+
         nickName.text = photonView.Owner.NickName;
         DataManager.instance.nickname = photonView.Owner.NickName;
         if (photonView.IsMine == false) return;
@@ -132,7 +135,6 @@ public class Charger_Move : MonoBehaviourPun
         {
             photonView.RPC("RPCSetTrigger", RpcTarget.All, "ThrowAim");
             count++;
-
         }
 
         // 누르는 순간에는 조준모드로 활성화

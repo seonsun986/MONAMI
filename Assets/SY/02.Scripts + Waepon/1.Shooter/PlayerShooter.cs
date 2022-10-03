@@ -31,6 +31,9 @@ public class PlayerShooter : MonoBehaviourPun
     public int maxCount;
     CanHide canHide;
     Player_HP hp;
+    OrbGauge orb;
+
+    public AudioSource plzRefillInk;
     void Start()
     {
         // GameManager에게 나의 photonView를 주자
@@ -40,6 +43,7 @@ public class PlayerShooter : MonoBehaviourPun
         canShoot = true;
         crossHair.SetActive(false);
         hp = GetComponent<Player_HP>();
+        orb = GetComponent<OrbGauge>();
     }
 
     // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 50이 최대 
@@ -50,6 +54,7 @@ public class PlayerShooter : MonoBehaviourPun
 
     void Update()
     {
+        if (orb.isOrb == true) return;
         // 내것이라면
         if (photonView.IsMine)
         {
@@ -83,12 +88,16 @@ public class PlayerShooter : MonoBehaviourPun
                 // 잉크가 넘치면 무조건 못쏜다
                 // 숨고있을 땐 무조건 못쏜다
                 // 잉크부족! UI 띄우기
-                // 잉크 부족은 숨었을땐 나타나게 하지 않기!ㄴ
+                // 잉크 부족은 숨었을땐 나타나게 하지 않기!
                 if (count >= maxCount && lowInkUI.activeSelf == false)
                 {
                     lowInkUI.SetActive(true);
                     // 넘지 않게하기
                     count = maxCount;
+                    if(!plzRefillInk.isPlaying)
+                    {
+                        plzRefillInk.Play();
+                    }
                 }
                 
                 canShoot = false;

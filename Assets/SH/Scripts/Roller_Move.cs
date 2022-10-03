@@ -6,7 +6,7 @@ using UnityEngine;
 using Photon.Pun;
 
 
-public class Roller_Move : MonoBehaviourPun
+public class Roller_Move : SSH_Player
 {
     public float speed = 5;
     public float runSpeed = 13;     // 내 잉크에 있을 때 스피드 값
@@ -34,8 +34,11 @@ public class Roller_Move : MonoBehaviourPun
     public Text nickName;
     CanHide canHide;
     OrbGauge orb;
-    void Start()
+    public override void Start()
     {
+        base.Start();
+        weaponName = "Roller";
+
         cc = GetComponent<CharacterController>();
         canHide = GetComponent<CanHide>();
         nickName.text = photonView.Owner.NickName;
@@ -88,13 +91,17 @@ public class Roller_Move : MonoBehaviourPun
         {
             finalSpeed = downSpeed;
         }
-        
+
 
         //TransformDirection : 방향을 뜻함
         //Vector3 forward = transform.TransformDirection(Vector3.forward);
         //right : 지상에서 X좌표를 뜻함
         //Vector3 right = transform.transform.TransformDirection(Vector3.right);
         //내가 움직이는 방향은 앞방향 = vertical(세로), 양옆방향 = Horizontal(가로)
+
+        // 옥이 실행중이라면 isOrd == true
+        // AimThrow를 트리거시킨다
+        // 마우스를 누르면 Throw로 바꾼다
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
         Vector3 dir;

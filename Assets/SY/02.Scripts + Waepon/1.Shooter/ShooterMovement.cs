@@ -5,7 +5,7 @@ using Photon.Pun;
 using UnityEngine.UI;
 
 
-public class ShooterMovement : MonoBehaviourPun
+public class ShooterMovement : SSH_Player
 {
     Graphics graphics;
 
@@ -43,15 +43,25 @@ public class ShooterMovement : MonoBehaviourPun
     // 닉네임
     public Text nickName;
     CanHide canHide;
+    OrbGauge orb;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
+
+        weaponName = "Shooter";
+
         nickName.text = photonView.Owner.NickName;
         DataManager.instance.nickname = photonView.Owner.NickName;
         if (photonView.IsMine == false) return;
         cc = this.GetComponent<CharacterController>();
         hp = GetComponent<Player_HP>();
         canHide = GetComponent<CanHide>();
+        orb = GetComponent<OrbGauge>();
+        if(photonView.IsMine)
+        {
+            cam.GetComponent<AudioListener>().enabled = true;
+        }
     }
 
     void Update()
@@ -72,10 +82,8 @@ public class ShooterMovement : MonoBehaviourPun
         
     }
 
-    //업데이트가 다끝나고 실행되는 LateUpdate
-    void LateUpdate()
-    {
-    }
+
+    int count;
     void PlayerMove()
     {
         //최종 내 스피드는 런이 활성화 되어있으면 빠르게 그게 아니면 보통의 속도로 이동
@@ -146,13 +154,30 @@ public class ShooterMovement : MonoBehaviourPun
             isJumping = true;
         }
 
+        // R버튼을 누르면 저절로
+        // 가 True가 되므로!
+        if (orb.isOrb == true && count < 1)
+        {
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "ThrowAim");
+            count++;
+        }
+
         // 단발 공격
         if (Input.GetMouseButtonDown(0))
         {
-            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Fire");
+            if (orb.isOrb == true)
+            {
+                photonView.RPC("RPCSetTrigger", RpcTarget.All, "Throw");
+
+            }
+            else
+            {
+                photonView.RPC("RPCSetTrigger", RpcTarget.All, "Fire");
+
+            }
         }
         // 연사 공격
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && orb.isOrb == false)
         {
             //anim.SetLayerWeight(1, 1);
             //anim.CrossFade("FireForShooter", 1, 0, 0.3f);
@@ -163,6 +188,7 @@ public class ShooterMovement : MonoBehaviourPun
         if (Input.GetMouseButtonUp(0))
         {
             photonView.RPC("RPCSetTrigger", RpcTarget.All, "Move");
+            count = 0;
 
         }
 

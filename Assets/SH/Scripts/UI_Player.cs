@@ -25,26 +25,35 @@ public class UI_Player : MonoBehaviourPun
     {
 
     }
-
+    int count;
     void Update()
     {
-        if (start_UI.activeSelf == false && count <1)
+        if (start_UI.activeSelf == false && count<1)
         {
             blue_bar.SetActive(true);
             pink_bar.SetActive(true);
             countDown.SetActive(true);
-            photonView.RPC("RPC_UI", RpcTarget.All, DataManager.instance.id, DataManager.instance.weaponName);
+
+
+            if(PhotonNetwork.IsMasterClient)
+            {
+                for(int i = 0; i < GameManager.Instance.players.Count; i++)
+                {
+                    SSH_Player player = GameManager.Instance.players[i].GetComponent<SSH_Player>();
+                    photonView.RPC("RPC_UI", RpcTarget.All, player.id, player.weaponName);
+                }
+
+            }
             count++;
         }
     }
 
-    int count;
     [PunRPC]
     public void RPC_UI(int id, string weaponName)
     {
 
         // 아이디가 1~3일때
-        if (id >= 1 && id <= 3 && count<1)
+        if (id >= 1 && id <= 3)
         {
             if (weaponName == "Shooter")
             {
@@ -66,20 +75,20 @@ public class UI_Player : MonoBehaviourPun
         }
 
         // 아이디가 4~6일때
-        else if(id >=4 && id <=6 && count<1)
+        else if(id >=4 && id <=6)
         {
             if (weaponName == "Shooter")
             {
                 // 선택한게 슈터라면
-                UI[id] = Instantiate(weapon_UI[3]);
+                UI[id - 1] = Instantiate(weapon_UI[3]);
             }
             else if (weaponName == "Roller")
             {
-                UI[id] = Instantiate(weapon_UI[4]); ;
+                UI[id - 1] = Instantiate(weapon_UI[4]); ;
             }
             else if (weaponName == "Charger")
             {
-                UI[id] = Instantiate(weapon_UI[5]);
+                UI[id - 1] = Instantiate(weapon_UI[5]);
             }
 
             // 0부터 시작하므로
