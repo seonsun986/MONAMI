@@ -26,6 +26,18 @@ public class OrbGauge : MonoBehaviourPun
     void Start()
     {
         //임시로 1로 넣어줘서 플레이 가능하게 만들어줌
+        if(gameObject.name.Contains("Shooter"))
+        {
+            currentGauge = GetComponent<PlayerShooter>().FillGauge.fillAmount;
+        }
+        else if(gameObject.name.Contains("Roller"))
+        {
+
+        }
+        else
+        {
+
+        }
         currentGauge = 1;
         _OrbLine.SetActive(false);
         _OrbInk.SetActive(false);

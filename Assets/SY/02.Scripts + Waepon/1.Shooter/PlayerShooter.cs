@@ -33,8 +33,12 @@ public class PlayerShooter : MonoBehaviourPun
     CanHide canHide;
     Player_HP hp;
     OrbGauge orb;
+
+    [Header("포인트 게이지 관련")]
+    public GameObject gauge;
     public Text pointTxt;              // 슈터는 포인트 1점씩 올린다
     public int point;
+    public int maxPoint = 300;
     public Image FillGauge;         // 게이지의 FillAmount는 0.8을 최대로 한다.
     // 소리
     public AudioSource plzRefillInk;
@@ -46,8 +50,11 @@ public class PlayerShooter : MonoBehaviourPun
         lowInkUI.SetActive(false);
         canShoot = true;
         crossHair.SetActive(false);
+        pointTxt.gameObject.SetActive(false);
+        gauge.SetActive(false);
         hp = GetComponent<Player_HP>();
         orb = GetComponent<OrbGauge>();
+        
     }
 
     // 등에 매는 충전하는 거랑 충전UI랑 count랑 동기화시킨다 // 50이 최대 
@@ -65,6 +72,8 @@ public class PlayerShooter : MonoBehaviourPun
             if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
             if (hp.hp <= 0) return;
             if (crossHair.activeSelf == false) crossHair.SetActive(true);
+            if (gauge.activeSelf == false) gauge.SetActive(true);
+            if (pointTxt.gameObject.activeSelf == false) pointTxt.gameObject.SetActive(true);
             // 잉크충전 UI가 켜져있다면
             if (uiInk.gameObject.activeSelf == true)
             {
@@ -130,8 +139,10 @@ public class PlayerShooter : MonoBehaviourPun
                         //잉크파티클 재생
                         inkParticle.Play();
                         photonView.RPC("RPCShowBullet", RpcTarget.All,cam.transform.position, cam.transform.forward);
+                        // 포인트 반영
                         point++;
-                        pointTxt.text = point.ToString();
+                        pointTxt.text = point.ToString() + " P";
+                        FillGauge.fillAmount = (float)point / (float)maxPoint;
                         currentTime2 = 0;
                     }
 
