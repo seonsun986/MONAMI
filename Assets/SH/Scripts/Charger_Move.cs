@@ -108,7 +108,6 @@ public class Charger_Move : MonoBehaviourPun
             dir = transform.up * v + transform.right * h;
         }
         dir.Normalize();
-        dir = cam.transform.TransformDirection(dir);
        
         if (h != 0 || v != 0)
         {

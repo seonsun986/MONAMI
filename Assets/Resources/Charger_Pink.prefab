@@ -70398,6 +70398,7 @@ MonoBehaviour:
   killNameBox: {fileID: 4130626580409470374}
   killMsgtxt: {fileID: 552546633416853566}
   killNametxt: {fileID: 4855539019615835820}
+  X: {fileID: 4705461643904547899, guid: d6100fc35412d6144a292a5b769921a1, type: 3}
 --- !u!114 &319019594
 MonoBehaviour:
   m_ObjectHideFlags: 0
