@@ -4,8 +4,15 @@ using UnityEngine;
 
 //실제 카메라셰이크를 동작시키는 클래스
 //필요속성 : 타겟카메라, 재생시간, 카메라셰이크 정보, 카메라셰이크타입, 실행시킬 카메라셰이크 클래스
+
 public class CameraShake : MonoBehaviour
 {
+    public static CameraShake instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
     //타겟카메라
     public Transform targetCamera;
     //재생시간
@@ -32,12 +39,12 @@ public class CameraShake : MonoBehaviour
 
     public static CameraShakeBase CreateCameraShake(CameraShakeType type)
     {
-        switch(type)
+        switch (type)
         {
             case CameraShakeType.Random:
                 return new CS_Random();
             case CameraShakeType.Sine:
-                break;
+                return new CS_Sine();
             case CameraShakeType.Animation:
                 break;
         }
@@ -46,37 +53,33 @@ public class CameraShake : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
-        { PlayCameraShake(); }
+      
     }
-    void PlayCameraShake()
+    public void PlayCameraShake()
     {
         //카메라셰이크 타입이 애니메이션이 아닐 경우
-        if(cameraShakeType != CameraShakeType.Animation)
+        if (cameraShakeType != CameraShakeType.Animation)
         {
             StopAllCoroutines();
             StartCoroutine(Play());
-        }
-        else
-        {
-        //애니메이션일 경우
-
         }
     }
 
     //재생시간동안 카메라셰이크 실행
     IEnumerator Play()
     {
-        cameraShake.Init(targetCamera.position);  
+        cameraShake.Init(targetCamera.position);
+
         float currentTime = 0;
         //재생시간동안 카메라셰이크 실행
-        while(currentTime < playTime)
+        while (currentTime < playTime)
         {
             currentTime += Time.deltaTime;
             //카메라 셰이크 실행
             cameraShake.Play(targetCamera, info);
+            yield return null;
         }
         //끝나면 Stop
-        yield return null;
+        cameraShake.Stop(targetCamera);
     }
 }
