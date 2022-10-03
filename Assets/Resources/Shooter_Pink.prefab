@@ -15278,6 +15278,9 @@ MonoBehaviour:
   lowInkUI: {fileID: 5302739277997021504}
   count: 0
   maxCount: 50
+  pointTxt: {fileID: 0}
+  point: 0
+  FillGauge: {fileID: 0}
   plzRefillInk: {fileID: 5765435815559243885}
   uiInk: {fileID: 5302739277419987972}
   inkTank: {fileID: 702023987920430505}

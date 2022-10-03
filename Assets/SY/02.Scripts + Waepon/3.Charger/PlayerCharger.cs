@@ -50,8 +50,8 @@ public class PlayerCharger : MonoBehaviourPun
 
     void Start()
     {
-        audio_Charging = GetComponent<AudioSource>();
-        audio_Shot = GetComponent<AudioSource>();
+       /* audio_Charging = GetComponent<AudioSource>();
+        audio_Shot = GetComponent<AudioSource>();*/
 
         orb = GetComponent<OrbGauge>();
         // GameManager에게 나의 photonView를 주자
@@ -149,9 +149,12 @@ public class PlayerCharger : MonoBehaviourPun
 
         if (canShoot == true)
         {
-            if (Input.GetMouseButton(0))
+            if(Input.GetMouseButtonDown(0))
             {
                 audio_Charging.Play();
+            }
+                if (Input.GetMouseButton(0))
+            {
                 //Zoom In
                 cam.GetComponentInParent<CameraMovement>().zoomDistance = 2f;
                 // 차저 레이저관리(로컬)

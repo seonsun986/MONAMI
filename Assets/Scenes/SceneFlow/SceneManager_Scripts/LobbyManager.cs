@@ -109,6 +109,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         DataManager.instance.id = actorNumber;
         print("My ID : " + actorNumber);
+        
         PhotonNetwork.LoadLevel("03.Lobby2");
         //PhotonNetwork.LoadLevel("Lobby2");
         // PhotonNetwork.JoinRoom("XR_A");
