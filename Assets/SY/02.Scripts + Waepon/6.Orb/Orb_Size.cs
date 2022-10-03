@@ -16,10 +16,10 @@ public class Orb_Size : MonoBehaviour
     [Header("궁극기 유지 시간")]
     [SerializeField] float holdingTime;
 
-    Rigidbody rb;
+    //Rigidbody rb;
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         child_Pos.SetActive(false);
     }
 
@@ -27,9 +27,10 @@ public class Orb_Size : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
+        print(other.gameObject.name);
             //벽과 바닥에 닿으면 더 이상 영향을 받지않게 만들어주겠다.
-            rb.useGravity = false;
-            rb.isKinematic = true;
+           // rb.useGravity = false;
+            //rb.isKinematic = true;
 
         }
         //스케일을 만들어줌.
@@ -55,6 +56,5 @@ public class Orb_Size : MonoBehaviour
         }
 
         gameObject.SetActive(false);
-        Destroy(gameObject);
     }
 }
