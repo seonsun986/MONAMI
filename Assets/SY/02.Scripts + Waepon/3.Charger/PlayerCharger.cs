@@ -169,6 +169,7 @@ public class PlayerCharger : MonoBehaviourPun
             //쏘았을 때만 플레이
             if (Input.GetMouseButtonUp(0))
             {
+                CameraShake.instance.PlayCameraShake();
                 //Zoom In
                 cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 0f;
                 lazer.SetActive(false);
