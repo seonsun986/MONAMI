@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class PlayerRoller : MonoBehaviourPun
 {
@@ -38,6 +39,14 @@ public class PlayerRoller : MonoBehaviourPun
     public AudioSource jumpSpraySound;          // 점프 뿌려죠 사운드
     public AudioSource spraySound;              // 뿌려죠 사운드
     public AudioSource ink_PushSound;           // 누르고 있는 사운드
+
+    [Header("포인트 게이지 관련")]
+    public GameObject gauge;
+    public Text pointTxt;              // 슈터는 포인트 1점씩 올린다
+    public int point;
+    public int maxPoint = 300;
+    public Image FillGauge;         // 게이지의 FillAmount는 0.8을 최대로 한다.
+
     void Start()
     {
         // GameManager에게 나의 photonView를 주자
@@ -45,6 +54,8 @@ public class PlayerRoller : MonoBehaviourPun
         lowInkUI.SetActive(false);
         leftRoller.SetActive(false);
         rightRoller.SetActive(false);
+        pointTxt.gameObject.SetActive(false);
+        gauge.SetActive(false);
         currentInk = maxInk;
         roller_move = GetComponent<Roller_Move>();
         orb = GetComponent<OrbGauge>();
@@ -64,6 +75,9 @@ public class PlayerRoller : MonoBehaviourPun
         if (photonView.IsMine)
         {
             if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
+            if (gauge.activeSelf == false) gauge.SetActive(true);
+            if (pointTxt.gameObject.activeSelf == false) pointTxt.gameObject.SetActive(true);
+
             // 잉크충전 UI가 켜져있다면
             if (uiInk.gameObject.activeSelf == true)
             {
@@ -128,13 +142,21 @@ public class PlayerRoller : MonoBehaviourPun
                     photonView.RPC("RPCRollerInkJumpShoot", RpcTarget.All);
                     jumpSpraySound.Play();
                     currentInk -= 15;
+                    // 포인트 반영
+                    point += 5;
                 }
                 else
                 {
                     photonView.RPC("RPCRollerInkShoot", RpcTarget.All);
                     spraySound.Play();
                     currentInk -= 4;
+                    // 포인트 반영
+                    point += 2;
+
                 }
+                pointTxt.text = point.ToString() + " P";
+                FillGauge.fillAmount = (float)point / (float)maxPoint;
+
                 leftRoller.SetActive(true);
                 rightRoller.SetActive(true);
                 //공격을 시작했다!
@@ -154,8 +176,12 @@ public class PlayerRoller : MonoBehaviourPun
                     if (currentTime > 0.2f)
                     {
                         currentInk -= 3;
+                        point++;
+                        pointTxt.text = point.ToString() + " P";
+                        FillGauge.fillAmount = (float)point / (float)maxPoint;
                         currentTime = 0;
                     }
+
                     if (!ink_PushSound.isPlaying)
                     {
                         ink_PushSound.Play();
