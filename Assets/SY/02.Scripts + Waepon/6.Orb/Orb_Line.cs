@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Orb_Line : MonoBehaviour
+public class Orb_Line : MonoBehaviourPun
 {
     [SerializeField] float _InitialVelocity;
     [SerializeField] float _Angle;
@@ -23,14 +24,15 @@ public class Orb_Line : MonoBehaviour
         //발사전까지는 충돌되지않게 콜라이더 꺼주기.
         GetComponent<SphereCollider>().enabled = false;
         //Hit위치에 목표지점 프리팹 생성시켜주기
-        _HitPoint.SetActive(true);
+        // _HitPoint.SetActive(true);
         //트레일랜더러는 발사했을 때만 켜주기.
-        trailRenderer.SetActive(false);
-        orb_charging.SetActive(true);
+        //trailRenderer.SetActive(false);
+        // orb_charging.SetActive(true);
     }
     int count;
     public void Update()
     {
+        if (!photonView.IsMine) return;
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo))
@@ -49,29 +51,50 @@ public class Orb_Line : MonoBehaviour
             DrawPath(groundDirection.normalized, v0, angle, time, _Step);
             if (Input.GetMouseButtonDown(0))
             {
-                orb_charging.SetActive(false);
-                trailRenderer.SetActive(true);
-                //충돌될 수 있게 콜라이더 켜준다.
-                GetComponent<SphereCollider>().enabled = true;
 
-                StopAllCoroutines();
-                StartCoroutine(IE_Movement(groundDirection.normalized, v0, angle, time));
-
-                //필살기 게이지 0으로 만들어주기 OrbGauge.cs에서 변수 받아오기.
-                _cam.GetComponentInParent<OrbGauge>().currentGauge = 0;
-                _cam.GetComponentInParent<OrbGauge>().isOrb = false;
-
-                //다시 각 플레이어 공격할 수 있게 해주기 각 플레이어 기본공격을 활성화 시켜주자!
-
-                orb_Line.SetActive(false);
-                _HitPoint.SetActive(false);
-
+                // StartCoroutine(IE_Movement(groundDirection.normalized, v0, angle, time));
+                photonView.RPC("RpcFire", RpcTarget.All, groundDirection.normalized, v0, angle, time);
             }
         }
         _HitPoint.transform.position = hitInfo.point;
         _HitPoint.transform.up = hitInfo.normal;
 
     }
+
+    [PunRPC]
+    void RpcFire(Vector3 direction, float v0, float angle, float time)
+    {
+        transform.parent = null;
+        if (!photonView.IsMine)
+        {
+            gameObject.SetActive(true);
+        }
+
+
+        orb_charging.SetActive(false);
+        trailRenderer.SetActive(true);
+        //다시 각 플레이어 공격할 수 있게 해주기 각 플레이어 기본공격을 활성화 시켜주자!
+        orb_Line.SetActive(false);
+        _HitPoint.SetActive(false);
+
+
+
+
+        //충돌될 수 있게 콜라이더 켜준다.
+        GetComponent<SphereCollider>().enabled = true;
+
+        StopAllCoroutines();
+        StartCoroutine(IE_Movement(direction, v0, angle, time));
+
+        //필살기 게이지 0으로 만들어주기 OrbGauge.cs에서 변수 받아오기.
+        _cam.GetComponentInParent<OrbGauge>().currentGauge = 0;
+        _cam.GetComponentInParent<OrbGauge>().isOrb = false;
+
+
+
+
+    }
+
     private void DrawPath(Vector3 direction, float v0, float angle, float time, float step)
     {
         step = Mathf.Max(0.01f, step);

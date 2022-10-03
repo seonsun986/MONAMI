@@ -10,6 +10,10 @@ using Photon.Pun;
 
 public class PlayerCharger : MonoBehaviourPun
 {
+    [Header("Audio")]
+    public AudioSource audio_Charging;
+    public AudioSource audio_Shot;
+
     public Transform test_cam;
     public Transform test_firePos;
 
@@ -46,6 +50,9 @@ public class PlayerCharger : MonoBehaviourPun
 
     void Start()
     {
+        audio_Charging = GetComponent<AudioSource>();
+        audio_Shot = GetComponent<AudioSource>();
+
         orb = GetComponent<OrbGauge>();
         // GameManager에게 나의 photonView를 주자
         GameManager.Instance.CountPlayer(photonView);
@@ -144,6 +151,7 @@ public class PlayerCharger : MonoBehaviourPun
         {
             if (Input.GetMouseButton(0))
             {
+                audio_Charging.Play();
                 //Zoom In
                 cam.GetComponentInParent<CameraMovement>().zoomDistance = 2f;
                 // 차저 레이저관리(로컬)
@@ -176,6 +184,7 @@ public class PlayerCharger : MonoBehaviourPun
             //쏘았을 때만 플레이
             if (Input.GetMouseButtonUp(0))
             {
+                audio_Shot.Play();
                 //Zoom In
                 cam.GetComponentInParent<CameraMovement>().zoomDistance = 0f;
                 lazer.SetActive(false);
