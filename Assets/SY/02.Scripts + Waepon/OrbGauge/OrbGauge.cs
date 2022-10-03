@@ -32,11 +32,12 @@ public class OrbGauge : MonoBehaviourPun
         }
         else if(gameObject.name.Contains("Roller"))
         {
+            currentGauge = GetComponent<PlayerRoller>().FillGauge.fillAmount;
 
         }
         else
         {
-
+            currentGauge = GetComponent<PlayerCharger>().FillGauge.fillAmount;
         }
         currentGauge = 1;
         _OrbLine.SetActive(false);

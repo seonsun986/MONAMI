@@ -48,6 +48,13 @@ public class PlayerCharger : MonoBehaviourPun
 
     OrbGauge orb;
 
+    [Header("포인트 게이지 관련")]
+    public GameObject gauge;
+    public Text pointTxt;              // 슈터는 포인트 1점씩 올린다
+    public int point;
+    public int maxPoint = 300;
+    public Image FillGauge;         // 게이지의 FillAmount는 0.8을 최대로 한다.
+
     void Start()
     {
        /* audio_Charging = GetComponent<AudioSource>();
@@ -62,6 +69,8 @@ public class PlayerCharger : MonoBehaviourPun
         crosshair.fillAmount = 0;
         currentInk = maxInk;
         lowInkUI.SetActive(false);
+        pointTxt.gameObject.SetActive(false);
+        gauge.SetActive(false);
         //lazer.enabled = false;
         if (gameObject.name.Contains("Pink"))
         {
@@ -97,6 +106,8 @@ public class PlayerCharger : MonoBehaviourPun
         if (!photonView.IsMine) return;
         if (orb.isOrb == true) return;   
         if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
+        if (gauge.activeSelf == false) gauge.SetActive(true);
+        if (pointTxt.gameObject.activeSelf == false) pointTxt.gameObject.SetActive(true);
         // UI 충전
         // 잉크충전 UI가 켜져있다면
         if (uiInk.gameObject.activeSelf == true)
@@ -177,7 +188,7 @@ public class PlayerCharger : MonoBehaviourPun
                 chargeInk = (int)(currentAmount * 20);
                 if (crosshair.fillAmount > 1)
                 {
-                    chargeInk = 10;
+                    chargeInk = 20;
                     crosshair.fillAmount = 1;
                 }
                 isAttack = true;
@@ -192,6 +203,10 @@ public class PlayerCharger : MonoBehaviourPun
                 cam.GetComponentInParent<CameraMovement>().zoomDistance = 0f;
                 lazer.SetActive(false);
                 photonView.RPC("RPCChargerShot", RpcTarget.All, test_cam.position, test_cam.forward, currentAmount);
+                point += (int)currentAmount * 15;
+                pointTxt.text = point.ToString() + " P";
+                FillGauge.fillAmount = (float)point / (float)maxPoint;
+
                 crosshair.gameObject.SetActive(false);
                 crosshair.fillAmount = 0;
                 
@@ -238,7 +253,7 @@ public class PlayerCharger : MonoBehaviourPun
 
         // 최대 10
         ci.fillAmount = (int)(currentAmount * 10);
-        ci.radiusByCharge = currentAmount * 5;
+        ci.radiusByCharge = currentAmount * 3;
 
         ink.transform.position = test_firePos.transform.position;
         ink.transform.forward = test_firePos.transform.forward;

@@ -110,13 +110,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paintColor: {r: 1, g: 0, b: 0.5, a: 1}
-  radius: 3
+  radius: 2
   strength: 0.4
   hardness: 0.01
   inkSpeed: 80
   cam: {fileID: 0}
   hitImpactFactory: {fileID: 1703928220513809131, guid: b627a4e9f383d98418baa4d3a6d8030b, type: 3}
   fillAmount: 0
+  weaponName: 
   radiusByCharge: 0
   strength2: 1
 --- !u!54 &6579896275286540519
