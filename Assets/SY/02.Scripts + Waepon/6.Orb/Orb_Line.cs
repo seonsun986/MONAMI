@@ -2,129 +2,140 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Orb_Line : MonoBehaviour
 {
-    public GameObject cam;
-    public GameObject orb;
+    [SerializeField] float _InitialVelocity;
+    [SerializeField] float _Angle;
+    [SerializeField] float _Step;
+    [SerializeField] LineRenderer _Line;
+    [SerializeField] Transform _FirePos;
+    //궤적의 끝에 생성시켜줄 파티클
+    [SerializeField] GameObject _HitPoint;
+    [SerializeField] Camera _cam;
 
-    public Transform firePos;
-    public LineRenderer lr;
+    [SerializeField] GameObject orb_Line;
+    [SerializeField] GameObject trailRenderer;
+    [SerializeField] GameObject orb_charging;
 
-    public float gravity = -9.81f;
-    public float jumpPower = 10;
-    float curveDeltaTime = 1 / 60f;
-
-    public int maxPoint = 1000;
-    int pointCount = 0;
-
-    //가상의 포지션
-    Vector3 pos;
-
-    //마우스 인풋을 받을 변수
-    private float rotX;
-    float mouseValue;
-    //마우스 감도
-    public float sensitivity = 100f;
-
-    void Start()
+    private void Start()
     {
-        //처음 시작할 때 각도를 초기화
-        rotX = transform.localRotation.eulerAngles.x;
+        //발사전까지는 충돌되지않게 콜라이더 꺼주기.
+        GetComponent<SphereCollider>().enabled = false;
+        //Hit위치에 목표지점 프리팹 생성시켜주기
+        _HitPoint.SetActive(true);
+        //트레일랜더러는 발사했을 때만 켜주기.
+        trailRenderer.SetActive(false);
+        orb_charging.SetActive(true);
     }
-
-    Vector3 velocity;
-    Vector3 firstVelocity;
-
-    void Update()
+    int count;
+    public void Update()
     {
-        if(Input.GetMouseButton(0))
-        {
-            mouseValue++;
-        }
-        //매프레임마다 인풋을 받기 위함
-        //X축을 기준으로 카메라가 움직일 때는 마우스를 상하로 움직이니 
-        rotX = mouseValue;
-        //rotX : 카메라의 상하 회전의 값을 -70~70으로 한정지어준다
-        //카메라의 회전을 rot만큼 움직여준다
-        Quaternion rot = Quaternion.Euler(rotX, 0, 0);
-        transform.rotation = rot;
-
-        //curveDeltaTime = 1 / (float)maxPoint;
-        pointCount = 0;
-        firstVelocity = velocity = firePos.forward * jumpPower;
-        pos = firePos.transform.position;
-        lr.positionCount = 2;
-
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
-
-        if(Input.GetMouseButton(0))
+        if (Physics.Raycast(ray, out hitInfo))
         {
-            cam.GetComponentInParent<CameraMovement>().zoomDistance = 3f;
-            //포인트카운트가 맥스 포인트보다 작을 때만 실행.
-            for (int i = 0; i < maxPoint; i++)
-            {
-                if (false == MakeCurve(out hitInfo))
-                {
-                    //========================================여기서 원하는 것을 실행
-                    // 닿은 것이 있다.
-                    // 도착지점 파티클 노멀 방향으로 생성.
-                    
+            Vector3 direction = hitInfo.point - _FirePos.position;
+            Vector3 groundDirection = new Vector3(direction.x, 0, direction.z);
+            Vector3 targetPos = new Vector3(groundDirection.magnitude, direction.y, 0);
+            float height = targetPos.y + targetPos.magnitude / 2f;
+            height = Mathf.Max(0.01f, height);
+            float angle;
+            float v0;
+            float time;
 
-                    //makeCurve가 false면 for문을 멈춰!
-                    break;
-                }
+            CalculatePathWithHeight(targetPos, height, out v0, out angle, out time);
+
+            DrawPath(groundDirection.normalized, v0, angle, time, _Step);
+            if (Input.GetMouseButtonDown(0))
+            {
+                orb_charging.SetActive(false);
+                trailRenderer.SetActive(true);
+                //충돌될 수 있게 콜라이더 켜준다.
+                GetComponent<SphereCollider>().enabled = true;
+
+                StopAllCoroutines();
+                StartCoroutine(IE_Movement(groundDirection.normalized, v0, angle, time));
+
+                //필살기 게이지 0으로 만들어주기 OrbGauge.cs에서 변수 받아오기.
+                _cam.GetComponentInParent<OrbGauge>().currentGauge = 0;
+
+                //다시 각 플레이어 공격할 수 있게 해주기 각 플레이어 기본공격을 활성화 시켜주자!
+
+                orb_Line.SetActive(false);
+                _HitPoint.SetActive(false);
+
             }
         }
-        if(Input.GetMouseButtonUp(0))
-        {
-            cam.GetComponentInParent<CameraMovement>().zoomDistance = 0f;
-            GameObject go = Instantiate(orb);
-            go.transform.position = pos;
-            go.GetComponent<Rigidbody>().velocity = firstVelocity;
-        }
+        _HitPoint.transform.position = hitInfo.point;
+        _HitPoint.transform.up = hitInfo.normal;
 
     }
-    bool MakeCurve(out RaycastHit hitInfo)
+    private void DrawPath(Vector3 direction, float v0, float angle, float time, float step)
     {
-
-        //첫번째 점일 때(0)는 레이를 쏘지 않겠다. (예외처리)
-        if (pointCount == 0)
+        step = Mathf.Max(0.01f, step);
+        _Line.positionCount = (int)(time / step) + 2;
+        int count = 0;
+        for (float i = 0; i < time; i += step)
         {
-            lr.positionCount = pointCount + 1;
-            lr.SetPosition(pointCount, pos);
-            ++pointCount;
-            hitInfo = new RaycastHit();
-            hitInfo.point = pos;
-            return true;
+            float x = v0 * i * Mathf.Cos(angle);
+            float y = v0 * i * Mathf.Sin(angle) - 0.5f * -Physics.gravity.y * Mathf.Pow(i, 2);
+            _Line.SetPosition(count, _FirePos.position + direction * x + Vector3.up * y);
+            count++;
         }
+        float xFinal = v0 * time * Mathf.Cos(angle);
+        float yFinal = v0 * time * Mathf.Sin(angle) - 0.5f * -Physics.gravity.y * Mathf.Pow(time, 2);
+        _Line.SetPosition(count, _FirePos.position + direction * xFinal + Vector3.up * yFinal);
+    }
 
-        //중력을 반영
-        //gravity : 음수
-        velocity += gravity * Vector3.up * curveDeltaTime;
-        //가는 방향과 스피드
-        pos += velocity * curveDeltaTime;
+    private float QuadraticEquation(float a, float b, float c, float sign)
+    {
+        return (-b + sign * Mathf.Sqrt(b * b - 4 * a * c)) / (2 * a);
+    }
 
-        //이전 위치에서 새로운 위치로 Ray를 쏘고싶다.
-        Vector3 prevPos = lr.GetPosition(pointCount - 1);
-        Vector3 dir = pos - prevPos;
-        Ray ray = new Ray(prevPos, dir);
-        //거리 넣어주기, 레이를 무한히 쏘지말고 점과 점 사이 
-        if (Physics.Raycast(ray, out hitInfo, dir.magnitude))
+    private void CalculatePathWithHeight(Vector3 targetPos, float h, out float v0, out float angle, out float time)
+    {
+        float xt = targetPos.x;
+        float yt = targetPos.y;
+        float g = -Physics.gravity.y;
+
+        float b = Mathf.Sqrt(2 * g * h);
+        float a = (-0.5f * g);
+        float c = -yt;
+
+        float tplus = QuadraticEquation(a, b, c, 1);
+        float tmin = QuadraticEquation(a, b, c, -1);
+        time = tplus > tmin ? tplus : tmin;
+
+        angle = Mathf.Atan(b * time / xt);
+
+        v0 = b / Mathf.Sin(angle);
+    }
+
+    private void CalculatePath(Vector3 targetPos, float angle, out float v0, out float time)
+    {
+        float xt = targetPos.x;
+        float yt = targetPos.y;
+        float g = -Physics.gravity.y;
+
+        float v1 = Mathf.Pow(xt, 2) * g;
+        float v2 = 2 * xt * Mathf.Sin(angle) * Mathf.Cos(angle);
+        float v3 = 2 * yt * Mathf.Pow(Mathf.Cos(angle), 2);
+        v0 = Mathf.Sqrt(v1 / (v2 - v3));
+
+        time = xt / (v0 * Mathf.Cos(angle));
+    }
+    IEnumerator IE_Movement(Vector3 direction, float v0, float angle, float time)
+    {
+        float t = 0;
+        while (t < time)
         {
-            lr.positionCount = pointCount + 1;
-            lr.SetPosition(pointCount, hitInfo.point);
-            ++pointCount;
-            //부딪힌게 있으면 그만해!!
-            return false;
-        }
-        else
-        {
-            lr.positionCount = pointCount + 1;
-            lr.SetPosition(pointCount, pos);
-            ++pointCount;
-            //계속해!!
-            return true;
-        }
+            float x = v0 * t * Mathf.Cos(angle);
+            float y = v0 * t * Mathf.Sin(angle) - (1f / 2f) * -Physics.gravity.y * Mathf.Pow(t, 2);
+            transform.position = _FirePos.position + direction * x + Vector3.up * y;
 
+            t += Time.deltaTime;
+            yield return null;
+        }
     }
 }
