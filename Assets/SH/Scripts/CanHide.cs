@@ -408,8 +408,6 @@ public class CanHide : MonoBehaviourPun
         // 잉크 충전 UI킨다
         UI_chageInk.SetActive(true);
         UI_ChagerInkPaint.SetActive(true);
-        VFX_squid_Speed.SetActive(true);
-
         //sphere.gameObject.SetActive(true);
         //// 플레이어 안보이게 함
         //body.gameObject.SetActive(false);
@@ -421,7 +419,24 @@ public class CanHide : MonoBehaviourPun
         {
             Roller_Move rMove = gameObject.GetComponent<Roller_Move>();
             rMove.isRun = true;
-            
+
+            // 움직일때
+            if(rMove.animSpeed != 0)
+            {
+                if(VFX_squid_Speed.activeSelf == false)
+                {
+                    VFX_squid_Speed.SetActive(true);
+                }
+            }
+
+            else
+            {
+                if (VFX_squid_Speed.activeSelf == true)
+                {
+                    VFX_squid_Speed.SetActive(false);
+                }
+            }
+
             // 잉크 충전하기
             PlayerRoller pr = GetComponent<PlayerRoller>();
             pr.ChargeInk();
@@ -431,8 +446,24 @@ public class CanHide : MonoBehaviourPun
         else if (gameObject.name.Contains("Shooter"))
         {
             ShooterMovement sm = gameObject.GetComponent<ShooterMovement>();
-
             sm.isRun = true;
+
+            if (sm.animSpeed != 0)
+            {
+                if (VFX_squid_Speed.activeSelf == false)
+                {
+                    VFX_squid_Speed.SetActive(true);
+                }
+            }
+
+            else
+            {
+                if (VFX_squid_Speed.activeSelf == true)
+                {
+                    VFX_squid_Speed.SetActive(false);
+                }
+            }
+
             PlayerShooter ps = GetComponent<PlayerShooter>();
             // 총알 충전을 위한 함수
             ps.ChargeInk();
@@ -444,8 +475,24 @@ public class CanHide : MonoBehaviourPun
         else if (gameObject.name.Contains("Charger"))
         {
             Charger_Move cm = gameObject.GetComponent<Charger_Move>();
-
             cm.isRun = true;
+            // 움직일때
+            if (cm.animSpeed != 0)
+            {
+                if (VFX_squid_Speed.activeSelf == false)
+                {
+                    VFX_squid_Speed.SetActive(true);
+                }
+            }
+
+            else
+            {
+                if (VFX_squid_Speed.activeSelf == true)
+                {
+                    VFX_squid_Speed.SetActive(false);
+                }
+            }
+
             PlayerCharger pc = GetComponent<PlayerCharger>();
             // 총알 충전을 위한 함수
             pc.ChargeInk();

@@ -32,6 +32,12 @@ public class PlayerRoller : MonoBehaviourPun
     bool isAttack = false;
     Roller_Move roller_move;
     OrbGauge orb;
+
+    // 소리
+    public AudioSource plzRefillInk;            // 충전해죠 ㅅ사운드
+    public AudioSource jumpSpraySound;          // 점프 뿌려죠 사운드
+    public AudioSource spraySound;              // 뿌려죠 사운드
+    public AudioSource ink_PushSound;           // 누르고 있는 사운드
     void Start()
     {
         // GameManager에게 나의 photonView를 주자
@@ -85,10 +91,19 @@ public class PlayerRoller : MonoBehaviourPun
             {
                 // 잉크부족! UI 띄우기
                 if (currentInk <= 0 && lowInkUI.activeSelf == false)
-                {
+                {                  
                     lowInkUI.SetActive(true);
                     // 0보다 작지않게하기
                     currentInk = 0;
+                    if (!plzRefillInk.isPlaying)
+                    {
+                        plzRefillInk.Play();
+                    }
+
+                    if (ink_PushSound.isPlaying)
+                    {
+                        ink_PushSound.Stop();
+                    }
                 }                
                 canShoot = false;
             }
@@ -108,15 +123,16 @@ public class PlayerRoller : MonoBehaviourPun
             //마우스 버튼을 한번 눌렀을 때 잉크를 나의 앞방향으로 잉크를 생성하고 발사시킨다. => 필요속성 : 잉크공장, 잉크 발사위치
             if (Input.GetMouseButtonDown(0) && canShoot == true)
             {
-                
                 if (roller_move.isJumping == true)
                 {
                     photonView.RPC("RPCRollerInkJumpShoot", RpcTarget.All);
-                    currentInk -= 8;
+                    jumpSpraySound.Play();
+                    currentInk -= 15;
                 }
                 else
                 {
                     photonView.RPC("RPCRollerInkShoot", RpcTarget.All);
+                    spraySound.Play();
                     currentInk -= 4;
                 }
                 leftRoller.SetActive(true);
@@ -140,14 +156,18 @@ public class PlayerRoller : MonoBehaviourPun
                         currentInk -= 3;
                         currentTime = 0;
                     }
+                    if (!ink_PushSound.isPlaying)
+                    {
+                        ink_PushSound.Play();
+                    }
                     print("공격을 하는중이다!");
+                    
                 }
             }
             else
             {
                 leftRoller.SetActive(false);
                 rightRoller.SetActive(false);
-
                 isAttack = false;
                 print("공격을 멈췄다!");
 
@@ -163,7 +183,15 @@ public class PlayerRoller : MonoBehaviourPun
                 rightRoller.SetActive(false);
 
                 isAttack = false;
+            
                 print("공격을 멈췄다!");
+            }
+            if(Input.GetMouseButtonUp(0))
+            {
+                if (ink_PushSound.isPlaying)
+                {
+                    ink_PushSound.Stop();
+                }
             }
 
         }

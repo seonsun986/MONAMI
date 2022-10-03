@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 
 //필요속성 : 잉크공장, 발사위치
@@ -32,7 +33,10 @@ public class PlayerShooter : MonoBehaviourPun
     CanHide canHide;
     Player_HP hp;
     OrbGauge orb;
-
+    public Text pointTxt;              // 슈터는 포인트 1점씩 올린다
+    public int point;
+    public Image FillGauge;         // 게이지의 FillAmount는 0.8을 최대로 한다.
+    // 소리
     public AudioSource plzRefillInk;
     void Start()
     {
@@ -123,10 +127,11 @@ public class PlayerShooter : MonoBehaviourPun
                     currentTime2 += Time.deltaTime;
                     if(currentTime2 > delayTime)
                     {
-                        inkParticle.Play();
                         //잉크파티클 재생
-
+                        inkParticle.Play();
                         photonView.RPC("RPCShowBullet", RpcTarget.All,cam.transform.position, cam.transform.forward);
+                        point++;
+                        pointTxt.text = point.ToString();
                         currentTime2 = 0;
                     }
 

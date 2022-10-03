@@ -35,6 +35,9 @@ public class Player_HP : MonoBehaviourPun
     bool isRepawned;
     float currentTime2;
     string teamName;
+
+    // 소리
+    public AudioSource deathSound;
     void Start()
     {
 
@@ -71,7 +74,7 @@ public class Player_HP : MonoBehaviourPun
             }
         }
     }
-
+    int count2;
     void Update()
     {
         
@@ -87,6 +90,11 @@ public class Player_HP : MonoBehaviourPun
         else if (hp <=0)
         {
             hp = 0;
+            if(!deathSound.isPlaying && count2<1)
+            {
+                deathSound.Play();
+                count2++;
+            }
             screenMaterial.SetFloat("_FullscreenIntensity", 0.5f);
             // 리스폰 될때까지 당한 무기 알려주는 UI
             isRepawned = true;
@@ -122,6 +130,7 @@ public class Player_HP : MonoBehaviourPun
 
                 currentTime = 0;
                 count = 0;
+                count2 = 0;
                 hp = 10;
 
                 killMsgBox.SetActive(false);
@@ -161,7 +170,10 @@ public class Player_HP : MonoBehaviourPun
 
     private void LateUpdate()
     {
-        RPCDie(!isRepawned);
+        if(isRepawned)
+        {
+            RPCDie(!isRepawned);
+        }
     }
 
     [PunRPC]
