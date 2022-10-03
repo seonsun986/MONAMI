@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Orb_Size : MonoBehaviour
+public class Orb_Size : MonoBehaviourPun
 {
     [Header("Child")]
     [SerializeField] GameObject child_Pos;
@@ -27,16 +28,23 @@ public class Orb_Size : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
-        print(other.gameObject.name);
+            print(other.gameObject.name);
             //벽과 바닥에 닿으면 더 이상 영향을 받지않게 만들어주겠다.
-           // rb.useGravity = false;
+            // rb.useGravity = false;
             //rb.isKinematic = true;
 
         }
         //스케일을 만들어줌.
-        StartCoroutine("OrbBomb");
+        photonView.RPC("OrbBomb", RpcTarget.All);
     }
-    IEnumerator OrbBomb()
+
+
+    [PunRPC]
+    void OrbBomb()
+    {
+        StartCoroutine("IEOrbBomb");
+    }
+    IEnumerator IEOrbBomb()
     {
         GetComponent<SphereCollider>().enabled = false;
         for (float f = 0; f < timeToMaxScale; f += Time.deltaTime)
