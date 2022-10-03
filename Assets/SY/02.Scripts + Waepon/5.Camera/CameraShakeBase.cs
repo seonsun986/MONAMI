@@ -8,6 +8,8 @@ public struct CameraShakeInfo
 {
     //진폭
     public float amplitude;
+    //진동 빠르기
+    public float sinSpeed;
 }
 //모든 카메라 셰이크 클래스의 부모 클래스
 public class CameraShakeBase
