@@ -10943,14 +10943,14 @@ RectTransform:
   m_GameObject: {fileID: 6403240654253909033}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.67664, y: 0.67664, z: 0.67664}
   m_Children: []
   m_Father: {fileID: 5302739279127653690}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -433, y: -74}
+  m_AnchoredPosition: {x: -365, y: -100}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4269270986028597685
@@ -10983,7 +10983,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 5ea8aa255aec0ac47901aec95f343fd6, type: 3}
-    m_FontSize: 110
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -14519,7 +14519,7 @@ MonoBehaviour:
   uiInk: {fileID: 5302739277419987972}
   inkTank: {fileID: 702023987920430505}
   delayTime: 0.1
-  chargerTime: 0.1
+  chargerTime: 0.2
   chargeBullet: 10
   pinkBullet: {fileID: 1389457511802273178, guid: 8e4b7e36a8b830640bc43ab7da3442ee, type: 3}
   blueBullet: {fileID: 1389457511802273178, guid: e304fbd6df44ed6419ef66c4bb96efb6, type: 3}
@@ -14615,7 +14615,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 2651571955518700147}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -14658,6 +14657,7 @@ MonoBehaviour:
   killNameBox: {fileID: 6189659128761995834}
   killMsgtxt: {fileID: 3872218602381795310}
   killNametxt: {fileID: 7289011920501854604}
+  X: {fileID: 4705461643904547899, guid: d6100fc35412d6144a292a5b769921a1, type: 3}
 --- !u!1001 &2169083122999046009
 PrefabInstance:
   m_ObjectHideFlags: 0

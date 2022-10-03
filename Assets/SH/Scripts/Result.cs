@@ -93,10 +93,13 @@ public class Result : MonoBehaviourPun
         }
 
     }
-
+    public Transform spawnPoint;
+    int count = 0;
+    float currentTime2;
     [PunRPC]
     public void RPCResult(double pink, double blue)
     {
+        currentTime2 += Time.deltaTime;
         pinkRatio.text = (((pink / (pink + blue)) * 100)).ToString("F1") + "%";
         //pinkRatio.text = string.Format("{0:0.#}", (pink / (pink + blue)) * 100) + "%";
         blueRatio.text = (((blue / (pink + blue)) * 100)).ToString("F1") + "%";
@@ -108,14 +111,91 @@ public class Result : MonoBehaviourPun
         {
             pink_anim.SetTrigger("Victory");
             blue_anim.SetTrigger("Defeat");
+
+            if(currentTime2 > 1f)
+            {
+                if (DataManager.instance.id == 1 && count < 1)
+                {
+                    Create("Pink", 1);
+                    count++;
+                }
+                //else if(DataManager.instance.id ==2)
+                //{
+                //    Create(sec_stop_Time, "Pink");
+                //}
+
+                //else if(DataManager.instance.id == 3)
+                //{
+                //    Create(thrd_stop_Time, "Pink");
+                //}
+            }
+
         }
+
         // ÆÄ¶ûÆÀÀÌ ÀÌ°åÀ» ¶§
         else
         {
             blue_anim.SetTrigger("Victory");
             pink_anim.SetTrigger("Defeat");
+
+            if(currentTime2>1)
+            {
+                // ³ªÁß¿¡ ¹Ù²ã¾ßÇÑ´Ù!
+                if (DataManager.instance.id == 2 && count < 1)
+                {
+                    Create("Blue", 2);
+                    count++;
+                }
+                //else if (DataManager.instance.id == 5)
+                //{
+                //    Create(sec_stop_Time, "Blue");
+                //}
+
+                //else if (DataManager.instance.id == 6)
+                //{
+                //    Create(thrd_stop_Time, "Blue");
+                //}
+            }
+
         }
 
         print((((pink / (pink + blue)) * 100)).ToString("F1") + "%");
     }
+
+    void Create(string team, int id)
+    {
+        if (DataManager.instance.weaponName == "Shooter")
+        {
+            GameObject shooter = PhotonNetwork.Instantiate("Shooter_" + team + "_Ending", spawnPoint.position, Quaternion.Euler(0, 157.331f, 0));
+            Ending ending = shooter.GetComponent<Ending>();
+            ending.nickname.text = DataManager.instance.nickname;
+            Animation anim = shooter.GetComponent<Animation>();
+            // ¹Ù²ã¾ßÇÑ´Ù!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if(id ==1 || id ==2)
+            {
+                anim.Play("First");
+            }
+            //if(id == 1 || id ==4)
+
+        }
+        else if (DataManager.instance.weaponName == "Roller")
+        {
+            GameObject Roller = PhotonNetwork.Instantiate("Roller_" + team + "_Ending", spawnPoint.position, Quaternion.Euler(0, 157.331f, 0));
+            Animation anim = Roller.GetComponent<Animation>();
+            if (id == 1 || id == 2)
+            {
+                anim.Play("First");
+            }
+        }
+        else
+        {
+            GameObject Charger = PhotonNetwork.Instantiate("Charger_" + team + "_Ending", spawnPoint.position, Quaternion.Euler(0, 157.331f, 0));
+            Animation anim = Charger.GetComponent<Animation>();
+            if (id == 1 || id == 2)
+            {
+                anim.Play("First");
+            }
+        }
+    }
+
 }

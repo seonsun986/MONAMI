@@ -58,6 +58,9 @@ MonoBehaviour:
   - RPCRollerInkJumpShoot
   - RPCResult
   - RPCHP
+  - RpcName
+  - RPC_UI
+  - UI_Die
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

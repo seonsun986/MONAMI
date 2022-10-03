@@ -14,7 +14,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
     public TextMeshProUGUI count;
     public GameObject gameEndImg;
     public GameObject screenShotCam;
-
+    public GameObject start_UI;
     bool isStart = false;
 
     [Header("영역 판정을 위한 변수들")]
@@ -35,7 +35,11 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
     [PunRPC]
     void RpcStartCount()
     {
-        isStart = true;
+        if(start_UI.activeSelf == false)
+        {
+            gameObject.SetActive(true);
+            isStart = true;
+        }
     }
 
     // Update is called once per frame
