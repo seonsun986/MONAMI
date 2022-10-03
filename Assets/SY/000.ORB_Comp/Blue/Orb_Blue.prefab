@@ -841,7 +841,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.03
+  m_Radius: 0.36
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2652359816429090031
 MonoBehaviour:
@@ -879,6 +879,10 @@ MonoBehaviour:
   _Line: {fileID: 0}
   _FirePos: {fileID: 0}
   _HitPoint: {fileID: 8000027109566004794, guid: 319ca1c8f56f4e94a8f02258b1a74cef, type: 3}
+  _cam: {fileID: 0}
+  orb_Line: {fileID: 0}
+  trailRenderer: {fileID: 0}
+  orb_charging: {fileID: 0}
 --- !u!1 &2652359816440410139
 GameObject:
   m_ObjectHideFlags: 0

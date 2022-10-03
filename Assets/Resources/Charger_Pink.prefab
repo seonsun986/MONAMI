@@ -71430,10 +71430,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HitPoint_Pink
       objectReference: {fileID: 0}
-    - target: {fileID: 8000027109566004794, guid: 319ca1c8f56f4e94a8f02258b1a74cef, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8003964260512903864, guid: 319ca1c8f56f4e94a8f02258b1a74cef, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -71497,14 +71493,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7744107791255157423}
     m_Modifications:
-    - target: {fileID: 2372002837339669402, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372002837339669412, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2372002837339669412, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -71545,10 +71533,6 @@ PrefabInstance:
       propertyPath: orb_charging
       value: 
       objectReference: {fileID: 145771493660662669}
-    - target: {fileID: 2652359816429090024, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
-      propertyPath: trailRenderer
-      value: 
-      objectReference: {fileID: 298397766338946379}
     - target: {fileID: 2652359816429090026, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
       propertyPath: m_Name
       value: Orb_Pink
@@ -71597,20 +71581,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2652359816429090030, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
-      propertyPath: m_Radius
-      value: 0.36
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
 --- !u!1 &527962683 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2652359816429090026, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
-  m_PrefabInstance: {fileID: 2652359816881546961}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &298397766338946379 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2372002837339669402, guid: fae2af058a9ad454ab0f370c682df915, type: 3}
   m_PrefabInstance: {fileID: 2652359816881546961}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &527962685 stripped
@@ -71715,11 +71690,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
---- !u!1 &552546633439833107 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3145416714656011450, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
-  m_PrefabInstance: {fileID: 3174415321031325865}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &552546633416853566 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3145416714276532375, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
@@ -71734,6 +71704,11 @@ MonoBehaviour:
 --- !u!224 &552546633439833106 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3145416714656011451, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
+  m_PrefabInstance: {fileID: 3174415321031325865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &552546633439833107 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3145416714656011450, guid: fe08bce0c01f86e4fac5acf9c51cf4fe, type: 3}
   m_PrefabInstance: {fileID: 3174415321031325865}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4519518455849356096
