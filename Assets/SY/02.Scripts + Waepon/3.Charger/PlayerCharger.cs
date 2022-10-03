@@ -42,8 +42,11 @@ public class PlayerCharger : MonoBehaviourPun
     public bool hideCanShoot;       // 숨었을 때 못쏘게 한다
     public GameObject lowInkUI;
 
+    OrbGauge orb;
+
     void Start()
     {
+        orb = GetComponent<OrbGauge>();
         // GameManager에게 나의 photonView를 주자
         GameManager.Instance.CountPlayer(photonView);
 
@@ -79,9 +82,13 @@ public class PlayerCharger : MonoBehaviourPun
     public RectTransform uiInk; // 최대 스케일 : 2.37, 꺼지지 않아있을 때만 스케일 조정한다
     public Transform inkTank;   // 최대 스케일 : 1
     float currentAmount;
+
+
+    
     void Update()
     {
         if (!photonView.IsMine) return;
+        if (orb.isOrb == true) return;   
         if (GameStateManager.gameState.gstate != GameStateManager.GameState.Go) return;
         // UI 충전
         // 잉크충전 UI가 켜져있다면
@@ -138,7 +145,7 @@ public class PlayerCharger : MonoBehaviourPun
             if (Input.GetMouseButton(0))
             {
                 //Zoom In
-                cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 2f;
+                cam.GetComponentInParent<CameraMovement>().zoomDistance = 2f;
                 // 차저 레이저관리(로컬)
                 lazer.SetActive(true);
                 //lazer.transform.forward = chargerFirePos.transform.forward;
@@ -170,7 +177,7 @@ public class PlayerCharger : MonoBehaviourPun
             if (Input.GetMouseButtonUp(0))
             {
                 //Zoom In
-                cam.GetComponentInParent<Local_CameraMovement>().zoomDistance = 0f;
+                cam.GetComponentInParent<CameraMovement>().zoomDistance = 0f;
                 lazer.SetActive(false);
                 photonView.RPC("RPCChargerShot", RpcTarget.All, test_cam.position, test_cam.forward, currentAmount);
                 crosshair.gameObject.SetActive(false);

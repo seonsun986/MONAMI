@@ -33,13 +33,14 @@ public class Roller_Move : MonoBehaviourPun
     // 닉네임
     public Text nickName;
     CanHide canHide;
-
+    OrbGauge orb;
     void Start()
     {
         cc = GetComponent<CharacterController>();
         canHide = GetComponent<CanHide>();
         nickName.text = photonView.Owner.NickName;
         DataManager.instance.nickname = photonView.Owner.NickName;
+        orb = GetComponent<OrbGauge>();
     }
 
     void Update()
@@ -69,7 +70,7 @@ public class Roller_Move : MonoBehaviourPun
         // 점프하고 마우스를 누르면 점프하는 도중에 세로로 잉크를 뿌리는 애니메이션 재생
 
     }
-
+    int count;
     void PlayerMove()
     {
         if(!canHide.climbing)
@@ -146,20 +147,39 @@ public class Roller_Move : MonoBehaviourPun
         }
 
 
+        // R버튼을 누르면 저절로 True가 되므로!
+
+        // 마우스 뗄때 count 초기화 시켜준다
+        if (orb.isOrb == true && count < 1)
+        {
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "ThrowAim");
+            count++;
+        }
+
         // 단발 공격
         if (Input.GetMouseButtonDown(0))
         {
-            if(isJumping == true)
+            if (orb.isOrb == true)
             {
-                photonView.RPC("RPCSetTrigger", RpcTarget.All, "JumpAttack");
+                photonView.RPC("RPCSetTrigger", RpcTarget.All, "Throw");
+                count = 0;
             }
+
             else
             {
-                photonView.RPC("RPCSetTrigger", RpcTarget.All, "Attack");
+                if (isJumping == true)
+                {
+                    photonView.RPC("RPCSetTrigger", RpcTarget.All, "JumpAttack");
+                }
+                else
+                {
+                    photonView.RPC("RPCSetTrigger", RpcTarget.All, "Attack");
+                }
             }
             
+            
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && orb.isOrb == false)
         {
             // 롤러 내리고 걷고 있다면
             if(animSpeed == 1)

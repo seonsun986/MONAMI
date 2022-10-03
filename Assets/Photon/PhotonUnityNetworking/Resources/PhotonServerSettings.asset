@@ -61,6 +61,11 @@ MonoBehaviour:
   - RpcName
   - RPC_UI
   - UI_Die
+  - RPCWeaponSetActive
+  - RPCWeaponFalse
+  - RPCWeaponTrue
+  - weaponFalse
+  - weaponTrue
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

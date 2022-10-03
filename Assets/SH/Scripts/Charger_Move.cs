@@ -40,7 +40,8 @@ public class Charger_Move : MonoBehaviourPun
     // 닉네임
     public Text nickName;
     CanHide canHide;
-
+    OrbGauge orb;
+    public GameObject weapon;
     void Start()
     {
         nickName.text = photonView.Owner.NickName;
@@ -48,6 +49,7 @@ public class Charger_Move : MonoBehaviourPun
         if (photonView.IsMine == false) return;
         cc = GetComponent<CharacterController>();
         canHide = GetComponent<CanHide>();
+        orb = GetComponent<OrbGauge>();
     }
 
     public bool isRun;      //달리기 확인용 변수
@@ -76,6 +78,7 @@ public class Charger_Move : MonoBehaviourPun
     // 필요속성 : 현재 시간, 뗀 시간
     // 현재 시간이 흘러 뗀 시간 안에 마우스를 떼버리면 공격 애니메이션 재생
     // 아니라면 Aim 애니메이션 재생
+    int count;
     void PlayerMove()
     {
         // 중력 더하기
@@ -123,13 +126,30 @@ public class Charger_Move : MonoBehaviourPun
             photonView.RPC("RPCSetLayerWeight", RpcTarget.All, 1, 0f);
         }
 
-        // 누루는 순간에는 조준모드로 활성화
-        if(Input.GetButtonDown("Fire1"))
+        // R버튼을 누르면 저절로
+        // 가 True가 되므로!
+        if(orb.isOrb == true && count<1)
         {
-            photonView.RPC("RPCSetTrigger", RpcTarget.All, "Aim");
+            photonView.RPC("RPCSetTrigger", RpcTarget.All, "ThrowAim");
+            count++;
+
         }
 
-        if (Input.GetButtonUp("Fire1"))
+        // 누르는 순간에는 조준모드로 활성화
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if(orb.isOrb == true)
+            {
+                photonView.RPC("RPCSetTrigger", RpcTarget.All, "Throw");
+                count = 0;
+            }
+            else
+            {
+                photonView.RPC("RPCSetTrigger", RpcTarget.All, "Aim");
+            }
+        }
+
+        if (Input.GetButtonUp("Fire1") && orb.isOrb == false)
         {
             photonView.RPC("RPCSetTrigger", RpcTarget.All, "Fire");
         }
@@ -187,4 +207,5 @@ public class Charger_Move : MonoBehaviourPun
     {
         anim.SetLayerWeight(layerIndex, weight);
     }
+
 }

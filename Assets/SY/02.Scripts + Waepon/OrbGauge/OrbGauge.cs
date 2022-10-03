@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 // Player가 공격을 하면 CurrentGauge상승시켜주고,
 // CurrentGauge가 MaxGauge가 되면 => 궁이 찼다는 궁게이지 이글이글활성화, 
-public class OrbGauge : MonoBehaviour
+public class OrbGauge : MonoBehaviourPun
 {
     [Header("ORB")]
     [SerializeField] GameObject _OrbLine;
@@ -20,6 +21,7 @@ public class OrbGauge : MonoBehaviour
     [SerializeField] float maxGauge = 1;
 
     public Camera cam;
+    public bool isOrb;
 
     void Start()
     {
@@ -33,15 +35,18 @@ public class OrbGauge : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine) return;
         //MaxGauege를 모두 채웠다면
         if (currentGauge >= maxGauge)
         {
             if (Input.GetKeyDown(KeyCode.R) && rButtonCount % 2 == 0)
             {
+                isOrb = true;
                 OrbOn();
             }
             else if (Input.GetKeyDown(KeyCode.R) && rButtonCount % 2 == 1)
             {
+                isOrb = false;
                 OrbOff();
             }
         }

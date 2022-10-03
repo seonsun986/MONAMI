@@ -70292,6 +70292,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpPower: 5
   nickName: {fileID: 2023998963141709017}
+  weapon: {fileID: 884101285723410401}
   isRun: 0
 --- !u!114 &7744107791255157422
 MonoBehaviour:
@@ -70418,6 +70419,7 @@ MonoBehaviour:
   currentGauge: 1
   maxGauge: 1
   cam: {fileID: 2098249793874088198}
+  isOrb: 0
 --- !u!1 &7744107792838084304
 GameObject:
   m_ObjectHideFlags: 0

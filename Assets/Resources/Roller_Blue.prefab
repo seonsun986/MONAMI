@@ -32613,6 +32613,7 @@ MonoBehaviour:
   currentGauge: 1
   maxGauge: 1
   cam: {fileID: 6428030302631091714}
+  isOrb: 0
 --- !u!1 &4109508876437184245
 GameObject:
   m_ObjectHideFlags: 0

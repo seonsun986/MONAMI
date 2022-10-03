@@ -40,6 +40,8 @@ public class CanHide : MonoBehaviourPun
     public float[] rgb = new float[3];
     public float[] frontrgb = new float[3];
 
+    OrbGauge orb;
+
 
     // 오징어 나타내기 위한 것들
     CharacterController cc;
@@ -167,6 +169,7 @@ public class CanHide : MonoBehaviourPun
     }
     void Start()
     {
+        orb = GetComponent<OrbGauge>();
         // 내가 핑크팀이라면
         if(name.Contains("Pink"))
         {
@@ -320,6 +323,14 @@ public class CanHide : MonoBehaviourPun
             { 
                 //CanNotHide();
                 photonView.RPC("RPCCannotHide", RpcTarget.All);
+                if (orb.isOrb == false)
+                {
+                    photonView.RPC("weaponTrue", RpcTarget.All);
+                }
+                else
+                {
+                    photonView.RPC("weaponFalse", RpcTarget.All);
+                }
             }
         }
 
@@ -586,7 +597,17 @@ public class CanHide : MonoBehaviourPun
 
         sphere.gameObject.SetActive(false);
         body.gameObject.SetActive(true);
-        weapon.gameObject.SetActive(true);
+
+        //if(orb.isOrb == false)
+        //{
+        //    weapon.gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    weapon.gameObject.SetActive(false);
+        //}
+        //weapon.gameObject.SetActive(true);
+
         inkTank.SetActive(true);
         // 만약 플레이어가 롤러라면
         if (gameObject.name.Contains("Roller"))
@@ -654,6 +675,18 @@ public class CanHide : MonoBehaviourPun
         }
 
         squid.SetActive(false);
-        
     }
+
+    [PunRPC]
+    public void weaponTrue()
+    {
+        weapon.gameObject.SetActive(true);
+    }
+
+    [PunRPC]
+    public void weaponFalse()
+    {
+        weapon.gameObject.SetActive(false);
+    }
+
 }

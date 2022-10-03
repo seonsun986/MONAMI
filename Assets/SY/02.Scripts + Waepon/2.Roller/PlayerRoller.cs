@@ -31,6 +31,7 @@ public class PlayerRoller : MonoBehaviourPun
     //현재 공격중인가?
     bool isAttack = false;
     Roller_Move roller_move;
+    OrbGauge orb;
     void Start()
     {
         // GameManager에게 나의 photonView를 주자
@@ -40,6 +41,7 @@ public class PlayerRoller : MonoBehaviourPun
         rightRoller.SetActive(false);
         currentInk = maxInk;
         roller_move = GetComponent<Roller_Move>();
+        orb = GetComponent<OrbGauge>();
     }
 
     float currentTime;
@@ -50,6 +52,8 @@ public class PlayerRoller : MonoBehaviourPun
     public Transform inkTank;   // 최대 스케일 : 1
     void Update()
     {
+        if (orb.isOrb == true) return;
+
         // 내 것이라면
         if (photonView.IsMine)
         {
