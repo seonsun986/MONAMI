@@ -26,25 +26,25 @@ public class UI_Player : MonoBehaviourPun
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(start_UI.activeSelf == false)
+        if (start_UI.activeSelf == false && count <1)
         {
             blue_bar.SetActive(true);
             pink_bar.SetActive(true);
             countDown.SetActive(true);
             photonView.RPC("RPC_UI", RpcTarget.All, DataManager.instance.id, DataManager.instance.weaponName);
-
+            count++;
         }
     }
 
+    int count;
     [PunRPC]
     public void RPC_UI(int id, string weaponName)
     {
 
         // 아이디가 1~3일때
-        if (id >= 1 && id <= 3)
+        if (id >= 1 && id <= 3 && count<1)
         {
             if (weaponName == "Shooter")
             {
@@ -66,7 +66,7 @@ public class UI_Player : MonoBehaviourPun
         }
 
         // 아이디가 4~6일때
-        else
+        else if(id >=4 && id <=6 && count<1)
         {
             if (weaponName == "Shooter")
             {

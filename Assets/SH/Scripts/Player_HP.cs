@@ -37,15 +37,7 @@ public class Player_HP : MonoBehaviourPun
     string teamName;
     void Start()
     {
-        // 아이디 바꿔주기!!
-        if(DataManager.instance.id ==1 /*&& DataManager.instance.id <=3*/)
-        {
-            teamName = "Pink";
-        }
-        else
-        {
-            teamName = "Blue";
-        }
+
         hp = 10;
         // 풀 스크린 가져오기
         screenMaterial = Resources.Load<Material>("Voronoi_FullScreen");
@@ -65,6 +57,19 @@ public class Player_HP : MonoBehaviourPun
         blue_RespawnPoint = GameObject.Find("BlueTeam_Respawn").transform;
         killMsgBox.SetActive(false);
         killNameBox.SetActive(false);
+
+        if(photonView.IsMine)
+        {
+            // 아이디 바꿔주기!!
+            if (DataManager.instance.id == 1 /*&& DataManager.instance.id <=3*/)
+            {
+                teamName = "Pink";
+            }
+            else
+            {
+                teamName = "Blue";
+            }
+        }
     }
 
     void Update()
@@ -92,7 +97,11 @@ public class Player_HP : MonoBehaviourPun
             // 리스폰 타임이 지나면 
             // 해당 게임 오브젝트를 꺼준다
             photonView.RPC("RPCDie", RpcTarget.All);
-            photonView.RPC("UI_Die",RpcTarget.All , DataManager.instance.id, DataManager.instance.weaponName, teamName);
+            if(count<1)
+            {
+                photonView.RPC("UI_Die", RpcTarget.All, DataManager.instance.id, DataManager.instance.weaponName, teamName);
+                count++;
+            }
         }
 
 
@@ -122,6 +131,7 @@ public class Player_HP : MonoBehaviourPun
                 killMsgBox.SetActive(false);
                 killNameBox.SetActive(false);
                 isRepawned = false;
+                count = 0;
                 currentTime2 = 0;
                 screenMaterial.SetFloat("_FullscreenIntensity", 0f);
             }
@@ -161,12 +171,15 @@ public class Player_HP : MonoBehaviourPun
     // 2. 나한테 해당하는 UI를 흑백으로 바꾸고 싶다
     // 3. 그 위치에 X를 배치시키고 싶다(Instantiate로 하자)
     // 4. 리스폰이 false가 되면 X를 끄고 흑백을 다시 컬러로 바꾸고 싶다
+    // 5. 한번만 실행하고 싶다
+    int count;
     public GameObject X;
     [PunRPC]
     public void UI_Die(int id, string weaponName, string team)
     {
         UI_Player.Instance.UI[id - 1].GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/UI_" + weaponName + "_BK");
         GameObject UI_X = Instantiate(X);
+        UI_X.transform.SetParent(GameObject.Find("Canvas").transform);
         UI_X.transform.position = UI_Player.Instance.UI[id - 1].transform.position - new Vector3(0, -180, 0);
 
         if(isRepawned == false)
