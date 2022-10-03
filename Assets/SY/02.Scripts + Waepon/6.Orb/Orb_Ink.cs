@@ -31,8 +31,8 @@ public class Orb_Ink : MonoBehaviour
             if (p != null)
             {
                 Vector3 pos = hitInfo.point;
-                //PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p.id, pos, radiusByCharge, hardness, strength, paintColor.r, paintColor.g, paintColor.b);
-                PaintManager.instance.paints(p, pos, radius, hardness, strength, paintColor);
+                PaintManager.instance.photonView.RPC("RPCPaint", Photon.Pun.RpcTarget.All, p.id, pos, radius, hardness, strength, paintColor.r, paintColor.g, paintColor.b);
+                //PaintManager.instance.paints(p, pos, radius, hardness, strength, paintColor);
             }
         }
        

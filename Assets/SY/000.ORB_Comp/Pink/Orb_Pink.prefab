@@ -790,6 +790,7 @@ GameObject:
   - component: {fileID: 2652359816429090030}
   - component: {fileID: 2652359816429090031}
   - component: {fileID: 2652359816429090024}
+  - component: {fileID: 4960189534302473466}
   m_Layer: 31
   m_Name: Orb_Pink
   m_TagString: Untagged
@@ -883,6 +884,28 @@ MonoBehaviour:
   orb_Line: {fileID: 0}
   trailRenderer: {fileID: 2372002837339669402}
   orb_charging: {fileID: 0}
+--- !u!114 &4960189534302473466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652359816429090026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2652359816440410139
 GameObject:
   m_ObjectHideFlags: 0
