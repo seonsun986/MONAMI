@@ -48,10 +48,15 @@ public class Lobby2Manager : MonoBehaviourPunCallbacks
             b = true;
             //CreateRoom();
             //print("·ë ¸¸µé¾ú´Ù!");
-            LobbySceneAudio.instance.gameObject.GetComponent<AudioSource>().Stop();
             PhotonNetwork.LoadLevel("SY_Test");        
         }
-        
+
+        if(PhotonNetwork.CurrentRoom.PlayerCount == 6)
+        {
+            LobbySceneAudio.instance.gameObject.GetComponent<AudioSource>().Stop();
+
+        }
+
     }
     
 

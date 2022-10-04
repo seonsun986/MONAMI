@@ -5799,7 +5799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   gravity: -9.81
-  jumpPower: 5
+  jumpPower: 2
   anim: {fileID: 1978980962508606226}
   cam: {fileID: 1324953721}
   smoothness: 10
@@ -5821,7 +5821,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 7553158807871713381}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
