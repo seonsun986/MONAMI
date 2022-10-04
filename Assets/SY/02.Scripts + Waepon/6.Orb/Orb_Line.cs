@@ -51,9 +51,9 @@ public class Orb_Line : MonoBehaviourPun
             DrawPath(groundDirection.normalized, v0, angle, time, _Step);
             if (Input.GetMouseButtonDown(0))
             {
-
                 // StartCoroutine(IE_Movement(groundDirection.normalized, v0, angle, time));
                 photonView.RPC("RpcFire", RpcTarget.All, groundDirection.normalized, v0, angle, time);
+                _cam.GetComponentInParent<OrbGauge>().currentGauge = 0f;
             }
         }
         _HitPoint.transform.position = hitInfo.point;
