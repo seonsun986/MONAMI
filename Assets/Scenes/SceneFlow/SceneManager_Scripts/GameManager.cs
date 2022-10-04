@@ -40,16 +40,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 핑크(id = 1~3)와 블루(id = 4~6)팀에 따라 리스폰 포인트가 결정된다
 
         // id가 1~3이라면 핑크팀이다!
-        if (DataManager.instance.id == 1/* && DataManager.instance.id <= 3*/)
+        if (DataManager.instance.id >= 1 && DataManager.instance.id <= 3)
         {
-            CreatePlayer("Pink", pink_SpawnPoint.transform.position/* + pink_SpawnPoint.transform.right * (-10 + (5 * DataManager.instance.id))*/);
+            CreatePlayer("Pink", pink_SpawnPoint.transform.position + pink_SpawnPoint.transform.right * (-10 + (5 * DataManager.instance.id)));
         }
 
 
         // id가 4~6이라면 블루팀이다
-        else if (DataManager.instance.id == 2/*>=4 && DataManager.instance.id <= 6*/)
+        else if (DataManager.instance.id >=4 && DataManager.instance.id <= 6)
         {
-            CreatePlayer("Blue", pink_SpawnPoint.transform.position/* + blue_SpawnPoint.transform.right * (-10 + (5 * (DataManager.instance.id - 3)))*/);
+            CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (DataManager.instance.id - 3))));
 
         }
 
@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void CountPlayer(PhotonView pv)
     {
         players.Add(pv);
+        players.Sort(SortByViewId);
         // 만약에 인원이 1명이라면
         // Instantiate하는걸 바꾼다.
 
@@ -97,6 +98,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         //}
 
     }
+
+    int SortByViewId(PhotonView left, PhotonView right)
+    {
+        if (left.ViewID > right.ViewID) return 1;
+        return -1;
+    }
+
 
     public void StartCountDown()
     {

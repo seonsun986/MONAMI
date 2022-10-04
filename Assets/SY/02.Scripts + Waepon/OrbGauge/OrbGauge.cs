@@ -25,21 +25,7 @@ public class OrbGauge : MonoBehaviourPun
 
     void Start()
     {
-        //임시로 1로 넣어줘서 플레이 가능하게 만들어줌
-        if(gameObject.name.Contains("Shooter"))
-        {
-            currentGauge = GetComponent<PlayerShooter>().FillGauge.fillAmount;
-        }
-        else if(gameObject.name.Contains("Roller"))
-        {
-            currentGauge = GetComponent<PlayerRoller>().FillGauge.fillAmount;
-
-        }
-        else
-        {
-            currentGauge = GetComponent<PlayerCharger>().FillGauge.fillAmount;
-        }
-        currentGauge = 1;
+       
         _OrbLine.SetActive(false);
         _OrbInk.SetActive(false);
         _OrbChargingImpact.SetActive(false);
@@ -49,9 +35,25 @@ public class OrbGauge : MonoBehaviourPun
     void Update()
     {
         if (!photonView.IsMine) return;
+
+        //임시로 1로 넣어줘서 플레이 가능하게 만들어줌
+        if (gameObject.name.Contains("Shooter"))
+        {
+            currentGauge = GetComponent<PlayerShooter>().FillGauge.fillAmount;
+        }
+        else if (gameObject.name.Contains("Roller"))
+        {
+            currentGauge = GetComponent<PlayerRoller>().FillGauge.fillAmount;
+        }
+        else
+        {
+            currentGauge = GetComponent<PlayerCharger>().FillGauge.fillAmount;
+        }
+
         //MaxGauege를 모두 채웠다면
         if (currentGauge >= maxGauge)
         {
+             currentGauge = maxGauge;
             if (Input.GetKeyDown(KeyCode.R) && rButtonCount % 2 == 0)
             {
                 isOrb = true;

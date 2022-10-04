@@ -64,7 +64,7 @@ public class Player_HP : MonoBehaviourPun
         if(photonView.IsMine)
         {
             // 아이디 바꿔주기!!
-            if (DataManager.instance.id == 1 /*&& DataManager.instance.id <=3*/)
+            if (DataManager.instance.id >= 1 && DataManager.instance.id <=3)
             {
                 teamName = "Pink";
             }

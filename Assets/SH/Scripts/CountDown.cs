@@ -96,6 +96,7 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
 
             if(currentTime2 > changeTime1 && changeScene <1)
             {
+                DataManager.instance.SetResultInfo();
                 PhotonNetwork.LoadLevel("ResultScene");
                 changeScene++;
             }

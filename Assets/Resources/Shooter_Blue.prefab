@@ -12534,7 +12534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -450, y: -100}
+  m_AnchoredPosition: {x: -380, y: -100}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5220471661425501016
@@ -12567,7 +12567,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 5ea8aa255aec0ac47901aec95f343fd6, type: 3}
-    m_FontSize: 100
+    m_FontSize: 90
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -13411,8 +13411,8 @@ MonoBehaviour:
   _OrbInk: {fileID: 8326653590683140143}
   _OrbChargingImpact: {fileID: 6255525056536768835}
   _HitPoint: {fileID: 4845942214370291352}
-  currentGauge: 1
-  maxGauge: 1
+  currentGauge: 0
+  maxGauge: 0.8
   cam: {fileID: 702023986434491938}
   isOrb: 0
 --- !u!1001 &1508792450826497283

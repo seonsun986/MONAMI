@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using System.IO;
+using Photon.Realtime;
 
 public class Result : MonoBehaviourPun
 {
@@ -23,6 +24,9 @@ public class Result : MonoBehaviourPun
     public Image textureImage;
     public float currentTime;              // 이걸로 소리 및 고양이의 애니메이션 조절하자
     public float resultTime = 3.5f;
+
+    public string[] nickname = new string[6];
+    int i;
     private void Awake()
     {
         screenMaterial.SetFloat("_FullscreenIntensity", 0f);
@@ -39,19 +43,21 @@ public class Result : MonoBehaviourPun
             loadedTexture.LoadImage(textureBytes);
             textureImage.sprite = Sprite.Create(loadedTexture, new Rect(0, 0, loadedTexture.width, loadedTexture.height), Vector2.zero);
         }
+
+
     }
 
     void Update()
     {
         currentTime += Time.deltaTime;
 
-        if(currentTime> 1f)
+        if (currentTime > 1f)
         {
             audio1.gameObject.SetActive(true);
         }
-        if(currentTime>resultTime - 0.4f)
+        if (currentTime > resultTime - 0.4f)
         {
-            
+
 
             // 마스터만 블루 포인트와 레드포인트 다른 사람들에게 넘겨준다
             if (PhotonNetwork.IsMasterClient)
@@ -65,7 +71,7 @@ public class Result : MonoBehaviourPun
             resultTxt.gameObject.SetActive(true);
             if (pink_anim.GetCurrentAnimatorStateInfo(0).IsName("Victory"))
             {
-                if (DataManager.instance.id == 1)
+                if (DataManager.instance.id >= 1 && DataManager.instance.id <=3)
                 {
                     resultTxt.text = "승리";
                 }
@@ -74,9 +80,10 @@ public class Result : MonoBehaviourPun
                     resultTxt.text = "패배";
                 }
             }
+
             else
             {
-                if (DataManager.instance.id == 1)
+                if (DataManager.instance.id >= 4 && DataManager.instance.id <=6)
                 {
                     resultTxt.text = "패배";
                 }
@@ -112,22 +119,12 @@ public class Result : MonoBehaviourPun
             pink_anim.SetTrigger("Victory");
             blue_anim.SetTrigger("Defeat");
 
-            if(currentTime2 > 1f)
+            if (currentTime2 > 1f && count <1)
             {
-                if (DataManager.instance.id == 1 && count < 1)
-                {
-                    Create("Pink", 1);
-                    count++;
-                }
-                //else if(DataManager.instance.id ==2)
-                //{
-                //    Create(sec_stop_Time, "Pink");
-                //}
-
-                //else if(DataManager.instance.id == 3)
-                //{
-                //    Create(thrd_stop_Time, "Pink");
-                //}
+                Create("Pink", 1, DataManager.instance.resultInfos[0].weapon, DataManager.instance.resultInfos[0].nickName);
+                Create("Pink", 2, DataManager.instance.resultInfos[1].weapon, DataManager.instance.resultInfos[1].nickName);
+                Create("Pink", 3, DataManager.instance.resultInfos[2].weapon, DataManager.instance.resultInfos[2].nickName);
+                count++;
             }
 
         }
@@ -138,23 +135,12 @@ public class Result : MonoBehaviourPun
             blue_anim.SetTrigger("Victory");
             pink_anim.SetTrigger("Defeat");
 
-            if(currentTime2>1)
+            if (currentTime2 > 1)
             {
-                // 나중에 바꿔야한다!
-                if (DataManager.instance.id == 2 && count < 1)
-                {
-                    Create("Blue", 2);
-                    count++;
-                }
-                //else if (DataManager.instance.id == 5)
-                //{
-                //    Create(sec_stop_Time, "Blue");
-                //}
-
-                //else if (DataManager.instance.id == 6)
-                //{
-                //    Create(thrd_stop_Time, "Blue");
-                //}
+                Create("Blue", 1, DataManager.instance.resultInfos[0].weapon, DataManager.instance.resultInfos[0].nickName);
+                Create("Blue", 2, DataManager.instance.resultInfos[1].weapon, DataManager.instance.resultInfos[1].nickName);
+                Create("Blue", 3, DataManager.instance.resultInfos[2].weapon, DataManager.instance.resultInfos[2].nickName);
+                count++;
             }
 
         }
@@ -162,38 +148,65 @@ public class Result : MonoBehaviourPun
         print((((pink / (pink + blue)) * 100)).ToString("F1") + "%");
     }
 
-    void Create(string team, int id)
+    void Create(string team, int id, string weaponName, string nickName)
     {
-        if (DataManager.instance.weaponName == "Shooter")
+        if (weaponName == "Shooter")
         {
             GameObject shooter = PhotonNetwork.Instantiate("Shooter_" + team + "_Ending", spawnPoint.position, Quaternion.Euler(0, 157.331f, 0));
             Ending ending = shooter.GetComponent<Ending>();
-            ending.nickname.text = DataManager.instance.nickname;
+            ending.nickname.text = nickName;          
             Animation anim = shooter.GetComponent<Animation>();
             // 바꿔야한다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if(id ==1 || id ==2)
+            if (id == 1 || id == 4)
             {
                 anim.Play("First");
             }
-            //if(id == 1 || id ==4)
+            else if(id ==2|| id ==5)
+            {
+                anim.Play("Second");
+            }
+            else
+            {
+                anim.Play("Third");
+            }
 
         }
-        else if (DataManager.instance.weaponName == "Roller")
+        else if (weaponName == "Roller")
         {
             GameObject Roller = PhotonNetwork.Instantiate("Roller_" + team + "_Ending", spawnPoint.position, Quaternion.Euler(0, 157.331f, 0));
+            Ending ending = Roller.GetComponent<Ending>();
+            ending.nickname.text = nickName;
             Animation anim = Roller.GetComponent<Animation>();
-            if (id == 1 || id == 2)
+            if (id == 1 || id == 4)
             {
                 anim.Play("First");
+            }
+            else if (id == 2 || id == 5)
+            {
+                anim.Play("Second");
+            }
+            else
+            {
+                anim.Play("Third");
             }
         }
         else
         {
             GameObject Charger = PhotonNetwork.Instantiate("Charger_" + team + "_Ending", spawnPoint.position, Quaternion.Euler(0, 157.331f, 0));
+            Ending ending = Charger.GetComponent<Ending>();
+            ending.nickname.text = nickName;
             Animation anim = Charger.GetComponent<Animation>();
-            if (id == 1 || id == 2)
+            if (id == 1 || id == 4)
             {
                 anim.Play("First");
+            }
+            else if (id == 2 || id == 5)
+            {
+                anim.Play("Second");
+            }
+            else
+            {
+                anim.Play("Third");
             }
         }
     }

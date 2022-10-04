@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class ResultInfo
+{
+    public string nickName;
+    public string weapon;
+    public int id;
+}
+
 //내가 선택무기, 내 ID
 public class DataManager : MonoBehaviour
 {
@@ -26,6 +33,7 @@ public class DataManager : MonoBehaviour
     public int Pink_point;
     public int Blue_point;
 
+    
     void Start()
     {
 
@@ -34,5 +42,25 @@ public class DataManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public List<ResultInfo> resultInfos = new List<ResultInfo>();
+    public void SetResultInfo()
+    {
+        resultInfos.Clear();
+
+        ResultInfo resultInfo;
+        SSH_Player player;
+        for(int i = 0; i < GameManager.Instance.players.Count; i++)
+        {
+            player = GameManager.Instance.players[i].GetComponent<SSH_Player>();
+            resultInfo = new ResultInfo();
+
+            resultInfo.id = player.id;
+            resultInfo.weapon = player.weaponName;
+            resultInfo.nickName = GameManager.Instance.players[i].Owner.NickName;
+
+            resultInfos.Add(resultInfo);
+        }
     }
 }
