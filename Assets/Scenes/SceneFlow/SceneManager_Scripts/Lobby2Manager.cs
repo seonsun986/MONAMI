@@ -48,7 +48,7 @@ public class Lobby2Manager : MonoBehaviourPunCallbacks
             b = true;
             //CreateRoom();
             //print("·ë ¸¸µé¾ú´Ù!");
-            LobbySceneAudio.instance.gameObject.SetActive(false);
+            LobbySceneAudio.instance.gameObject.GetComponent<AudioSource>().Stop();
             PhotonNetwork.LoadLevel("SY_Test");        
         }
         

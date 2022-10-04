@@ -40,21 +40,25 @@ public class Player_HP : MonoBehaviourPun
     public AudioSource deathSound;
     void Start()
     {
-
+        Color pink = new Color(1, 0, 0.5f);
+        Color blue = new Color(0, 0.5f, 1);
         hp = 10;
-        // 풀 스크린 가져오기
-        screenMaterial = Resources.Load<Material>("Voronoi_FullScreen");
-        screenMaterial.SetFloat("_FullscreenIntensity", 0f);
-        if (this.gameObject.CompareTag("Pink"))
+        if(photonView.IsMine)
         {
-            Color color = new Color(1, 0, 0.5f);
-            screenMaterial.SetColor("_Color", color);
+            // 풀 스크린 가져오기
+            screenMaterial = Resources.Load("Voronoi_FullScreen") as Material;
+            screenMaterial.SetFloat("_FullscreenIntensity", 0f);
+            if (this.gameObject.CompareTag("Pink"))
+            {
+                screenMaterial.SetColor("_PaintColor", pink);
+            }
+            else if (this.gameObject.CompareTag("Blue"))
+            {
+                screenMaterial.SetColor("_PaintColor", blue);
+            }
         }
-        else if(this.gameObject.CompareTag("Blue"))
-        {
-            Color color = new Color(0, 0.5f, 1);
-            screenMaterial.SetColor("_Color", color);
-        }
+        
+
 
         pink_RespawnPoint = GameObject.Find("PinkTeam_Respawn").transform;
         blue_RespawnPoint = GameObject.Find("BlueTeam_Respawn").transform;
