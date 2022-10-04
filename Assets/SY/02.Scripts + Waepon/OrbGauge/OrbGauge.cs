@@ -22,7 +22,7 @@ public class OrbGauge : MonoBehaviourPun
 
     public Camera cam;
     public bool isOrb;
-
+    Orb_Line line;
     void Start()
     {
        
@@ -30,12 +30,13 @@ public class OrbGauge : MonoBehaviourPun
         _OrbInk.SetActive(false);
         _OrbChargingImpact.SetActive(false);
         _HitPoint.SetActive(false);
+        line = GetComponent<Orb_Line>();
     }
 
     void Update()
     {
         if (!photonView.IsMine) return;
-
+        if (line.count > 1) return;
         //임시로 1로 넣어줘서 플레이 가능하게 만들어줌
         if (gameObject.name.Contains("Shooter"))
         {

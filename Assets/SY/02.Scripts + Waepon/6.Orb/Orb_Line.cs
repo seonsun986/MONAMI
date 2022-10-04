@@ -29,7 +29,7 @@ public class Orb_Line : MonoBehaviourPun
         //trailRenderer.SetActive(false);
         // orb_charging.SetActive(true);
     }
-    int count;
+    public int count;
     public void Update()
     {
         if (!photonView.IsMine) return;
@@ -54,6 +54,7 @@ public class Orb_Line : MonoBehaviourPun
                 // StartCoroutine(IE_Movement(groundDirection.normalized, v0, angle, time));
                 photonView.RPC("RpcFire", RpcTarget.All, groundDirection.normalized, v0, angle, time);
                 _cam.GetComponentInParent<OrbGauge>().currentGauge = 0f;
+                count++;
             }
         }
         _HitPoint.transform.position = hitInfo.point;
