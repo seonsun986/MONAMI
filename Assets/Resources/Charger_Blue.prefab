@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 5407157748196497898}
   - component: {fileID: 1410529557733160331}
   - component: {fileID: 5360561631828120904}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2500,7 +2500,7 @@ GameObject:
   - component: {fileID: 7072915926874623322}
   - component: {fileID: 745323107154783641}
   - component: {fileID: 7390392688978315560}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: GuageFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2605,7 +2605,7 @@ GameObject:
   - component: {fileID: 447089912974152463}
   - component: {fileID: 9145221420919082794}
   - component: {fileID: 8048720500530302516}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: GaugeBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3256,7 +3256,7 @@ GameObject:
   - component: {fileID: 3074856065046065127}
   - component: {fileID: 5725694408867008065}
   - component: {fileID: 6825539375945833025}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64487,7 +64487,7 @@ GameObject:
   - component: {fileID: 7478262592214801886}
   - component: {fileID: 943937695426657215}
   - component: {fileID: 1508411530972822501}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: KillNickname
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65156,7 +65156,7 @@ GameObject:
   - component: {fileID: 7498533308175029623}
   - component: {fileID: 5003148360047127440}
   - component: {fileID: 2230517121901155205}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: KillMsgName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70695,7 +70695,7 @@ GameObject:
   - component: {fileID: 3642827635760600830}
   m_Layer: 8
   m_Name: Charger_Blue
-  m_TagString: Untagged
+  m_TagString: Blue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71818,7 +71818,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7296548289418201859}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Gauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}

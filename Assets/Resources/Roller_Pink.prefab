@@ -32799,7 +32799,7 @@ GameObject:
   - component: {fileID: 3054303420921989327}
   m_Layer: 7
   m_Name: Roller_Pink
-  m_TagString: Untagged
+  m_TagString: Pink
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

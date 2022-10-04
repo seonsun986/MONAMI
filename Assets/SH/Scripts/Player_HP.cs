@@ -45,12 +45,12 @@ public class Player_HP : MonoBehaviourPun
         // 풀 스크린 가져오기
         screenMaterial = Resources.Load<Material>("Voronoi_FullScreen");
         screenMaterial.SetFloat("_FullscreenIntensity", 0f);
-        if (gameObject.name.Contains("Blue"))
+        if (this.gameObject.CompareTag("Pink"))
         {
             Color color = new Color(1, 0, 0.5f);
             screenMaterial.SetColor("_Color", color);
         }
-        else if(gameObject.name.Contains("Pink"))
+        else if(this.gameObject.CompareTag("Blue"))
         {
             Color color = new Color(0, 0.5f, 1);
             screenMaterial.SetColor("_Color", color);

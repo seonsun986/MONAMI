@@ -8,6 +8,8 @@ TagManager:
   - Roller
   - Charger
   - Wall
+  - Blue
+  - Pink
   layers:
   - Default
   - TransparentFX
