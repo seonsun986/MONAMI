@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if (DataManager.instance.id >=4 && DataManager.instance.id <= 6)
         {
             CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (DataManager.instance.id - 3))));
-
         }
 
     }
