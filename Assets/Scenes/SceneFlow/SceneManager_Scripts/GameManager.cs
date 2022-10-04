@@ -42,37 +42,37 @@ public class GameManager : MonoBehaviourPunCallbacks
         // id가 1~3이라면 핑크팀이다!
         if (DataManager.instance.id >= 1 && DataManager.instance.id <= 3)
         {
-            CreatePlayer("Pink", pink_SpawnPoint.transform.position + pink_SpawnPoint.transform.right * (-10 + (5 * DataManager.instance.id)));
+            CreatePlayer("Pink", pink_SpawnPoint.transform.position + pink_SpawnPoint.transform.right * (-10 + (5 * DataManager.instance.id)), Quaternion.identity);
         }
 
 
         // id가 4~6이라면 블루팀이다
         else if (DataManager.instance.id >=4 && DataManager.instance.id <= 6)
         {
-            CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (DataManager.instance.id - 3))));
+            CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (DataManager.instance.id - 3))),Quaternion.Euler(0,180,0));
         }
 
     }
 
-    public void CreatePlayer(string team, Vector3 spawnPoint)
+    public void CreatePlayer(string team, Vector3 spawnPoint, Quaternion rotation)
     {
         // 선택한 무기가 차저라면
 
         if (DataManager.instance.weaponName.Contains("Charger"))
         {
-            PhotonNetwork.Instantiate("Charger_" + team, spawnPoint, Quaternion.identity);
+            PhotonNetwork.Instantiate("Charger_" + team, spawnPoint, rotation);
         }
         
         // 선택한 무기가 롤러라면
         else if (DataManager.instance.weaponName.Contains("Roller"))
         {
-            PhotonNetwork.Instantiate("Roller_" + team, spawnPoint, Quaternion.identity);
+            PhotonNetwork.Instantiate("Roller_" + team, spawnPoint, rotation);
         }
 
         // 선택한 무기가 슈터라면
         else if (DataManager.instance.weaponName.Contains("Shooter"))
         {
-            PhotonNetwork.Instantiate("Shooter_" + team, spawnPoint, Quaternion.identity);
+            PhotonNetwork.Instantiate("Shooter_" + team, spawnPoint, rotation);
         }
     }
 

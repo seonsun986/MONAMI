@@ -125,7 +125,7 @@ public class Player_HP : MonoBehaviourPun
 
                 else if (name.Contains("Blue"))
                 {
-                    gameObject.transform.position = pink_RespawnPoint.position;
+                    gameObject.transform.position = blue_RespawnPoint.position;
                 }
 
                 currentTime = 0;

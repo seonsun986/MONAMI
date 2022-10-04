@@ -92,8 +92,9 @@ public class UI_Player : MonoBehaviourPun
             }
 
             // 0부터 시작하므로
-            UI[id - 1].transform.parent = GameObject.Find("Canvas").transform;
-            UI[id - 1].GetComponent<RectTransform>().anchoredPosition = UI_transform[id - 1];
+            UI[id - 1].transform.SetParent(GameObject.Find("Canvas").transform, false);
+            UI[id - 1].transform.position = UI_transform[id - 1];
+
         }
     }
 
