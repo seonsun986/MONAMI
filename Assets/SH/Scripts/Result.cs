@@ -46,7 +46,7 @@ public class Result : MonoBehaviourPun
 
 
     }
-
+    int count2;
     void Update()
     {
         currentTime += Time.deltaTime;
@@ -60,11 +60,12 @@ public class Result : MonoBehaviourPun
 
 
             // 마스터만 블루 포인트와 레드포인트 다른 사람들에게 넘겨준다
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient && count2<1)
             {
                 pink = (double)DataManager.instance.Pink_point;
                 blue = (double)DataManager.instance.Blue_point;
                 photonView.RPC("RPCResult", RpcTarget.All, pink, blue);
+                count2++;
             }
 
             // 핑크팀이 이겼을 때
