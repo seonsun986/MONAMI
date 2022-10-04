@@ -135,7 +135,7 @@ public class Result : MonoBehaviourPun
             blue_anim.SetTrigger("Victory");
             pink_anim.SetTrigger("Defeat");
 
-            if (currentTime2 > 1)
+            if (currentTime2 > 1 && count<1)
             {
                 Create("Blue", 1, DataManager.instance.resultInfos[0].weapon, DataManager.instance.resultInfos[0].nickName);
                 Create("Blue", 2, DataManager.instance.resultInfos[1].weapon, DataManager.instance.resultInfos[1].nickName);
