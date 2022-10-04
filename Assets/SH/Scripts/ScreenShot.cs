@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using Photon.Pun;
 
-public class ScreenShot : MonoBehaviour
+public class ScreenShot : MonoBehaviourPun
 {
     public Camera camera;       //보여지는 카메라.
 
@@ -43,5 +43,8 @@ public class ScreenShot : MonoBehaviour
 
         byte[] bytes = screenShot.EncodeToPNG();
         File.WriteAllBytes(name, bytes);
+        
     }
+
+
 }

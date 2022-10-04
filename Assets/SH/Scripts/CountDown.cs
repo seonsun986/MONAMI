@@ -103,12 +103,9 @@ public class CountDown : MonoBehaviourPun//, IPunObservable
 
             if (screenShotCount < 1)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    screenShotCam.SetActive(true);
-                    screenShotCam.GetComponent<ScreenShot>().ScreenShotCam();
-                    screenShotCount++;
-                }
+                screenShotCam.SetActive(true);
+                screenShotCam.GetComponent<ScreenShot>().ScreenShotCam();
+                screenShotCount++;
 
             }
 

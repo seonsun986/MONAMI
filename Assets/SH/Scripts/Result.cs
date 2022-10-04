@@ -120,13 +120,7 @@ public class Result : MonoBehaviourPun
             pink_anim.SetTrigger("Victory");
             blue_anim.SetTrigger("Defeat");
 
-            if (currentTime2 > 1f && count <1)
-            {
-                Create("Pink", 1, DataManager.instance.resultInfos[0].weapon, DataManager.instance.resultInfos[0].nickName);
-                Create("Pink", 2, DataManager.instance.resultInfos[1].weapon, DataManager.instance.resultInfos[1].nickName);
-                Create("Pink", 3, DataManager.instance.resultInfos[2].weapon, DataManager.instance.resultInfos[2].nickName);
-                count++;
-            }
+           
 
         }
 
@@ -135,14 +129,6 @@ public class Result : MonoBehaviourPun
         {
             blue_anim.SetTrigger("Victory");
             pink_anim.SetTrigger("Defeat");
-
-            if (currentTime2 > 1 && count<1)
-            {
-                Create("Blue", 1, DataManager.instance.resultInfos[0].weapon, DataManager.instance.resultInfos[0].nickName);
-                Create("Blue", 2, DataManager.instance.resultInfos[1].weapon, DataManager.instance.resultInfos[1].nickName);
-                Create("Blue", 3, DataManager.instance.resultInfos[2].weapon, DataManager.instance.resultInfos[2].nickName);
-                count++;
-            }
 
         }
 
