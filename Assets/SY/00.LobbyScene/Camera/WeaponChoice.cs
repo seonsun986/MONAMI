@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WeaponChoice : MonoBehaviour
 {
+    public AudioSource popUp_Sound;
+
     public GameObject popup;
     public GameObject image;
 
@@ -28,10 +30,11 @@ public class WeaponChoice : MonoBehaviour
             shooterInfo.SetActive(false);
             rollerInfo.SetActive(false);
             chargerInfo.SetActive(false);
-
+            image.SetActive(true);
         }
         else
             fuck(true);
+        image.SetActive(false);
         /*shooterInfo.SetActive(true);
         rollerInfo.SetActive(true);
         chargerInfo.SetActive(true);*/
@@ -52,6 +55,8 @@ public class WeaponChoice : MonoBehaviour
                     //슈터를 선택하였다.
                     print("슈터를 선택하였다.");
                     popup.SetActive(true);
+                    popUp_Sound.Play();
+
                     DataManager.instance.weaponName = "Shooter";
                 }
                 if (hit.transform.gameObject.tag == "Roller")
@@ -59,6 +64,7 @@ public class WeaponChoice : MonoBehaviour
                     //롤러를 선택하였다.
                     print("롤러를 선택하였다.");
                     popup.SetActive(true);
+                    popUp_Sound.Play();
                     DataManager.instance.weaponName = "Roller";
                 }
                 if (hit.transform.gameObject.tag == "Charger")
@@ -66,9 +72,10 @@ public class WeaponChoice : MonoBehaviour
                     //차저를 선택하였다.
                     print("차저를 선택하였다.");
                     popup.SetActive(true);
+                    popUp_Sound.Play();
                     DataManager.instance.weaponName = "Charger";
                 }
-                
+
             }
 
         }

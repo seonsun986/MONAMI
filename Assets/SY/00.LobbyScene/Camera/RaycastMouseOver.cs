@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RaycastMouseOver : MonoBehaviour
 {
+    public AudioSource clickSound;
+
     public GameObject info;
     public GameObject impact;
 
@@ -11,7 +13,8 @@ public class RaycastMouseOver : MonoBehaviour
     private bool lastOver;
 
     public GameObject popup;
-    
+
+    int count;
     private void Start()
     {
         impact.SetActive(false);
@@ -24,10 +27,12 @@ public class RaycastMouseOver : MonoBehaviour
     private void Update()
     {
         bool isOver = Physics.Raycast(MousePointer.GetWorldRay(Camera.main), out var hit) && hit.collider == collider;
-        if(isOver != lastOver)
+        if (isOver != lastOver)
         {
             SetOver(isOver);
         }
+        
+
 
     }
 
@@ -35,9 +40,11 @@ public class RaycastMouseOver : MonoBehaviour
     {
         if (popup.activeSelf == false)
         {
-        lastOver = isOver;
-        info.SetActive(isOver);
-        impact.SetActive(isOver);
+            lastOver = isOver;
+            info.SetActive(isOver);
+            impact.SetActive(isOver);
+            if (clickSound.isPlaying) return;
+            clickSound.Play();
         }
     }
 }

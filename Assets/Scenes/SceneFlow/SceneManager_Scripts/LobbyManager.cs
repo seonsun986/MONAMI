@@ -8,8 +8,11 @@ using TMPro;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    [Header("Audio")]
+    public AudioSource btn_No;
+    public AudioSource btn_Yes;
 
-
+   
     void Start()
     {
         //CreateRoom();
@@ -131,11 +134,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject popUp;
     public void RegularBtn()
     {
+        btn_Yes.Play();
         popUp.SetActive(true);
     }
 
     public void BtnNo()
     {
+        btn_No.Play();
         popUp.SetActive(false);
     }
 }

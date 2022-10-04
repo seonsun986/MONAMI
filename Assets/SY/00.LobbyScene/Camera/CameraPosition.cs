@@ -19,7 +19,7 @@ public class CameraPosition : MonoBehaviour
         transform.localPosition = Vector3.Lerp(transform.localPosition,target.localPosition, 0.02f);
 
         //메인카메라이 가지고 있는 포지션 x값이 0 이상이면
-        if(transform.localPosition.x > 0 )
+        if(transform.localPosition.z > -3 )
         {
             //UI 캔버스 켜줌.
             UI_Canvas.SetActive(true);
