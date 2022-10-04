@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // id가 4~6이라면 블루팀이다
         else if (DataManager.instance.id >=4 && DataManager.instance.id <= 6)
         {
-            CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (DataManager.instance.id - 3))),Quaternion.Euler(0,180,0));
+            CreatePlayer("Blue", blue_SpawnPoint.transform.position + blue_SpawnPoint.transform.right * (-10 + (5 * (DataManager.instance.id - 3))), Quaternion.identity);
         }
 
     }

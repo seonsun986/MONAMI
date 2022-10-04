@@ -22,7 +22,7 @@ public class OrbGauge : MonoBehaviourPun
 
     public Camera cam;
     public bool isOrb;
-    Orb_Line line;
+    public Orb_Line line;
     void Start()
     {
        
@@ -30,7 +30,6 @@ public class OrbGauge : MonoBehaviourPun
         _OrbInk.SetActive(false);
         _OrbChargingImpact.SetActive(false);
         _HitPoint.SetActive(false);
-        line = GetComponent<Orb_Line>();
     }
 
     void Update()
