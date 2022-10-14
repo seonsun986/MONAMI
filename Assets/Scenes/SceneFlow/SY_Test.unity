@@ -1832,7 +1832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1370262529
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2338,12 +2338,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startUI: {fileID: 1370262528}
   UI_NickName:
-  - {fileID: 691960854}
   - {fileID: 597431644}
-  - {fileID: 1153604162}
-  - {fileID: 1206603334}
   - {fileID: 317262136}
-  - {fileID: 854383060}
   pink_SpawnPoint: {fileID: 1357775525}
   blue_SpawnPoint: {fileID: 617054332}
   players: []
@@ -4409,9 +4405,9 @@ Animation:
   m_GameObject: {fileID: 8067884008532189019}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 48dbee26156973d458180f5546f45263, type: 2}
+  m_Animation: {fileID: 7400000, guid: 2cf1c909dcfde9c44b5a2912afeb83f3, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: 48dbee26156973d458180f5546f45263, type: 2}
+  - {fileID: 7400000, guid: 2cf1c909dcfde9c44b5a2912afeb83f3, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -4434,7 +4430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!111 &8067884008608932900
 Animation:
   m_ObjectHideFlags: 0
@@ -4535,7 +4531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8067884008654457438
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4928,7 +4924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!111 &8067884009652408744
 Animation:
   m_ObjectHideFlags: 0
@@ -5228,7 +5224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8067884009908494491
 RectTransform:
   m_ObjectHideFlags: 0

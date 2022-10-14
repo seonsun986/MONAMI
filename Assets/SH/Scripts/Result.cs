@@ -25,7 +25,7 @@ public class Result : MonoBehaviourPun
     public float currentTime;              // 이걸로 소리 및 고양이의 애니메이션 조절하자
     public float resultTime = 3.5f;
 
-    public string[] nickname = new string[6];
+    public string[] nickname = new string[2];
     int i;
     private void Awake()
     {
@@ -70,7 +70,7 @@ public class Result : MonoBehaviourPun
             resultTxt.gameObject.SetActive(true);
             if (pink_anim.GetCurrentAnimatorStateInfo(0).IsName("Victory"))
             {
-                if (DataManager.instance.id >= 1 && DataManager.instance.id <=3)
+                if (DataManager.instance.id == 1/*>= 1 && DataManager.instance.id <=3*/)
                 {
                     resultTxt.text = "승리";
                 }
@@ -83,7 +83,7 @@ public class Result : MonoBehaviourPun
             // 블루팀이 이겼을 때
             else
             {
-                if (DataManager.instance.id >= 4 && DataManager.instance.id <=6)
+                if (DataManager.instance.id == 2/*>= 4 && DataManager.instance.id <=6*/)
                 {
                     resultTxt.text = "승리";
                 }

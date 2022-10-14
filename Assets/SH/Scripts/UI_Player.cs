@@ -53,7 +53,7 @@ public class UI_Player : MonoBehaviourPun
     {
 
         // 아이디가 1~3일때
-        if (id >= 1 && id <= 3)
+        if (id == 1/*>= 1 && id <= 3*/)
         {
             if (weaponName == "Shooter")
             {
@@ -75,7 +75,7 @@ public class UI_Player : MonoBehaviourPun
         }
 
         // 아이디가 4~6일때
-        else if(id >=4 && id <=6)
+        else if(id == 2/*>=4 && id <=6*/)
         {
             if (weaponName == "Shooter")
             {
@@ -93,7 +93,7 @@ public class UI_Player : MonoBehaviourPun
 
             // 0부터 시작하므로
             UI[id - 1].transform.SetParent(GameObject.Find("Canvas").transform, false);
-            UI[id - 1].transform.position = UI_transform[id - 1];
+            UI[id - 1].transform.position = UI_transform[3];
 
         }
     }

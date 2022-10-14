@@ -68,7 +68,7 @@ public class Player_HP : MonoBehaviourPun
         if(photonView.IsMine)
         {
             // 아이디 바꿔주기!!
-            if (DataManager.instance.id >= 1 && DataManager.instance.id <=3)
+            if (DataManager.instance.id == 1/*>= 1 && DataManager.instance.id <=3*/)
             {
                 teamName = "Pink";
             }
@@ -102,7 +102,6 @@ public class Player_HP : MonoBehaviourPun
             screenMaterial.SetFloat("_FullscreenIntensity", 0.5f);
             // 리스폰 될때까지 당한 무기 알려주는 UI
             isRepawned = true;
-            print($"Player hp : {hp}");
             // 이때 hp가 0이 됐다면
             // "(무기이름)에 당했다를 넣어준다"
             // 죽인 사람 이름표를 띄워준다
